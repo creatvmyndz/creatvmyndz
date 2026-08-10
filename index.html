@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CREATV MYNDZ — Colectivo Creativo</title>
+  <meta name="description" content="CREATV MYNDZ: colectivo creativo sin límites. Música, moda, arte y proyectos sociales. Descargamos ideas de las nubes. Despierta tu creatividad con WAKE UP.">
+  <meta property="og:title" content="CREATV MYNDZ — Colectivo Creativo">
+  <meta property="og:description" content="Descargamos ideas de las nubes. Conoce nuestros proyectos y despierta tu creatividad con WAKE UP.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <!-- ===== BARRA SUPERIOR ===== -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="plane" aria-hidden="true">✈</span>
+      <span id="flying">FLYING 0%</span>
+    </div>
+    <nav class="topbar-nav">
+      <a href="#proyectos" data-i18n="nav_projects">[ PROYECTOS ]</a>
+      <a href="#wakeup" class="nav-wakeup">[ WAKE UP ]</a>
+    </nav>
+    <div class="topbar-right">
+      <button id="lang-es" class="lang active" type="button">ES</button>
+      <button id="lang-en" class="lang" type="button">EN</button>
+    </div>
+  </header>
+
+  <!-- ===== HERO / CIELO ===== -->
+  <section class="hero" id="inicio">
+    <div class="clouds" aria-hidden="true">
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+      <div class="cloud c4"></div>
+      <div class="cloud c5"></div>
+    </div>
+    <div class="hero-inner">
+      <h1 class="logo">CREATV<br>MYNDZ</h1>
+      <p class="tagline" data-i18n="tagline">EXPLORANDO Y ELEVANDO EL PODER DE LAS MENTES CREATIVAS.</p>
+      <a class="hero-cta" href="#proyectos" data-i18n="hero_cta">↓ NAVEGAR</a>
+    </div>
+    <div class="hero-strip">
+      <span id="clocks">BOGOTÁ (--:--) MIAMI (--:--) MADRID (--:--)</span>
+      <span>CRTV©</span>
+    </div>
+  </section>
+
+  <!-- ===== MANIFIESTO ===== -->
+  <section class="manifesto">
+    <p data-i18n="manifesto">
+      SOMOS UN COLECTIVO CREATIVO SIN LÍMITES. HACEMOS MÚSICA, MODA, ARTE Y PROYECTOS
+      SOCIALES. NO CABEMOS EN UNA CAJA. DESCARGAMOS IDEAS DE LAS NUBES Y LAS ATERRIZAMOS
+      EN EL MUNDO REAL. TÚ TAMBIÉN PUEDES.
+    </p>
+  </section>
+
+  <!-- ===== LISTA DE PROYECTOS (estilo MSCHF) ===== -->
+  <main class="drops" id="proyectos">
+    <div class="drops-head">
+      <h2 data-i18n="drops_title">PROYECTOS</h2>
+      <div class="filters" role="group" aria-label="Filtrar proyectos">
+        <button class="filter active" data-filter="all"  data-i18n="f_all">TODOS</button>
+        <button class="filter" data-filter="done" data-i18n="f_done">HECHOS</button>
+        <button class="filter" data-filter="now"  data-i18n="f_now">EN CURSO</button>
+        <button class="filter" data-filter="soon" data-i18n="f_soon">PRÓXIMOS</button>
+      </div>
+    </div>
+    <ol id="project-list" class="project-list"></ol>
+  </main>
+
+  <!-- ===== WAKE UP ===== -->
+  <section class="wakeup" id="wakeup">
+    <div class="wakeup-inner">
+      <p class="wakeup-kicker" data-i18n="wu_kicker">EL PROGRAMA</p>
+      <h2 class="wakeup-title">WAKE&nbsp;UP</h2>
+      <p class="wakeup-sub" data-i18n="wu_sub">
+        Todo lo que ves arriba nace de la creatividad — y la creatividad se entrena.
+        WAKE UP es nuestro programa para despertar la tuya.
+      </p>
+
+      <ul class="wakeup-features">
+        <li><span>◉</span><p data-i18n="wu_f1">Videos personalizados para desbloquear tu proceso creativo</p></li>
+        <li><span>◉</span><p data-i18n="wu_f2">Serie de audios tipo hipnosis para reprogramar tu mente</p></li>
+        <li><span>◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ</p></li>
+      </ul>
+
+      <!-- Captura de leads. Cuando el programa esté a la venta, reemplaza este
+           formulario por el botón de compra (Stripe / Gumroad / Hotmart...). -->
+      <form class="wakeup-form" id="lead-form"
+            action="https://formsubmit.co/camiloveggaart@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="Nuevo lead WAKE UP ☁️">
+        <input type="hidden" name="_captcha" value="false">
+        <label for="email" data-i18n="wu_label">DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:</label>
+        <div class="wakeup-row">
+          <input id="email" name="email" type="email" required
+                 placeholder="tucorreo@email.com" autocomplete="email">
+          <button type="submit" data-i18n="wu_btn">DESPERTAR →</button>
+        </div>
+        <p class="wakeup-note" data-i18n="wu_note">Pronto podrás comprar el programa directamente aquí.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>CREATV MYNDZ © <span id="year"></span></p>
+    <p data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES ☁</p>
+  </footer>
+
+  <!-- ===== MODAL DE PROYECTO ===== -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" data-close aria-label="Cerrar">✕</button>
+      <p class="modal-num" id="modal-num"></p>
+      <h3 id="modal-title"></h3>
+      <p class="modal-meta" id="modal-meta"></p>
+      <img id="modal-img" alt="" hidden>
+      <p class="modal-desc" id="modal-desc"></p>
+      <a class="modal-link" id="modal-link" target="_blank" rel="noopener" hidden></a>
+      <a class="modal-wakeup" href="#wakeup" data-close data-i18n="modal_cta">¿QUIERES CREAR ASÍ? → WAKE UP</a>
+    </div>
+  </div>
+
+  <script src="assets/projects.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
