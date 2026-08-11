@@ -1,6 +1,6 @@
-name: Deploy a producción (Cloudflare Pages)
+name: Deploy a producción (GitHub Pages)
 
-# Cada push a main publica el sitio en creatvmyndz.com automáticamente.
+# Cada push a main publica el sitio automáticamente.
 # También se puede lanzar a mano desde la pestaña Actions.
 on:
   push:
@@ -9,38 +9,40 @@ on:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: deploy-produccion
+  group: pages
   cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Revisar que las llaves de Cloudflare estén configuradas
-        env:
-          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          if [ -z "$TOKEN" ] || [ -z "$ACCOUNT" ]; then
-            echo "::error::Faltan los secretos CLOUDFLARE_API_TOKEN y/o CLOUDFLARE_ACCOUNT_ID."
-            echo "::error::Settings -> Secrets and variables -> Actions. Pasos en el README."
-            exit 1
-          fi
-
       - name: Preparar los archivos del sitio
         run: |
           mkdir -p dist
-          cp index.html _headers dist/
+          cp index.html dist/
           cp -r assets dist/
+          touch dist/.nojekyll
 
-      - name: Publicar en Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=creatvmyndz --branch=main
+          enablement: true
+
+      - name: Empaquetar
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Publicar
+        id: deployment
+        uses: actions/deploy-pages@v4
