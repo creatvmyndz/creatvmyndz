@@ -88,8 +88,9 @@ ni SPF, ni subdominios. Solo apunta al hosting. Por eso mover los nameservers no
 
 1. Crea una cuenta gratis en <https://dash.cloudflare.com>.
 2. **Add a domain** → `creatvmyndz.com` → plan **Free**.
-3. Cloudflare escanea el DNS actual. Revisa que la lista quede vacía o solo con el
-   apuntamiento viejo al hosting; borra los registros que apunten a Netlify.
+3. Cloudflare escanea el DNS actual y encuentra el apuntamiento a Netlify.
+   **Déjalo tal cual, no borres nada:** así la página actual sigue funcionando mientras
+   propagan los nameservers. Se reemplaza solo en el Paso 2, sin que el sitio se caiga.
 4. Cloudflare te muestra dos nameservers propios. Cópialos.
 5. En Wix: **Dominios → creatvmyndz.com → Avanzado → Nameservers**, cambia a
    "usar nameservers externos" y pega los dos de Cloudflare.
