@@ -1,6 +1,6 @@
-name: Deploy a producción (Cloudflare Pages)
+name: Deploy a producción (Netlify)
 
-# Cada push a main publica el sitio automáticamente.
+# Cada push a main publica el sitio en creatvmyndz.com automáticamente.
 # También se puede lanzar a mano desde la pestaña Actions.
 on:
   push:
@@ -21,23 +21,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Revisar que las llaves de Cloudflare estén configuradas
+      - name: Revisar que las llaves de Netlify estén configuradas
+        env:
+          TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SITE: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          if [ -z "${{ secrets.CLOUDFLARE_API_TOKEN }}" ] || [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ]; then
-            echo "::error::Faltan los secretos CLOUDFLARE_API_TOKEN y/o CLOUDFLARE_ACCOUNT_ID."
-            echo "::error::Ve a Settings -> Secrets and variables -> Actions y agrégalos. Pasos en el README."
+          if [ -z "$TOKEN" ] || [ -z "$SITE" ]; then
+            echo "::error::Faltan los secretos NETLIFY_AUTH_TOKEN y/o NETLIFY_SITE_ID."
+            echo "::error::Settings -> Secrets and variables -> Actions. Pasos en el README."
             exit 1
           fi
 
       - name: Preparar los archivos del sitio
         run: |
           mkdir -p dist
-          cp index.html dist/
+          cp index.html _headers dist/
           cp -r assets dist/
 
-      - name: Publicar en Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=creatvmyndz --branch=main
+      - name: Publicar en Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: npx --yes netlify-cli@17 deploy --dir=dist --prod --message "${{ github.event.head_commit.message || 'Deploy manual' }}"

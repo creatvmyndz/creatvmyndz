@@ -71,45 +71,44 @@ Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
 
 ---
 
-## 3. Publicar en producción
+## 3. Publicar en producción (creatvmyndz.com)
 
-El repositorio es **privado**. GitHub Pages cobra por publicar repos privados, así que el
-sitio se publica en **Cloudflare Pages**: gratis, sin límite de tráfico, con HTTPS y dominio
-propio incluidos, y funciona perfecto con repos privados.
+El dominio **ya está funcionando en Netlify** (sitio `effortless-liger-a44de3`), con el DNS
+gestionado desde Wix. No hay que tocar DNS ni certificados: se reutiliza todo eso y solo
+cambia el contenido que Netlify publica.
 
-El workflow `.github/workflows/deploy.yml` publica solo, en cada push a `main`.
+Netlify gratis alcanza de sobra: funciona con repos privados, 100 GB de tráfico al mes
+(≈ 50.000 visitas con este sitio) y despliegue automático en cada push.
 
-### Configuración inicial (una sola vez, ~5 minutos)
+### Opción A — Conectar el repo a Netlify (la más simple, recomendada)
 
-1. Crea una cuenta gratis en <https://dash.cloudflare.com>.
-2. En el panel: **Workers & Pages → Create → Pages → Direct Upload**.
-   Nombra el proyecto exactamente **`creatvmyndz`** y créalo (puedes subir cualquier archivo,
-   el pipeline lo reemplaza en el primer deploy).
-3. Copia tu **Account ID** (aparece en la barra lateral de Workers & Pages).
-4. Crea un token en **My Profile → API Tokens → Create Token**, plantilla
-   **"Edit Cloudflare Workers"** (incluye permiso de Pages). Cópialo.
-5. En GitHub: **Settings → Secrets and variables → Actions → New repository secret**
-   y agrega los dos:
-   - `CLOUDFLARE_ACCOUNT_ID` → tu Account ID
-   - `CLOUDFLARE_API_TOKEN` → el token
-6. Listo. Haz cualquier push a `main` (o **Actions → Run workflow**) y se publica.
+1. Entra a <https://app.netlify.com> con la cuenta donde vive `effortless-liger-a44de3`.
+2. Abre ese sitio → **Site configuration → Build & deploy → Continuous deployment**.
+3. **Link repository** → GitHub → autoriza y elige `creatvmyndz/creatvmyndz`.
+4. Branch: `main`. El comando de build y la carpeta de publicación los lee solo de
+   `netlify.toml`, no tienes que escribir nada.
+5. **Deploy site.** Desde ahí, cada push a `main` republica creatvmyndz.com solo.
+
+Si eliges esta opción, borra `.github/workflows/deploy.yml` para no desplegar dos veces.
+
+### Opción B — Desde GitHub Actions
+
+El workflow `.github/workflows/deploy.yml` ya está listo; solo necesita dos llaves:
+
+1. En Netlify: **User settings → Applications → Personal access tokens → New access token**.
+   Cópialo.
+2. En el sitio: **Site configuration → General → Site details** → copia el **Site ID**.
+3. En GitHub: **Settings → Secrets and variables → Actions → New repository secret**:
+   - `NETLIFY_AUTH_TOKEN` → el token
+   - `NETLIFY_SITE_ID` → el Site ID
+4. Haz push a `main` (o **Actions → Run workflow**) y se publica.
 
 > Mientras no existan esos dos secretos, el workflow falla a propósito con un mensaje claro
 > explicando qué falta.
 
-### Alternativa aún más simple (sin secretos)
-
-En Cloudflare: **Workers & Pages → Create → Pages → Connect to Git**, eliges este repositorio
-y dejas el build vacío (carpeta de salida `/`). Cloudflare publica solo en cada push, sin
-tocar GitHub Actions. Si eliges esta opción, borra `.github/workflows/deploy.yml`.
-
-### Conectar creatvmyndz.com
-
-En el proyecto de Cloudflare Pages: **Custom domains → Set up a domain** → `creatvmyndz.com`.
-Si el dominio ya está en Cloudflare, el DNS se configura solo. Si está en otro proveedor,
-Cloudflare te dice exactamente qué registro crear. El certificado HTTPS es automático.
-
-⚠️ Hazlo solo cuando quieras reemplazar la página que hoy vive en creatvmyndz.com.
+⚠️ **Ojo:** al publicar, la página que hoy está en creatvmyndz.com queda reemplazada.
+La anterior no se pierde: en Netlify sigue disponible en **Deploys**, y puedes volver a
+ella cuando quieras con *Publish deploy*.
 
 ---
 
@@ -135,5 +134,6 @@ assets/styles.css       estilos
 assets/sky/d, /m        frames del cielo (escritorio y celular)
 assets/img/             logos, favicon e imágenes de proyectos
 assets/fonts/           tipografía Outfit (licencia libre OFL)
+netlify.toml, _headers    configuración de Netlify (build y caché)
 .github/workflows/      pipeline de publicación automática
 ```

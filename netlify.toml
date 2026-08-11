@@ -1,0 +1,7 @@
+# Configuración de Netlify.
+# El "build" solo copia los archivos del sitio a dist/ para no publicar
+# el README ni la configuración del repositorio.
+
+[build]
+  command = "mkdir -p dist && cp index.html _headers dist/ && cp -r assets dist/"
+  publish = "dist"
