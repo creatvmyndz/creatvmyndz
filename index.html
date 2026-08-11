@@ -2,16 +2,26 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CREATV MYNDZ — Colectivo Creativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>CREATV MYNDZ — Creatividad Infinita</title>
   <meta name="description" content="CREATV MYNDZ: colectivo creativo sin límites. Música, moda, arte y proyectos sociales. Descargamos ideas de las nubes. Despierta tu creatividad con WAKE UP.">
-  <meta property="og:title" content="CREATV MYNDZ — Colectivo Creativo">
+  <meta name="theme-color" content="#0a1238">
+  <meta property="og:title" content="CREATV MYNDZ — Creatividad Infinita">
   <meta property="og:description" content="Descargamos ideas de las nubes. Conoce nuestros proyectos y despierta tu creatividad con WAKE UP.">
+  <meta property="og:image" content="assets/img/og.png">
   <meta property="og:type" content="website">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☁️</text></svg>">
+  <link rel="icon" href="assets/img/favicon.png" sizes="any">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/sky/d/0001.webp" media="(min-aspect-ratio: 1/1)">
+  <link rel="preload" as="image" href="assets/sky/m/0001.webp" media="(max-aspect-ratio: 1/1)">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
+
+  <!-- ===== CIELO: video de fondo controlado por el scroll ===== -->
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="scrim" id="scrim" aria-hidden="true"></div>
 
   <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
@@ -19,32 +29,38 @@
       <span class="plane" aria-hidden="true">✈</span>
       <span id="flying">FLYING 0%</span>
     </div>
-    <nav class="topbar-nav">
-      <a href="#proyectos" data-i18n="nav_projects">[ PROYECTOS ]</a>
-      <a href="#wakeup" class="nav-wakeup">[ WAKE UP ]</a>
-    </nav>
+
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
+      <span data-i18n="menu">MENÚ</span>
+    </button>
+
     <div class="topbar-right">
       <button id="lang-es" class="lang active" type="button">ES</button>
       <button id="lang-en" class="lang" type="button">EN</button>
     </div>
   </header>
 
-  <!-- ===== HERO / CIELO ===== -->
+  <!-- ===== MENÚ (pantalla completa) ===== -->
+  <nav class="menu" id="menu" hidden aria-label="Menú principal">
+    <button class="menu-close" id="menu-close" type="button" aria-label="Cerrar menú">✕</button>
+    <ul class="menu-list">
+      <li><a href="#proyectos"><span class="menu-num">01</span><span data-i18n="m_projects">PROYECTOS</span></a></li>
+      <li><a href="#wakeup"><span class="menu-num">02</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
+      <li><a href="#nosotros"><span class="menu-num">03</span><span data-i18n="m_about">QUIÉNES SOMOS</span></a></li>
+      <li><a href="#contacto"><span class="menu-num">04</span><span data-i18n="m_contact">CONTACTO</span></a></li>
+    </ul>
+    <p class="menu-foot" data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES</p>
+  </nav>
+
+  <!-- ===== HERO ===== -->
   <section class="hero" id="inicio">
-    <div class="clouds" aria-hidden="true">
-      <div class="cloud c1"></div>
-      <div class="cloud c2"></div>
-      <div class="cloud c3"></div>
-      <div class="cloud c4"></div>
-      <div class="cloud c5"></div>
-    </div>
     <div class="hero-inner">
-      <h1 class="logo">CREATV<br>MYNDZ</h1>
-      <p class="tagline" data-i18n="tagline">EXPLORANDO Y ELEVANDO EL PODER DE LAS MENTES CREATIVAS.</p>
+      <img class="logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
+      <p class="tagline" data-i18n="tagline">CREATIVIDAD INFINITA</p>
       <a class="hero-cta" href="#proyectos" data-i18n="hero_cta">↓ NAVEGAR</a>
     </div>
     <div class="hero-strip">
-      <span id="clocks">BOGOTÁ (--:--) MIAMI (--:--) MADRID (--:--)</span>
+      <span id="clocks">BOGOTÁ · MIAMI · MADRID</span>
       <span>CRTV©</span>
     </div>
   </section>
@@ -58,7 +74,7 @@
     </p>
   </section>
 
-  <!-- ===== LISTA DE PROYECTOS (estilo MSCHF) ===== -->
+  <!-- ===== PROYECTOS ===== -->
   <main class="drops" id="proyectos">
     <div class="drops-head">
       <h2 data-i18n="drops_title">PROYECTOS</h2>
@@ -76,23 +92,22 @@
   <section class="wakeup" id="wakeup">
     <div class="wakeup-inner">
       <p class="wakeup-kicker" data-i18n="wu_kicker">EL PROGRAMA</p>
-      <h2 class="wakeup-title">WAKE&nbsp;UP</h2>
+      <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
       <p class="wakeup-sub" data-i18n="wu_sub">
         Todo lo que ves arriba nace de la creatividad — y la creatividad se entrena.
         WAKE UP es nuestro programa para despertar la tuya.
       </p>
 
       <ul class="wakeup-features">
-        <li><span>◉</span><p data-i18n="wu_f1">Videos personalizados para desbloquear tu proceso creativo</p></li>
-        <li><span>◉</span><p data-i18n="wu_f2">Serie de audios tipo hipnosis para reprogramar tu mente</p></li>
-        <li><span>◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Videos personalizados para desbloquear tu proceso creativo</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios tipo hipnosis para reprogramar tu mente</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ</p></li>
       </ul>
 
       <!-- Captura de leads. Cuando el programa esté a la venta, reemplaza este
-           formulario por el botón de compra (Stripe / Gumroad / Hotmart...). -->
-      <form class="wakeup-form" id="lead-form"
-            action="https://formsubmit.co/camiloveggaart@gmail.com" method="POST">
-        <input type="hidden" name="_subject" value="Nuevo lead WAKE UP ☁️">
+           formulario por tu botón de compra (Stripe / Gumroad / Hotmart...). -->
+      <form class="wakeup-form" id="lead-form" method="POST">
+        <input type="hidden" name="_subject" value="Nuevo lead WAKE UP">
         <input type="hidden" name="_captcha" value="false">
         <label for="email" data-i18n="wu_label">DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:</label>
         <div class="wakeup-row">
@@ -105,10 +120,40 @@
     </div>
   </section>
 
-  <!-- ===== FOOTER ===== -->
+  <!-- ===== QUIÉNES SOMOS ===== -->
+  <section class="about" id="nosotros">
+    <div class="about-inner">
+      <h2 data-i18n="ab_title">QUIÉNES SOMOS</h2>
+      <p data-i18n="ab_p1">
+        CREATV MYNDZ es un colectivo creativo. No somos una agencia dentro de una caja:
+        somos un grupo de mentes que produce música, moda, arte y proyectos sociales,
+        y que colabora con marcas cuando la idea lo merece.
+      </p>
+      <p data-i18n="ab_p2">
+        Creemos que las ideas ya están en el aire. Nuestro trabajo es subir por ellas,
+        descargarlas y aterrizarlas en algo que la gente pueda ver, usar y sentir.
+      </p>
+      <ul class="about-grid">
+        <li><strong data-i18n="ab_c1t">COLECTIVO</strong><span data-i18n="ab_c1d">Artistas, músicos, diseñadores y productores trabajando juntos.</span></li>
+        <li><strong data-i18n="ab_c2t">MARCA</strong><span data-i18n="ab_c2d">Creamos nuestros propios productos y colecciones.</span></li>
+        <li><strong data-i18n="ab_c3t">COLABORACIONES</strong><span data-i18n="ab_c3d">Trabajamos con marcas que quieren salirse del molde.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="contact" id="contacto">
+    <div class="contact-inner">
+      <h2 data-i18n="ct_title">CONTACTO</h2>
+      <p data-i18n="ct_sub">¿Tienes una idea, una marca o un proyecto? Escríbenos.</p>
+      <a class="contact-mail" id="contact-mail" href="#">—</a>
+      <ul class="contact-social" id="contact-social"></ul>
+    </div>
+  </section>
+
   <footer class="footer">
     <p>CREATV MYNDZ © <span id="year"></span></p>
-    <p data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES ☁</p>
+    <p data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES</p>
   </footer>
 
   <!-- ===== MODAL DE PROYECTO ===== -->

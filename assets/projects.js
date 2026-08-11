@@ -1,20 +1,57 @@
 /* ============================================================
-   CREATV MYNDZ — DATA DE PROYECTOS
+   CREATV MYNDZ — CONTENIDO EDITABLE
    ------------------------------------------------------------
-   Para agregar un proyecto nuevo, copia un bloque {...} y edítalo.
-   El orden de esta lista es el orden en pantalla (el más nuevo arriba).
+   Este es el ÚNICO archivo que necesitas tocar para el día a día.
+   Guarda, haz push a main y la web se actualiza sola.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1) DATOS DEL COLECTIVO
+   ------------------------------------------------------------ */
+const SITE = {
+  // A dónde llegan los correos del formulario de WAKE UP.
+  // OJO: la primera vez que alguien lo use, FormSubmit te manda un
+  // correo de activación. Confírmalo y desde ahí llegan todos los leads.
+  leadEmail: "camiloveggaart@gmail.com",
+
+  // Correo público que aparece en la sección CONTACTO.
+  contactEmail: "camiloveggaart@gmail.com",
+
+  // Redes: borra las que no uses o cambia la URL.
+  social: [
+    { label: "INSTAGRAM", url: "https://instagram.com/creatvmyndz" },
+    { label: "YOUTUBE",   url: "" },
+    { label: "TIKTOK",    url: "" },
+    { label: "DISCORD",   url: "" }
+  ]
+};
+
+
+/* ------------------------------------------------------------
+   2) PROYECTOS
+   ------------------------------------------------------------
+   Para agregar uno nuevo: copia un bloque { ... } completo,
+   pégalo arriba del todo y edítalo. El orden de la lista es el
+   orden en pantalla (lo más nuevo arriba).
+
+   CÓMO SE EDITA EL "CRTV 01":
+   Lo controla el campo `num`. Escribes solo el número (1, 2, 15...)
+   y la web lo muestra como CRTV 01, CRTV 02, CRTV 15.
+   El "CRTV" es fijo; si algún día quieres otra palabra, se cambia
+   en assets/app.js buscando la línea que dice PREFIX = "CRTV".
 
    Campos:
-   - id:      identificador único en minúsculas, sin espacios (se usa en la URL #proyecto)
-   - num:     número del proyecto (como MSCHF: #1, #2, ...)
-   - title:   nombre del proyecto (se muestra en MAYÚSCULAS)
+   - id:      identificador único, minúsculas y sin espacios (se usa en la URL)
+   - num:     número del proyecto → se muestra como CRTV 01
+   - title:   nombre del proyecto (sale en MAYÚSCULAS)
    - status:  "done" (hecho) | "now" (en curso) | "soon" (próximo)
-   - area:    música | moda | arte | social | marca ... (libre)
-   - year:    año o "2026 →"
+   - area:    música | moda | arte | social | marca ... (texto libre)
+   - year:    año, o algo como "2026 →"
    - desc:    { es: "...", en: "..." }
-   - link:    URL externa del proyecto (Instagram, YouTube, tienda...) o "" si no hay
-   - image:   ruta a una imagen en /assets/img/ o "" si no hay todavía
-   ============================================================ */
+   - link:    URL del proyecto (Instagram, YouTube, tienda...) o "" si no hay
+   - image:   sube la foto a assets/img/ y pon "assets/img/tu-foto.jpg", o ""
+   ------------------------------------------------------------ */
 
 const PROJECTS = [
   {
@@ -88,7 +125,7 @@ const PROJECTS = [
     image: ""
   },
   {
-    id: "colab-marca-x",
+    id: "colab-marca",
     num: 2,
     title: "COLAB × MARCA",
     status: "done",
