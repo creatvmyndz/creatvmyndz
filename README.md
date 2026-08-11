@@ -71,63 +71,37 @@ Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
 
 ---
 
-## 3. Publicar en producción (creatvmyndz.com)
+## 3. Publicar en producción
 
-El sitio se publica en **Cloudflare Pages**: gratis, con ancho de banda y peticiones
-**ilimitados**, uso comercial permitido y repos privados sin problema. Es lo que aguanta
-un pico viral sin que la página se caiga.
+**El sitio está en vivo aquí:** <https://creatvmyndz.github.io/creatvmyndz/>
 
-> Antes estuvo en Netlify. Su plan gratis ahora son 300 créditos al mes con tope duro
-> (15 créditos por cada publicación y 20 por GB de tráfico) y, al agotarse, **apaga el
-> sitio** hasta el mes siguiente. No sirve para una estrategia de tráfico viral.
+Se publica en **GitHub Pages**, que es gratis porque el repositorio es público.
+El workflow `.github/workflows/deploy.yml` corre en cada push a `main`: no hay que
+subir nada a mano ni configurar llaves.
 
-### Paso 1 — Mover el DNS a Cloudflare (una sola vez)
+Si alguna vez lo vuelves privado, GitHub Pages deja de ser gratis y toca cambiar de
+plataforma (el workflow de Cloudflare Pages quedó guardado en el historial de git).
 
-El dominio está registrado en **Wix** y su DNS está limpio: no hay correo (sin registros MX),
-ni SPF, ni subdominios. Solo apunta al hosting. Por eso mover los nameservers no rompe nada.
+### Pendiente: conectar creatvmyndz.com
 
-1. Crea una cuenta gratis en <https://dash.cloudflare.com>.
-2. **Add a domain** → `creatvmyndz.com` → plan **Free**.
-3. Cloudflare escanea el DNS actual y encuentra el apuntamiento a Netlify.
-   **Déjalo tal cual, no borres nada:** así la página actual sigue funcionando mientras
-   propagan los nameservers. Se reemplaza solo en el Paso 2, sin que el sitio se caiga.
-4. Cloudflare te muestra dos nameservers propios. Cópialos.
-5. En Wix: **Dominios → creatvmyndz.com → Avanzado → Nameservers**, cambia a
-   "usar nameservers externos" y pega los dos de Cloudflare.
-6. Espera a que Cloudflare marque el dominio como **Active** (suele ser de minutos a
-   unas horas).
+El dominio está registrado en Wix, y **Wix no permite cambiar los nameservers**
+(lo dice su propia documentación). Por eso se inició una transferencia hacia otro
+registrador. El estado actual:
 
-### Paso 2 — Crear el proyecto en Cloudflare Pages
+1. ✅ Dominio desvinculado del sitio de Wix
+2. ✅ Transferencia iniciada y código de autorización (EPP) enviado por correo
+3. ⏳ Falta completar la transferencia en el nuevo registrador (Porkbun o Namecheap, ~11 USD,
+   incluye +1 año de renovación)
+4. ⏳ Después: apuntar el dominio a GitHub Pages con registros A, o mover el DNS a
+   Cloudflare si se quiere ancho de banda ilimitado
 
-1. **Workers & Pages → Create → Pages → Direct Upload**.
-2. Nombra el proyecto exactamente **`creatvmyndz`** y créalo (sube cualquier archivo
-   suelto; el primer deploy real lo reemplaza).
-3. En el proyecto: **Custom domains → Set up a domain** → `creatvmyndz.com`.
-   Como el DNS ya está en Cloudflare, se configura solo, con HTTPS automático.
+⚠️ **El dominio vence el 1 de octubre de 2026 y la renovación automática está desactivada.**
+La transferencia suma un año, pero si se deja vencer se pierde el dominio.
 
-### Paso 3 — Conectar el despliegue automático
-
-El workflow `.github/workflows/deploy.yml` publica en cada push a `main`. Necesita dos llaves:
-
-1. **Account ID**: aparece en la barra lateral de Workers & Pages.
-2. **API Token**: **My Profile → API Tokens → Create Token**, plantilla
-   **"Edit Cloudflare Workers"** (incluye permiso de Pages).
-3. En GitHub: **Settings → Secrets and variables → Actions → New repository secret**:
-   - `CLOUDFLARE_ACCOUNT_ID`
-   - `CLOUDFLARE_API_TOKEN`
-4. Haz push a `main` (o **Actions → Run workflow**) y se publica.
-
-> Mientras no existan esos dos secretos, el workflow falla a propósito con un mensaje claro
-> explicando qué falta.
-
-**Alternativa sin secretos:** en Cloudflare, **Pages → Connect to Git**, eliges este
-repositorio, comando de build
-`mkdir -p dist && cp index.html _headers dist/ && cp -r assets dist/` y carpeta de
-salida `dist`. Si eliges esta vía, borra `.github/workflows/deploy.yml` para no
-desplegar dos veces.
-
-⚠️ **Ojo:** al publicar, la página que hoy está en creatvmyndz.com queda reemplazada.
-Si quieres conservarla, guarda una copia antes desde tu cuenta de Netlify.
+Para apuntar el dominio a GitHub Pages una vez liberado: en **Settings → Pages → Custom
+domain** escribes `creatvmyndz.com`, y en el registrador creas registros A hacia
+`185.199.108.153`, `185.199.109.153`, `185.199.110.153` y `185.199.111.153`, más un
+CNAME de `www` hacia `creatvmyndz.github.io`.
 
 ---
 
@@ -153,6 +127,6 @@ assets/styles.css       estilos
 assets/sky/d, /m        frames del cielo (escritorio y celular)
 assets/img/             logos, favicon e imágenes de proyectos
 assets/fonts/           tipografía Outfit (licencia libre OFL)
-_headers                reglas de caché del navegador
+_headers                reglas de caché (para Netlify/Cloudflare; GitHub Pages lo ignora)
 .github/workflows/      pipeline de publicación automática
 ```
