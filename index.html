@@ -7,7 +7,7 @@
   <meta name="description" content="CREATV MYNDZ: colectivo creativo sin límites. Música, moda, arte y proyectos sociales. Descargamos ideas de las nubes. Despierta tu creatividad con WAKE UP.">
   <meta name="theme-color" content="#0a1238">
   <meta property="og:title" content="CREATV MYNDZ — Creatividad Infinita">
-  <meta property="og:description" content="Descargamos ideas de las nubes. Conoce nuestros proyectos y despierta tu creatividad con WAKE UP.">
+  <meta property="og:description" content="Creative dealers. Conoce nuestros proyectos y despierta tu creatividad con WAKE UP.">
   <meta property="og:image" content="assets/img/og.png">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
@@ -26,8 +26,8 @@
   <!-- ===== BARRA SUPERIOR ===== -->
   <header class="topbar">
     <div class="topbar-left">
-      <span class="plane" aria-hidden="true">✈</span>
-      <span id="flying">FLYING 0%</span>
+      <span class="flying-row"><span class="plane" aria-hidden="true">✈</span><span id="flying">FLYING 0%</span></span>
+      <span id="clocks" class="clocks">BOGOTÁ · MIAMI · MADRID</span>
     </div>
 
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
@@ -40,29 +40,29 @@
     </div>
   </header>
 
-  <!-- ===== MENÚ (pantalla completa) ===== -->
+  <!-- ===== MENÚ ===== -->
   <nav class="menu" id="menu" hidden aria-label="Menú principal">
     <button class="menu-close" id="menu-close" type="button" aria-label="Cerrar menú">✕</button>
     <ul class="menu-list">
-      <li><a href="#proyectos"><span class="menu-num">01</span><span data-i18n="m_projects">PROYECTOS</span></a></li>
-      <li><a href="#wakeup"><span class="menu-num">02</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
-      <li><a href="#nosotros"><span class="menu-num">03</span><span data-i18n="m_about">QUIÉNES SOMOS</span></a></li>
-      <li><a href="#contacto"><span class="menu-num">04</span><span data-i18n="m_contact">CONTACTO</span></a></li>
+      <li><a href="#crtv"><span class="menu-num">01</span><span data-i18n="m_projects">CRTV</span></a></li>
+      <li><a href="#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">QUIÉNES SOMOS</span></a></li>
+      <li><a href="#contacto"><span class="menu-num">03</span><span data-i18n="m_contact">CONTACTO</span></a></li>
+      <li><a href="#wakeup"><span class="menu-num">04</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
     </ul>
-    <p class="menu-foot" data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES</p>
+    <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
   </nav>
 
   <!-- ===== HERO ===== -->
   <section class="hero" id="inicio">
     <div class="hero-inner">
       <img class="logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
-      <p class="tagline" data-i18n="tagline">CREATIVIDAD INFINITA</p>
-      <a class="hero-cta" href="#proyectos" data-i18n="hero_cta">↓ NAVEGAR</a>
+      <a class="hero-cta" href="#infinita" data-i18n="hero_cta">↓ NAVEGAR</a>
     </div>
-    <div class="hero-strip">
-      <span id="clocks">BOGOTÁ · MIAMI · MADRID</span>
-      <span>CRTV©</span>
-    </div>
+  </section>
+
+  <!-- ===== CREATIVIDAD INFINITA ===== -->
+  <section class="infinite" id="infinita">
+    <h2 data-i18n="tagline">CREATIVIDAD INFINITA</h2>
   </section>
 
   <!-- ===== MANIFIESTO ===== -->
@@ -74,19 +74,49 @@
     </p>
   </section>
 
-  <!-- ===== PROYECTOS ===== -->
-  <main class="drops" id="proyectos">
+  <!-- ===== CRTV (proyectos) ===== -->
+  <main class="drops" id="crtv">
     <div class="drops-head">
-      <h2 data-i18n="drops_title">PROYECTOS</h2>
+      <h2 data-i18n="drops_title">CRTV</h2>
       <div class="filters" role="group" aria-label="Filtrar proyectos">
         <button class="filter active" data-filter="all"  data-i18n="f_all">TODOS</button>
         <button class="filter" data-filter="done" data-i18n="f_done">HECHOS</button>
-        <button class="filter" data-filter="now"  data-i18n="f_now">EN CURSO</button>
         <button class="filter" data-filter="soon" data-i18n="f_soon">PRÓXIMOS</button>
       </div>
     </div>
     <ol id="project-list" class="project-list"></ol>
   </main>
+
+  <!-- ===== QUIÉNES SOMOS ===== -->
+  <section class="about" id="nosotros">
+    <div class="about-inner">
+      <h2 data-i18n="ab_title">QUIÉNES SOMOS</h2>
+      <p data-i18n="ab_p1">
+        CREATV MYNDZ es un colectivo creativo. No somos una agencia dentro de una caja:
+        somos un grupo de mentes que produce música, moda, arte y proyectos sociales,
+        y que colabora con marcas cuando la idea lo merece.
+      </p>
+      <p data-i18n="ab_p2">
+        Creemos que las ideas ya están en el aire. Nuestro trabajo es subir por ellas,
+        descargarlas y aterrizarlas en algo que la gente pueda ver, usar y sentir.
+      </p>
+      <ul class="about-grid">
+        <li><strong data-i18n="ab_c1t">COLECTIVO</strong><span data-i18n="ab_c1d">Artistas, músicos, diseñadores y productores trabajando juntos.</span></li>
+        <li><strong data-i18n="ab_c2t">MARCA</strong><span data-i18n="ab_c2d">Creamos nuestros propios productos y colecciones.</span></li>
+        <li><strong data-i18n="ab_c3t">COLABORACIONES</strong><span data-i18n="ab_c3d">Trabajamos con marcas que quieren salirse del molde.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="contact" id="contacto">
+    <div class="contact-inner">
+      <h2 data-i18n="ct_title">CONTACTA A LOS CREATIVE DEALERS</h2>
+      <p data-i18n="ct_sub">Contáctanos para más creatividad.</p>
+      <a class="contact-mail" id="contact-mail" href="#">—</a>
+      <ul class="contact-social" id="contact-social"></ul>
+    </div>
+  </section>
 
   <!-- ===== WAKE UP ===== -->
   <section class="wakeup" id="wakeup">
@@ -120,40 +150,9 @@
     </div>
   </section>
 
-  <!-- ===== QUIÉNES SOMOS ===== -->
-  <section class="about" id="nosotros">
-    <div class="about-inner">
-      <h2 data-i18n="ab_title">QUIÉNES SOMOS</h2>
-      <p data-i18n="ab_p1">
-        CREATV MYNDZ es un colectivo creativo. No somos una agencia dentro de una caja:
-        somos un grupo de mentes que produce música, moda, arte y proyectos sociales,
-        y que colabora con marcas cuando la idea lo merece.
-      </p>
-      <p data-i18n="ab_p2">
-        Creemos que las ideas ya están en el aire. Nuestro trabajo es subir por ellas,
-        descargarlas y aterrizarlas en algo que la gente pueda ver, usar y sentir.
-      </p>
-      <ul class="about-grid">
-        <li><strong data-i18n="ab_c1t">COLECTIVO</strong><span data-i18n="ab_c1d">Artistas, músicos, diseñadores y productores trabajando juntos.</span></li>
-        <li><strong data-i18n="ab_c2t">MARCA</strong><span data-i18n="ab_c2d">Creamos nuestros propios productos y colecciones.</span></li>
-        <li><strong data-i18n="ab_c3t">COLABORACIONES</strong><span data-i18n="ab_c3d">Trabajamos con marcas que quieren salirse del molde.</span></li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ===== CONTACTO ===== -->
-  <section class="contact" id="contacto">
-    <div class="contact-inner">
-      <h2 data-i18n="ct_title">CONTACTO</h2>
-      <p data-i18n="ct_sub">¿Tienes una idea, una marca o un proyecto? Escríbenos.</p>
-      <a class="contact-mail" id="contact-mail" href="#">—</a>
-      <ul class="contact-social" id="contact-social"></ul>
-    </div>
-  </section>
-
   <footer class="footer">
     <p>CREATV MYNDZ © <span id="year"></span></p>
-    <p data-i18n="footer_line">DESCARGANDO IDEAS DE LAS NUBES</p>
+    <p data-i18n="footer_line">CREATIVE DEALERS</p>
   </footer>
 
   <!-- ===== MODAL DE PROYECTO ===== -->

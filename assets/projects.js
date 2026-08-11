@@ -45,7 +45,8 @@ const SITE = {
    - id:      identificador único, minúsculas y sin espacios (se usa en la URL)
    - num:     número del proyecto → se muestra como CRTV 01
    - title:   nombre del proyecto (sale en MAYÚSCULAS)
-   - status:  "done" (hecho) | "now" (en curso) | "soon" (próximo)
+   - status:  "done" (hecho) | "soon" (próximo)
+              Los "soon" salen con el título borroso, para generar expectativa.
    - area:    música | moda | arte | social | marca ... (texto libre)
    - year:    año, o algo como "2026 →"
    - desc:    { es: "...", en: "..." }
@@ -58,7 +59,7 @@ const PROJECTS = [
     id: "wake-up",
     num: 7,
     title: "WAKE UP",
-    status: "now",
+    status: "soon",
     area: "programa",
     year: "2026 →",
     desc: {
@@ -86,7 +87,7 @@ const PROJECTS = [
     id: "sesiones-en-el-cielo",
     num: 5,
     title: "SESIONES EN EL CIELO",
-    status: "now",
+    status: "soon",
     area: "música",
     year: "2026",
     desc: {

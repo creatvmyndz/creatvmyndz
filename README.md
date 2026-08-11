@@ -32,7 +32,8 @@ const PREFIX = "CRTV";
 
 ### Los demás campos
 
-- `status`: `"done"` (hecho) · `"now"` (en curso) · `"soon"` (próximo) — controla la etiqueta y los filtros
+- `status`: `"done"` (hecho) · `"soon"` (próximo). Los `soon` salen con el **título borroso**,
+  para generar expectativa; se leen bien al abrirlos
 - `image`: sube la foto a `assets/img/` y pon `"assets/img/tu-foto.jpg"`
 - `link`: URL externa del proyecto (Instagram, YouTube, tienda…)
 - `id`: se usa en el enlace directo, p. ej. `creatvmyndz.com/#el-despegue`

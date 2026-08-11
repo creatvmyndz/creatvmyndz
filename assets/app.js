@@ -14,13 +14,13 @@ const code = n => PREFIX + " " + String(n).padStart(2, "0");
 const I18N = {
   es: {
     menu: "MENÚ",
-    m_projects: "PROYECTOS", m_wakeup: "WAKE UP", m_about: "QUIÉNES SOMOS", m_contact: "CONTACTO",
+    m_projects: "CRTV", m_wakeup: "WAKE UP", m_about: "QUIÉNES SOMOS", m_contact: "CONTACTO",
     tagline: "CREATIVIDAD INFINITA",
     hero_cta: "↓ NAVEGAR",
     manifesto: "SOMOS UN COLECTIVO CREATIVO SIN LÍMITES. HACEMOS MÚSICA, MODA, ARTE Y PROYECTOS SOCIALES. NO CABEMOS EN UNA CAJA. DESCARGAMOS IDEAS DE LAS NUBES Y LAS ATERRIZAMOS EN EL MUNDO REAL. TÚ TAMBIÉN PUEDES.",
-    drops_title: "PROYECTOS",
-    f_all: "TODOS", f_done: "HECHOS", f_now: "EN CURSO", f_soon: "PRÓXIMOS",
-    tag_done: "HECHO", tag_now: "EN CURSO", tag_soon: "PRÓXIMO",
+    drops_title: "CRTV",
+    f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
+    tag_done: "HECHO", tag_soon: "PRÓXIMO",
     wu_kicker: "EL PROGRAMA",
     wu_sub: "Todo lo que ves arriba nace de la creatividad — y la creatividad se entrena. WAKE UP es nuestro programa para despertar la tuya.",
     wu_f1: "Videos personalizados para desbloquear tu proceso creativo",
@@ -35,21 +35,21 @@ const I18N = {
     ab_c1t: "COLECTIVO", ab_c1d: "Artistas, músicos, diseñadores y productores trabajando juntos.",
     ab_c2t: "MARCA", ab_c2d: "Creamos nuestros propios productos y colecciones.",
     ab_c3t: "COLABORACIONES", ab_c3d: "Trabajamos con marcas que quieren salirse del molde.",
-    ct_title: "CONTACTO",
-    ct_sub: "¿Tienes una idea, una marca o un proyecto? Escríbenos.",
-    footer_line: "DESCARGANDO IDEAS DE LAS NUBES",
+    ct_title: "CONTACTA A LOS CREATIVE DEALERS",
+    ct_sub: "Contáctanos para más creatividad.",
+    footer_line: "CREATIVE DEALERS",
     modal_cta: "¿QUIERES CREAR ASÍ? → WAKE UP",
     view_project: "VER PROYECTO ↗"
   },
   en: {
     menu: "MENU",
-    m_projects: "PROJECTS", m_wakeup: "WAKE UP", m_about: "ABOUT US", m_contact: "CONTACT",
+    m_projects: "CRTV", m_wakeup: "WAKE UP", m_about: "ABOUT US", m_contact: "CONTACT",
     tagline: "INFINITE CREATIVITY",
     hero_cta: "↓ EXPLORE",
     manifesto: "WE ARE A LIMITLESS CREATIVE COLLECTIVE. WE MAKE MUSIC, FASHION, ART AND SOCIAL PROJECTS. WE DON'T FIT IN A BOX. WE DOWNLOAD IDEAS FROM THE CLOUDS AND LAND THEM IN THE REAL WORLD. YOU CAN TOO.",
-    drops_title: "PROJECTS",
-    f_all: "ALL", f_done: "DONE", f_now: "IN PROGRESS", f_soon: "UPCOMING",
-    tag_done: "DONE", tag_now: "IN PROGRESS", tag_soon: "UPCOMING",
+    drops_title: "CRTV",
+    f_all: "ALL", f_done: "DONE", f_soon: "UPCOMING",
+    tag_done: "DONE", tag_soon: "UPCOMING",
     wu_kicker: "THE PROGRAM",
     wu_sub: "Everything you see above is born from creativity — and creativity can be trained. WAKE UP is our program to awaken yours.",
     wu_f1: "Personalized videos to unlock your creative process",
@@ -64,9 +64,9 @@ const I18N = {
     ab_c1t: "COLLECTIVE", ab_c1d: "Artists, musicians, designers and producers working together.",
     ab_c2t: "BRAND", ab_c2d: "We create our own products and collections.",
     ab_c3t: "COLLABORATIONS", ab_c3d: "We work with brands that want to break the mold.",
-    ct_title: "CONTACT",
-    ct_sub: "Got an idea, a brand or a project? Write to us.",
-    footer_line: "DOWNLOADING IDEAS FROM THE CLOUDS",
+    ct_title: "CONTACT THE CREATIVE DEALERS",
+    ct_sub: "Contact us for more creativity.",
+    footer_line: "CREATIVE DEALERS",
     modal_cta: "WANT TO CREATE LIKE THIS? → WAKE UP",
     view_project: "VIEW PROJECT ↗"
   }
@@ -255,7 +255,7 @@ function renderList() {
   listEl.innerHTML = "";
   items.forEach(p => {
     const li = document.createElement("li");
-    li.className = "project-item";
+    li.className = "project-item " + p.status;   // "soon" sale con las letras borrosas
 
     const a = document.createElement("a");
     a.href = "#" + p.id;
