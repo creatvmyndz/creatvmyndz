@@ -73,42 +73,60 @@ Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
 
 ## 3. Publicar en producción (creatvmyndz.com)
 
-El dominio **ya está funcionando en Netlify** (sitio `effortless-liger-a44de3`), con el DNS
-gestionado desde Wix. No hay que tocar DNS ni certificados: se reutiliza todo eso y solo
-cambia el contenido que Netlify publica.
+El sitio se publica en **Cloudflare Pages**: gratis, con ancho de banda y peticiones
+**ilimitados**, uso comercial permitido y repos privados sin problema. Es lo que aguanta
+un pico viral sin que la página se caiga.
 
-Netlify gratis alcanza de sobra: funciona con repos privados, 100 GB de tráfico al mes
-(≈ 50.000 visitas con este sitio) y despliegue automático en cada push.
+> Antes estuvo en Netlify. Su plan gratis ahora son 300 créditos al mes con tope duro
+> (15 créditos por cada publicación y 20 por GB de tráfico) y, al agotarse, **apaga el
+> sitio** hasta el mes siguiente. No sirve para una estrategia de tráfico viral.
 
-### Opción A — Conectar el repo a Netlify (la más simple, recomendada)
+### Paso 1 — Mover el DNS a Cloudflare (una sola vez)
 
-1. Entra a <https://app.netlify.com> con la cuenta donde vive `effortless-liger-a44de3`.
-2. Abre ese sitio → **Site configuration → Build & deploy → Continuous deployment**.
-3. **Link repository** → GitHub → autoriza y elige `creatvmyndz/creatvmyndz`.
-4. Branch: `main`. El comando de build y la carpeta de publicación los lee solo de
-   `netlify.toml`, no tienes que escribir nada.
-5. **Deploy site.** Desde ahí, cada push a `main` republica creatvmyndz.com solo.
+El dominio está registrado en **Wix** y su DNS está limpio: no hay correo (sin registros MX),
+ni SPF, ni subdominios. Solo apunta al hosting. Por eso mover los nameservers no rompe nada.
 
-Si eliges esta opción, borra `.github/workflows/deploy.yml` para no desplegar dos veces.
+1. Crea una cuenta gratis en <https://dash.cloudflare.com>.
+2. **Add a domain** → `creatvmyndz.com` → plan **Free**.
+3. Cloudflare escanea el DNS actual. Revisa que la lista quede vacía o solo con el
+   apuntamiento viejo al hosting; borra los registros que apunten a Netlify.
+4. Cloudflare te muestra dos nameservers propios. Cópialos.
+5. En Wix: **Dominios → creatvmyndz.com → Avanzado → Nameservers**, cambia a
+   "usar nameservers externos" y pega los dos de Cloudflare.
+6. Espera a que Cloudflare marque el dominio como **Active** (suele ser de minutos a
+   unas horas).
 
-### Opción B — Desde GitHub Actions
+### Paso 2 — Crear el proyecto en Cloudflare Pages
 
-El workflow `.github/workflows/deploy.yml` ya está listo; solo necesita dos llaves:
+1. **Workers & Pages → Create → Pages → Direct Upload**.
+2. Nombra el proyecto exactamente **`creatvmyndz`** y créalo (sube cualquier archivo
+   suelto; el primer deploy real lo reemplaza).
+3. En el proyecto: **Custom domains → Set up a domain** → `creatvmyndz.com`.
+   Como el DNS ya está en Cloudflare, se configura solo, con HTTPS automático.
 
-1. En Netlify: **User settings → Applications → Personal access tokens → New access token**.
-   Cópialo.
-2. En el sitio: **Site configuration → General → Site details** → copia el **Site ID**.
+### Paso 3 — Conectar el despliegue automático
+
+El workflow `.github/workflows/deploy.yml` publica en cada push a `main`. Necesita dos llaves:
+
+1. **Account ID**: aparece en la barra lateral de Workers & Pages.
+2. **API Token**: **My Profile → API Tokens → Create Token**, plantilla
+   **"Edit Cloudflare Workers"** (incluye permiso de Pages).
 3. En GitHub: **Settings → Secrets and variables → Actions → New repository secret**:
-   - `NETLIFY_AUTH_TOKEN` → el token
-   - `NETLIFY_SITE_ID` → el Site ID
+   - `CLOUDFLARE_ACCOUNT_ID`
+   - `CLOUDFLARE_API_TOKEN`
 4. Haz push a `main` (o **Actions → Run workflow**) y se publica.
 
 > Mientras no existan esos dos secretos, el workflow falla a propósito con un mensaje claro
 > explicando qué falta.
 
+**Alternativa sin secretos:** en Cloudflare, **Pages → Connect to Git**, eliges este
+repositorio, comando de build
+`mkdir -p dist && cp index.html _headers dist/ && cp -r assets dist/` y carpeta de
+salida `dist`. Si eliges esta vía, borra `.github/workflows/deploy.yml` para no
+desplegar dos veces.
+
 ⚠️ **Ojo:** al publicar, la página que hoy está en creatvmyndz.com queda reemplazada.
-La anterior no se pierde: en Netlify sigue disponible en **Deploys**, y puedes volver a
-ella cuando quieras con *Publish deploy*.
+Si quieres conservarla, guarda una copia antes desde tu cuenta de Netlify.
 
 ---
 
@@ -134,6 +152,6 @@ assets/styles.css       estilos
 assets/sky/d, /m        frames del cielo (escritorio y celular)
 assets/img/             logos, favicon e imágenes de proyectos
 assets/fonts/           tipografía Outfit (licencia libre OFL)
-netlify.toml, _headers    configuración de Netlify (build y caché)
+_headers                reglas de caché del navegador
 .github/workflows/      pipeline de publicación automática
 ```

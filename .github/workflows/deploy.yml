@@ -1,4 +1,4 @@
-name: Deploy a producción (Netlify)
+name: Deploy a producción (Cloudflare Pages)
 
 # Cada push a main publica el sitio en creatvmyndz.com automáticamente.
 # También se puede lanzar a mano desde la pestaña Actions.
@@ -21,13 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Revisar que las llaves de Netlify estén configuradas
+      - name: Revisar que las llaves de Cloudflare estén configuradas
         env:
-          TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          SITE: ${{ secrets.NETLIFY_SITE_ID }}
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          if [ -z "$TOKEN" ] || [ -z "$SITE" ]; then
-            echo "::error::Faltan los secretos NETLIFY_AUTH_TOKEN y/o NETLIFY_SITE_ID."
+          if [ -z "$TOKEN" ] || [ -z "$ACCOUNT" ]; then
+            echo "::error::Faltan los secretos CLOUDFLARE_API_TOKEN y/o CLOUDFLARE_ACCOUNT_ID."
             echo "::error::Settings -> Secrets and variables -> Actions. Pasos en el README."
             exit 1
           fi
@@ -38,8 +38,9 @@ jobs:
           cp index.html _headers dist/
           cp -r assets dist/
 
-      - name: Publicar en Netlify
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: npx --yes netlify-cli@17 deploy --dir=dist --prod --message "${{ github.event.head_commit.message || 'Deploy manual' }}"
+      - name: Publicar en Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=creatvmyndz --branch=main
