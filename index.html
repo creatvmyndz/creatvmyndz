@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>CREATV MYNDZ — Creatividad Infinita</title>
-  <meta name="description" content="CREATV MYNDZ: colectivo creativo sin límites. Música, moda, arte y proyectos sociales. Descargamos ideas de las nubes. Despierta tu creatividad con WAKE UP.">
+  <title>CREATV MYNDZ — Dreams Materializers</title>
+  <meta name="description" content="CREATV MYNDZ: tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad. Conoce los CRTV y despierta tu creatividad con WAKE UP.">
   <meta name="theme-color" content="#0a1238">
-  <meta property="og:title" content="CREATV MYNDZ — Creatividad Infinita">
-  <meta property="og:description" content="Creative dealers. Conoce nuestros proyectos y despierta tu creatividad con WAKE UP.">
+  <meta property="og:title" content="CREATV MYNDZ — Dreams Materializers">
+  <meta property="og:description" content="Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.">
   <meta property="og:image" content="assets/img/og.png">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
@@ -27,7 +27,7 @@
   <header class="topbar">
     <div class="topbar-left">
       <span class="flying-row"><span class="plane" aria-hidden="true">✈</span><span id="flying">FLYING 0%</span></span>
-      <span id="clocks" class="clocks">BOGOTÁ · MIAMI · MADRID</span>
+      <span id="clocks" class="fades">BOGOTÁ · MIAMI · MADRID</span>
     </div>
 
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">
@@ -35,6 +35,7 @@
     </button>
 
     <div class="topbar-right">
+      <span class="crtv-mark fades">CRTV©</span>
       <button id="lang-es" class="lang active" type="button">ES</button>
       <button id="lang-en" class="lang" type="button">EN</button>
     </div>
@@ -45,8 +46,8 @@
     <button class="menu-close" id="menu-close" type="button" aria-label="Cerrar menú">✕</button>
     <ul class="menu-list">
       <li><a href="#crtv"><span class="menu-num">01</span><span data-i18n="m_projects">CRTV</span></a></li>
-      <li><a href="#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">QUIÉNES SOMOS</span></a></li>
-      <li><a href="#contacto"><span class="menu-num">03</span><span data-i18n="m_contact">CONTACTO</span></a></li>
+      <li><a href="#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">CREATIVE DEALERS</span></a></li>
+      <li><a href="#newsletter"><span class="menu-num">03</span><span data-i18n="m_news">NEWSLETTER</span></a></li>
       <li><a href="#wakeup"><span class="menu-num">04</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
     </ul>
     <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
@@ -56,21 +57,15 @@
   <section class="hero" id="inicio">
     <div class="hero-inner">
       <img class="logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
-      <a class="hero-cta" href="#infinita" data-i18n="hero_cta">↓ NAVEGAR</a>
+      <a class="hero-cta" href="#manifiesto" data-i18n="hero_cta">↓ NAVEGAR</a>
     </div>
   </section>
 
-  <!-- ===== CREATIVIDAD INFINITA ===== -->
-  <section class="infinite" id="infinita">
-    <h2 data-i18n="tagline">CREATIVIDAD INFINITA</h2>
-  </section>
-
   <!-- ===== MANIFIESTO ===== -->
-  <section class="manifesto">
+  <section class="manifesto" id="manifiesto">
     <p data-i18n="manifesto">
-      SOMOS UN COLECTIVO CREATIVO SIN LÍMITES. HACEMOS MÚSICA, MODA, ARTE Y PROYECTOS
-      SOCIALES. NO CABEMOS EN UNA CAJA. DESCARGAMOS IDEAS DE LAS NUBES Y LAS ATERRIZAMOS
-      EN EL MUNDO REAL. TÚ TAMBIÉN PUEDES.
+      DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD
+      Y LAS TRAEMOS A LA REALIDAD.
     </p>
   </section>
 
@@ -87,51 +82,59 @@
     <ol id="project-list" class="project-list"></ol>
   </main>
 
-  <!-- ===== QUIÉNES SOMOS ===== -->
+  <!-- ===== CREATIVIDAD INFINITA (quiénes somos) ===== -->
   <section class="about" id="nosotros">
     <div class="about-inner">
-      <h2 data-i18n="ab_title">QUIÉNES SOMOS</h2>
+      <h2 data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
       <p data-i18n="ab_p1">
-        CREATV MYNDZ es un colectivo creativo. No somos una agencia dentro de una caja:
-        somos un grupo de mentes que produce música, moda, arte y proyectos sociales,
-        y que colabora con marcas cuando la idea lo merece.
-      </p>
-      <p data-i18n="ab_p2">
-        Creemos que las ideas ya están en el aire. Nuestro trabajo es subir por ellas,
-        descargarlas y aterrizarlas en algo que la gente pueda ver, usar y sentir.
+        Creemos en la creatividad como propósito de vida y razón de nuestra existencia.
+        Todos somos creativos, y tenemos ese don.
       </p>
       <ul class="about-grid">
-        <li><strong data-i18n="ab_c1t">COLECTIVO</strong><span data-i18n="ab_c1d">Artistas, músicos, diseñadores y productores trabajando juntos.</span></li>
-        <li><strong data-i18n="ab_c2t">MARCA</strong><span data-i18n="ab_c2d">Creamos nuestros propios productos y colecciones.</span></li>
-        <li><strong data-i18n="ab_c3t">COLABORACIONES</strong><span data-i18n="ab_c3d">Trabajamos con marcas que quieren salirse del molde.</span></li>
+        <li><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
+        <li><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
+        <li><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
       </ul>
     </div>
   </section>
 
-  <!-- ===== CONTACTO ===== -->
-  <section class="contact" id="contacto">
-    <div class="contact-inner">
-      <h2 data-i18n="ct_title">CONTACTA A LOS CREATIVE DEALERS</h2>
-      <p data-i18n="ct_sub">Contáctanos para más creatividad.</p>
-      <a class="contact-mail" id="contact-mail" href="#">—</a>
+  <!-- ===== NEWSLETTER =====
+       Sección libre: aquí puedes montar después lo que quieras. -->
+  <section class="news" id="newsletter">
+    <div class="news-inner">
+      <h2 data-i18n="nl_title">ÚNETE A NUESTRA NEWSLETTER Y COMIENZA A CREAR.</h2>
+
+      <form class="news-form" id="news-form" method="POST">
+        <input type="hidden" name="_subject" value="Nuevo suscriptor newsletter">
+        <input type="hidden" name="_captcha" value="false">
+        <div class="news-row">
+          <label class="sr-only" for="news-email" data-i18n="nl_label">Tu correo</label>
+          <input id="news-email" name="email" type="email" required
+                 placeholder="tucorreo@email.com" autocomplete="email">
+          <button type="submit" data-i18n="nl_btn">SUSCRIBIRME →</button>
+        </div>
+      </form>
+
       <ul class="contact-social" id="contact-social"></ul>
+      <a class="contact-mail" id="contact-mail" href="#">—</a>
     </div>
   </section>
 
   <!-- ===== WAKE UP ===== -->
   <section class="wakeup" id="wakeup">
     <div class="wakeup-inner">
-      <p class="wakeup-kicker" data-i18n="wu_kicker">EL PROGRAMA</p>
+      <p class="wakeup-kicker" data-i18n="wu_kicker">PROGRAMA</p>
       <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
       <p class="wakeup-sub" data-i18n="wu_sub">
-        Todo lo que ves arriba nace de la creatividad — y la creatividad se entrena.
-        WAKE UP es nuestro programa para despertar la tuya.
+        La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro
+        de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito,
+        despierta la forma más pura de crear que hay en ti.
       </p>
 
       <ul class="wakeup-features">
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Videos personalizados para desbloquear tu proceso creativo</p></li>
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios tipo hipnosis para reprogramar tu mente</p></li>
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Programa despertar.</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</p></li>
+        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</p></li>
       </ul>
 
       <!-- Captura de leads. Cuando el programa esté a la venta, reemplaza este
@@ -145,7 +148,6 @@
                  placeholder="tucorreo@email.com" autocomplete="email">
           <button type="submit" data-i18n="wu_btn">DESPERTAR →</button>
         </div>
-        <p class="wakeup-note" data-i18n="wu_note">Pronto podrás comprar el programa directamente aquí.</p>
       </form>
     </div>
   </section>

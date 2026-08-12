@@ -5,7 +5,9 @@
 /* Prefijo de los proyectos: CRTV 01, CRTV 02, ...
    Si algún día quieres otra palabra, cámbiala aquí. */
 const PREFIX = "CRTV";
-const code = n => PREFIX + " " + String(n).padStart(2, "0");
+const code = n => (n === null || n === undefined)
+  ? PREFIX
+  : PREFIX + " " + String(n).padStart(2, "0");
 
 
 /* ------------------------------------------------------------
@@ -14,58 +16,54 @@ const code = n => PREFIX + " " + String(n).padStart(2, "0");
 const I18N = {
   es: {
     menu: "MENÚ",
-    m_projects: "CRTV", m_wakeup: "WAKE UP", m_about: "QUIÉNES SOMOS", m_contact: "CONTACTO",
-    tagline: "CREATIVIDAD INFINITA",
+    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_news: "NEWSLETTER", m_wakeup: "WAKE UP",
     hero_cta: "↓ NAVEGAR",
-    manifesto: "SOMOS UN COLECTIVO CREATIVO SIN LÍMITES. HACEMOS MÚSICA, MODA, ARTE Y PROYECTOS SOCIALES. NO CABEMOS EN UNA CAJA. DESCARGAMOS IDEAS DE LAS NUBES Y LAS ATERRIZAMOS EN EL MUNDO REAL. TÚ TAMBIÉN PUEDES.",
+    manifesto: "DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD Y LAS TRAEMOS A LA REALIDAD.",
     drops_title: "CRTV",
     f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
     tag_done: "HECHO", tag_soon: "PRÓXIMO",
-    wu_kicker: "EL PROGRAMA",
-    wu_sub: "Todo lo que ves arriba nace de la creatividad — y la creatividad se entrena. WAKE UP es nuestro programa para despertar la tuya.",
-    wu_f1: "Videos personalizados para desbloquear tu proceso creativo",
-    wu_f2: "Serie de audios tipo hipnosis para reprogramar tu mente",
-    wu_f3: "Acceso al Discord y a la comunidad CREATV MYNDZ",
+    ab_title: "CREATIVIDAD INFINITA",
+    ab_p1: "Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.",
+    ab_c1t: "CREER", ab_c1d: "Cree en ti, cree en tus ideas.",
+    ab_c2t: "CREAR", ab_c2d: "Nunca pares de crear. Materializa esas ideas: son un regalo.",
+    ab_c3t: "CRECER", ab_c3d: "Cuando cumples la 1 y la 2, es inevitable.",
+    nl_title: "ÚNETE A NUESTRA NEWSLETTER Y COMIENZA A CREAR.",
+    nl_label: "Tu correo",
+    nl_btn: "SUSCRIBIRME →",
+    wu_kicker: "PROGRAMA",
+    wu_sub: "La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito, despierta la forma más pura de crear que hay en ti.",
+    wu_f1: "Programa despertar.",
+    wu_f2: "Serie de audios e hipnosis para despertar tu CREATV.",
+    wu_f3: "Acceso al Discord y a la comunidad CREATV MYNDZ.",
     wu_label: "DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:",
     wu_btn: "DESPERTAR →",
-    wu_note: "Pronto podrás comprar el programa directamente aquí.",
-    ab_title: "QUIÉNES SOMOS",
-    ab_p1: "CREATV MYNDZ es un colectivo creativo. No somos una agencia dentro de una caja: somos un grupo de mentes que produce música, moda, arte y proyectos sociales, y que colabora con marcas cuando la idea lo merece.",
-    ab_p2: "Creemos que las ideas ya están en el aire. Nuestro trabajo es subir por ellas, descargarlas y aterrizarlas en algo que la gente pueda ver, usar y sentir.",
-    ab_c1t: "COLECTIVO", ab_c1d: "Artistas, músicos, diseñadores y productores trabajando juntos.",
-    ab_c2t: "MARCA", ab_c2d: "Creamos nuestros propios productos y colecciones.",
-    ab_c3t: "COLABORACIONES", ab_c3d: "Trabajamos con marcas que quieren salirse del molde.",
-    ct_title: "CONTACTA A LOS CREATIVE DEALERS",
-    ct_sub: "Contáctanos para más creatividad.",
     footer_line: "CREATIVE DEALERS",
     modal_cta: "¿QUIERES CREAR ASÍ? → WAKE UP",
     view_project: "VER PROYECTO ↗"
   },
   en: {
     menu: "MENU",
-    m_projects: "CRTV", m_wakeup: "WAKE UP", m_about: "ABOUT US", m_contact: "CONTACT",
-    tagline: "INFINITE CREATIVITY",
+    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_news: "NEWSLETTER", m_wakeup: "WAKE UP",
     hero_cta: "↓ EXPLORE",
-    manifesto: "WE ARE A LIMITLESS CREATIVE COLLECTIVE. WE MAKE MUSIC, FASHION, ART AND SOCIAL PROJECTS. WE DON'T FIT IN A BOX. WE DOWNLOAD IDEAS FROM THE CLOUDS AND LAND THEM IN THE REAL WORLD. YOU CAN TOO.",
+    manifesto: "DREAMS MATERIALIZERS. WE TAKE IDEAS, PUSH THE LIMITS OF CREATIVITY AND BRING THEM INTO REALITY.",
     drops_title: "CRTV",
     f_all: "ALL", f_done: "DONE", f_soon: "UPCOMING",
     tag_done: "DONE", tag_soon: "UPCOMING",
-    wu_kicker: "THE PROGRAM",
-    wu_sub: "Everything you see above is born from creativity — and creativity can be trained. WAKE UP is our program to awaken yours.",
-    wu_f1: "Personalized videos to unlock your creative process",
-    wu_f2: "A series of hypnosis-style audios to reprogram your mind",
-    wu_f3: "Access to the Discord and the CREATV MYNDZ community",
+    ab_title: "INFINITE CREATIVITY",
+    ab_p1: "We believe creativity is a life purpose and the reason we exist. We are all creative — that gift is already in you.",
+    ab_c1t: "BELIEVE", ab_c1d: "Believe in yourself, believe in your ideas.",
+    ab_c2t: "CREATE", ab_c2d: "Never stop creating. Materialize those ideas: they are a gift.",
+    ab_c3t: "GROW", ab_c3d: "Once you do the first two, it is inevitable.",
+    nl_title: "JOIN OUR NEWSLETTER AND START CREATING.",
+    nl_label: "Your email",
+    nl_btn: "SUBSCRIBE →",
+    wu_kicker: "PROGRAM",
+    wu_sub: "Creativity is not something you train: it is something you remember. It was put to sleep inside you, and you can wake it up. Wake up your potential, your purpose, the purest way of creating that lives in you.",
+    wu_f1: "Wake-up program.",
+    wu_f2: "A series of audios and hypnosis to wake up your CREATV.",
+    wu_f3: "Access to the Discord and the CREATV MYNDZ community.",
     wu_label: "LEAVE YOUR EMAIL AND BE AMONG THE FIRST TO GET IN:",
     wu_btn: "WAKE UP →",
-    wu_note: "Soon you'll be able to buy the program right here.",
-    ab_title: "ABOUT US",
-    ab_p1: "CREATV MYNDZ is a creative collective. We are not an agency inside a box: we are a group of minds making music, fashion, art and social projects, collaborating with brands when the idea deserves it.",
-    ab_p2: "We believe ideas are already in the air. Our job is to fly up for them, download them and land them into something people can see, use and feel.",
-    ab_c1t: "COLLECTIVE", ab_c1d: "Artists, musicians, designers and producers working together.",
-    ab_c2t: "BRAND", ab_c2d: "We create our own products and collections.",
-    ab_c3t: "COLLABORATIONS", ab_c3d: "We work with brands that want to break the mold.",
-    ct_title: "CONTACT THE CREATIVE DEALERS",
-    ct_sub: "Contact us for more creativity.",
     footer_line: "CREATIVE DEALERS",
     modal_cta: "WANT TO CREATE LIKE THIS? → WAKE UP",
     view_project: "VIEW PROJECT ↗"
@@ -215,6 +213,7 @@ function step() {
   }
 
   flyingEl.textContent = "FLYING " + Math.round(p * 100) + "%";
+  document.body.classList.toggle("scrolled", window.scrollY > 40);
   // El velo tapa más en el día (cielo claro) y menos en la noche.
   scrim.style.opacity = (1 - 0.6 * p).toFixed(3);
 
@@ -302,7 +301,7 @@ function openModal(p) {
   document.getElementById("modal-num").textContent = code(p.num);
   document.getElementById("modal-title").textContent = p.title;
   document.getElementById("modal-meta").textContent =
-    p.area + " · " + p.year + " · " + t("tag_" + p.status);
+    [p.area, p.year, t("tag_" + p.status)].filter(Boolean).join(" · ");
   document.getElementById("modal-desc").textContent = p.desc[lang] || p.desc.es;
 
   const img = document.getElementById("modal-img");
@@ -405,7 +404,9 @@ function fillContact() {
     ul.appendChild(li);
   });
 
-  document.getElementById("lead-form").action = "https://formsubmit.co/" + SITE.leadEmail;
+  const action = "https://formsubmit.co/" + SITE.leadEmail;
+  document.getElementById("lead-form").action = action;
+  document.getElementById("news-form").action = action;
 }
 
 
