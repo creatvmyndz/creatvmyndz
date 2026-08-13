@@ -74,35 +74,38 @@ Si el número de frames cambia, actualiza `SKY_TOTAL` en `assets/app.js`.
 
 ## 3. Publicar en producción
 
-**El sitio está en vivo aquí:** <https://creatvmyndz.github.io/creatvmyndz/>
+**El sitio está en vivo en <https://creatvmyndz.com>** (y `www` redirige al dominio principal).
 
-Se publica en **GitHub Pages**, que es gratis porque el repositorio es público.
-El workflow `.github/workflows/deploy.yml` corre en cada push a `main`: no hay que
-subir nada a mano ni configurar llaves.
+Se publica en **GitHub Pages**, gratis porque el repositorio es público. El workflow
+`.github/workflows/deploy.yml` corre en cada push a `main`: no hay que subir nada a mano.
 
-Si alguna vez lo vuelves privado, GitHub Pages deja de ser gratis y toca cambiar de
-plataforma (el workflow de Cloudflare Pages quedó guardado en el historial de git).
+Para publicar un cambio:
 
-### Pendiente: conectar creatvmyndz.com
+```bash
+git add -A && git commit -m "Lo que cambiaste" && git push
+```
 
-El dominio está registrado en Wix, y **Wix no permite cambiar los nameservers**
-(lo dice su propia documentación). Por eso se inició una transferencia hacia otro
-registrador. El estado actual:
+En 1-2 minutos está arriba. El progreso se ve en la pestaña **Actions** de GitHub.
 
-1. ✅ Dominio desvinculado del sitio de Wix
-2. ✅ Transferencia iniciada y código de autorización (EPP) enviado por correo
-3. ⏳ Falta completar la transferencia en el nuevo registrador (Porkbun o Namecheap, ~11 USD,
-   incluye +1 año de renovación)
-4. ⏳ Después: apuntar el dominio a GitHub Pages con registros A, o mover el DNS a
-   Cloudflare si se quiere ancho de banda ilimitado
+### Cómo está conectado el dominio
 
-⚠️ **El dominio vence el 1 de octubre de 2026 y la renovación automática está desactivada.**
-La transferencia suma un año, pero si se deja vencer se pierde el dominio.
+El dominio sigue registrado en **Wix**, pero su DNS apunta a GitHub:
 
-Para apuntar el dominio a GitHub Pages una vez liberado: en **Settings → Pages → Custom
-domain** escribes `creatvmyndz.com`, y en el registrador creas registros A hacia
-`185.199.108.153`, `185.199.109.153`, `185.199.110.153` y `185.199.111.153`, más un
-CNAME de `www` hacia `creatvmyndz.github.io`.
+| Registro | Nombre | Valor |
+| --- | --- | --- |
+| A | creatvmyndz.com | 185.199.108.153 |
+| A | creatvmyndz.com | 185.199.109.153 |
+| A | creatvmyndz.com | 185.199.110.153 |
+| A | creatvmyndz.com | 185.199.111.153 |
+| CNAME | www | creatvmyndz.github.io |
+
+El archivo `CNAME` de este repositorio guarda el dominio y viaja con cada publicación, para
+que GitHub Pages no lo pierda. **No lo borres.** El certificado HTTPS es automático y está
+forzado (todo http redirige a https).
+
+⚠️ **El dominio vence el 1 de octubre de 2026 y la renovación automática está desactivada
+en Wix.** Si se vence, el sitio deja de existir. Renuévalo o transfiérelo a otro registrador
+(una transferencia suma un año y cuesta ~11 USD).
 
 ---
 
