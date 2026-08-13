@@ -382,8 +382,14 @@ function updateClocks() {
   const fmt = tz => new Intl.DateTimeFormat("es-CO", {
     hour: "numeric", minute: "2-digit", hour12: true, timeZone: tz
   }).format(new Date()).toLowerCase().replace(/\s/g, "");
+
+  // En pantallas angostas los nombres completos empujan el menú fuera de la
+  // pantalla, así que ahí van abreviados.
+  const corto = window.innerWidth < 700;
+  const c = corto ? ["BOG", "MIA", "MAD"] : ["BOGOTÁ", "MIAMI", "MADRID"];
+
   document.getElementById("clocks").textContent =
-    `BOGOTÁ ${fmt("America/Bogota")} · MIAMI ${fmt("America/New_York")} · MADRID ${fmt("Europe/Madrid")}`;
+    `${c[0]} ${fmt("America/Bogota")} · ${c[1]} ${fmt("America/New_York")} · ${c[2]} ${fmt("Europe/Madrid")}`;
 }
 
 function fillContact() {
@@ -432,6 +438,7 @@ window.addEventListener("resize", () => {
   resizeTimer = setTimeout(() => {
     sizeCanvas();
     initSky(pickSet());   // cambia horizontal/vertical si giras el teléfono
+    updateClocks();       // nombres largos o cortos según el ancho
     schedule();
   }, 180);
 });

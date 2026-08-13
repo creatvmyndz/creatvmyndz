@@ -63,7 +63,7 @@ Con [ffmpeg](https://ffmpeg.org) y `cwebp` instalados (`brew install ffmpeg webp
 
 ```bash
 ffmpeg -i "TU-VIDEO.mp4" -vf "select=not(mod(n\,3)),scale=1280:720" -vsync 0 /tmp/fd/%04d.png
-ffmpeg -i "TU-VIDEO.mp4" -vf "select=not(mod(n\,3)),crop=608:1080:140:0,scale=540:960" -vsync 0 /tmp/fm/%04d.png
+ffmpeg -i "TU-VIDEO.mp4" -vf "select=not(mod(n\,3)),crop=608:1080:656:0,scale=540:960" -vsync 0 /tmp/fm/%04d.png
 for f in /tmp/fd/*.png; do cwebp -quiet -q 70 -m 6 "$f" -o "assets/sky/d/$(basename "$f" .png).webp"; done
 for f in /tmp/fm/*.png; do cwebp -quiet -q 70 -m 6 "$f" -o "assets/sky/m/$(basename "$f" .png).webp"; done
 ```
