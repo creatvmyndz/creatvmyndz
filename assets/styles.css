@@ -250,7 +250,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    nunca queda la pantalla vacía entre una sección y la siguiente. */
 .scene {
   display: block;
-  min-height: 200svh;
+  min-height: 175svh;
   padding: 0;
 }
 

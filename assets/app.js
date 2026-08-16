@@ -237,18 +237,17 @@ function step() {
    ============================================================ */
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* El contenido casi no se mueve: se materializa y se disuelve con
-   desenfoque, mientras el cielo del fondo es el que da la sensación de
-   avanzar. `near` amplio = la sección se queda quieta y legible un buen
-   rato; las transiciones son cortas y suaves.
-   Los elementos sueltos (filas, tarjetas) se mueven aún menos. */
+/* Cada bloque nace lejos: pequeño y borroso. Al acercarse crece y se
+   aclara hasta quedar nítido y legible. Luego sigue de largo hacia ti
+   mientras el siguiente ya viene llegando desde el fondo. */
 const DEPTH = {
-  scene: { farIn: 0.62, near: 0.26, farOut: -0.62, scaleIn: 0.94, scaleOut: 1.07, blur: 9 },
-  item:  { farIn: 0.55, near: 0.22, farOut: -0.55, scaleIn: 0.97, scaleOut: 1.03, blur: 5 }
+  scene: { scaleIn: 0.70, scaleOut: 1.26, blur: 12 },
+  item:  { scaleIn: 0.82, scaleOut: 1.12, blur: 6 }
 };
 
-/* El desenfoque es lo más caro de dibujar: en pantallas pequeñas lo bajamos. */
-const BLUR_SCALE = window.matchMedia("(max-width: 680px)").matches ? 0.6 : 1;
+/* El desenfoque es lo más caro de dibujar. En el celular lo bajamos a la
+   mitad: la sensación de profundidad la sostienen el tamaño y la opacidad. */
+const BLUR_SCALE = window.matchMedia("(max-width: 680px)").matches ? 0.5 : 1;
 
 let depthEls = [];
 
@@ -262,15 +261,15 @@ function collectDepth() {
       noEnter: scene ? scene.dataset.enter === "no" : false,
       noExit:  scene ? scene.dataset.exit  === "no" : false,   // la última no se va
       cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
-      prev: ""
+      pT: "", pO: "", pF: "", pP: ""
     };
   });
 }
 
-/* Dentro de una sección anclada, `q` es cuánto has recorrido de esa sección
-   (0 al entrar, 1 al salir). El contenido se materializa en el primer tramo,
-   se queda quieto y nítido en el medio, y se disuelve en el último. */
-const ENTRA_HASTA = 0.10;
+/* Mientras la sección está anclada, se ve llegar (primer tramo) y luego
+   se queda quieta y nítida. Cuando se despega, se va hacia ti durante una
+   pantalla completa — justo mientras la siguiente ya está apareciendo. */
+const LLEGADA = 0.45;   // parte del tramo anclado que dura el acercamiento
 
 function depthUpdate() {
   if (reduceMotion || !depthEls.length) return;
@@ -280,39 +279,40 @@ function depthUpdate() {
 
   for (const d of depthEls) {
     const c = d.cfg;
-    let e, x;   // e: cuánto ha entrado (0..1) · x: cuánto ha salido (0..1)
+    let e, x;   // e: cuánto se ha acercado (0..1) · x: cuánto se ha ido (0..1)
 
     if (d.scene) {
-      const alto = d.scene.offsetHeight;
       const top = d.scene.getBoundingClientRect().top + y;
-      const q = clamp01((y - top) / alto);
-
-      // La sección deja de estar anclada cuando le falta una pantalla para
-      // terminar: justo ahí empieza a irse, y termina de desvanecerse en el
-      // instante en que la siguiente se ancla. Así nunca queda un hueco.
-      const salida = Math.max(0.5, (alto - vh) / alto);
-
-      e = d.noEnter ? 1 : clamp01(q / ENTRA_HASTA);
-      x = d.noExit ? 0 : clamp01((q - salida) / (1 - salida));
+      const anclado = Math.max(1, d.scene.offsetHeight - vh);
+      e = d.noEnter ? 1 : clamp01((y - top) / (anclado * LLEGADA));
+      x = d.noExit ? 0 : clamp01((y - top - anclado) / vh);
     } else {
-      // Elementos que sí viajan con la página (las filas de los CRTV).
+      // Las filas de los CRTV viajan con la página.
       const r = d.el.getBoundingClientRect();
       const p = (r.top + r.height / 2 - vh / 2) / vh;
-      e = p > c.near ? clamp01((c.farIn - p) / (c.farIn - c.near)) : 1;
-      x = p < -c.near ? clamp01((-c.near - p) / (-c.near - c.farOut)) : 0;
+      e = clamp01((0.80 - p) / 0.60);
+      x = clamp01((-0.18 - p) / 0.55);
     }
 
     const scale = e < 1
       ? c.scaleIn + (1 - c.scaleIn) * e
       : 1 + (c.scaleOut - 1) * x;
-    const opacity = (e * e) * Math.pow(1 - x, 1.6);   // se despide más rápido de lo que entra
+    const opacity = (e * e) * Math.pow(1 - x, 1.6);
     const blur = c.blur * BLUR_SCALE * Math.max(1 - e, x);
 
-    const t = "scale(" + scale.toFixed(4) + ")";
-    if (t !== d.prev) { d.el.style.transform = t; d.prev = t; }
-    d.el.style.opacity = opacity.toFixed(3);
-    d.el.style.filter = blur > 0.06 ? "blur(" + blur.toFixed(2) + "px)" : "";
-    if (d.scene) d.el.style.pointerEvents = opacity < 0.1 ? "none" : "auto";
+    // Redondeamos: así el navegador no vuelve a dibujar por cambios que
+    // el ojo no alcanza a ver. Es lo que mantiene el scroll fluido.
+    const t = "scale(" + scale.toFixed(3) + ")";
+    const o = opacity.toFixed(2);
+    const f = blur > 0.35 ? "blur(" + (Math.round(blur * 2) / 2) + "px)" : "";
+
+    if (t !== d.pT) { d.el.style.transform = t; d.pT = t; }
+    if (o !== d.pO) { d.el.style.opacity = o; d.pO = o; }
+    if (f !== d.pF) { d.el.style.filter = f; d.pF = f; }
+    if (d.scene) {
+      const pe = opacity < 0.1 ? "none" : "auto";
+      if (pe !== d.pP) { d.el.style.pointerEvents = pe; d.pP = pe; }
+    }
   }
 }
 
