@@ -170,6 +170,8 @@ function sizeCanvas() {
   drawnIndex = -1;
 }
 
+let skyZoom = 1;   // el cielo se va acercando a medida que bajas
+
 function paint(i) {
   const img = frames[i] && frames[i].img;
   if (!img || !img.naturalWidth) return;
@@ -177,6 +179,7 @@ function paint(i) {
   const ir = img.naturalWidth / img.naturalHeight;
   let dw, dh;
   if (ir > cw / ch) { dh = ch; dw = ch * ir; } else { dw = cw; dh = cw / ir; }
+  dw *= skyZoom; dh *= skyZoom;
   ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
 }
 
@@ -206,6 +209,9 @@ function step() {
     queue();                       // prioriza los frames de esta zona
   }
 
+  const zoom = 1 + 0.14 * p;
+  if (Math.abs(zoom - skyZoom) > 0.0015) { skyZoom = zoom; needsDraw = true; drawnIndex = -1; }
+
   flyingEl.textContent = "FLYING " + Math.round(p * 100) + "%";
   document.body.classList.toggle("scrolled", window.scrollY > 40);
   depthUpdate();
@@ -231,57 +237,82 @@ function step() {
    ============================================================ */
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* Bloques grandes (secciones) y elementos sueltos (filas, tarjetas).
-   Los sueltos se mueven menos para que no se pisen entre ellos. */
+/* El contenido casi no se mueve: se materializa y se disuelve con
+   desenfoque, mientras el cielo del fondo es el que da la sensación de
+   avanzar. `near` amplio = la sección se queda quieta y legible un buen
+   rato; las transiciones son cortas y suaves.
+   Los elementos sueltos (filas, tarjetas) se mueven aún menos. */
 const DEPTH = {
-  scene: { farIn: 0.85, near: 0.14, farOut: -0.80, scaleIn: 0.72, scaleOut: 1.50, blur: 7 },
-  item:  { farIn: 0.75, near: 0.12, farOut: -0.65, scaleIn: 0.86, scaleOut: 1.16, blur: 2.5 }
+  scene: { farIn: 0.62, near: 0.26, farOut: -0.62, scaleIn: 0.94, scaleOut: 1.07, blur: 9 },
+  item:  { farIn: 0.55, near: 0.22, farOut: -0.55, scaleIn: 0.97, scaleOut: 1.03, blur: 5 }
 };
+
+/* El desenfoque es lo más caro de dibujar: en pantallas pequeñas lo bajamos. */
+const BLUR_SCALE = window.matchMedia("(max-width: 680px)").matches ? 0.6 : 1;
 
 let depthEls = [];
 
 function collectDepth() {
-  depthEls = [...document.querySelectorAll(".depth, .depth-item")].map(el => ({
-    el,
-    cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
-    prev: ""
-  }));
+  depthEls = [...document.querySelectorAll(".depth, .depth-item")].map(el => {
+    const pin = el.closest(".pin");
+    const scene = pin ? pin.closest(".scene") : null;
+    return {
+      el,
+      scene,                                   // si está anclado, manda la sección
+      noEnter: scene ? scene.dataset.enter === "no" : false,
+      noExit:  scene ? scene.dataset.exit  === "no" : false,   // la última no se va
+      cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
+      prev: ""
+    };
+  });
 }
+
+/* Dentro de una sección anclada, `q` es cuánto has recorrido de esa sección
+   (0 al entrar, 1 al salir). El contenido se materializa en el primer tramo,
+   se queda quieto y nítido en el medio, y se disuelve en el último. */
+const ENTRA_HASTA = 0.10;
 
 function depthUpdate() {
   if (reduceMotion || !depthEls.length) return;
 
   const vh = window.innerHeight;
-  const mid = vh / 2;
+  const y = window.scrollY;
 
   for (const d of depthEls) {
-    const r = d.el.getBoundingClientRect();
-    const p = (r.top + r.height / 2 - mid) / vh;
     const c = d.cfg;
+    let e, x;   // e: cuánto ha entrado (0..1) · x: cuánto ha salido (0..1)
 
-    let scale, opacity, blur;
+    if (d.scene) {
+      const alto = d.scene.offsetHeight;
+      const top = d.scene.getBoundingClientRect().top + y;
+      const q = clamp01((y - top) / alto);
 
-    if (p > c.near) {
-      // Viene llegando desde atrás.
-      const e = clamp01((c.farIn - p) / (c.farIn - c.near));
-      scale = c.scaleIn + (1 - c.scaleIn) * e;
-      opacity = e * e;                       // aparece suave, no de golpe
-      blur = c.blur * (1 - e);
-    } else if (p < -c.near) {
-      // Ya te pasó: sigue creciendo y se desvanece hacia el frente.
-      const x = clamp01((-c.near - p) / (-c.near - c.farOut));
-      scale = 1 + (c.scaleOut - 1) * x;
-      opacity = 1 - x * x;
-      blur = c.blur * x;
+      // La sección deja de estar anclada cuando le falta una pantalla para
+      // terminar: justo ahí empieza a irse, y termina de desvanecerse en el
+      // instante en que la siguiente se ancla. Así nunca queda un hueco.
+      const salida = Math.max(0.5, (alto - vh) / alto);
+
+      e = d.noEnter ? 1 : clamp01(q / ENTRA_HASTA);
+      x = d.noExit ? 0 : clamp01((q - salida) / (1 - salida));
     } else {
-      // En foco: nítido y completo, para que se pueda leer.
-      scale = 1; opacity = 1; blur = 0;
+      // Elementos que sí viajan con la página (las filas de los CRTV).
+      const r = d.el.getBoundingClientRect();
+      const p = (r.top + r.height / 2 - vh / 2) / vh;
+      e = p > c.near ? clamp01((c.farIn - p) / (c.farIn - c.near)) : 1;
+      x = p < -c.near ? clamp01((-c.near - p) / (-c.near - c.farOut)) : 0;
     }
+
+    const scale = e < 1
+      ? c.scaleIn + (1 - c.scaleIn) * e
+      : 1 + (c.scaleOut - 1) * x;
+    const opacity = (e * e) * Math.pow(1 - x, 1.6);   // se despide más rápido de lo que entra
+    const blur = c.blur * BLUR_SCALE * Math.max(1 - e, x);
 
     const t = "scale(" + scale.toFixed(4) + ")";
     if (t !== d.prev) { d.el.style.transform = t; d.prev = t; }
     d.el.style.opacity = opacity.toFixed(3);
     d.el.style.filter = blur > 0.06 ? "blur(" + blur.toFixed(2) + "px)" : "";
+    if (d.scene) d.el.style.pointerEvents = opacity < 0.1 ? "none" : "auto";
   }
 }
 

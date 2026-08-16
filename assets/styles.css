@@ -190,15 +190,7 @@ body.menu-open .topbar { opacity: 0; pointer-events: none; }
 }
 
 /* ===== HERO ===== */
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 6rem 1.2rem 5rem;
-}
+.hero { position: relative; }
 
 .hero-inner { text-align: center; }
 
@@ -253,11 +245,23 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    solo preparamos los elementos para que el navegador lo mueva
    con la tarjeta gráfica y no se sienta pesado.
    ============================================================ */
+/* La sección es solo el "riel" de scroll; el contenido va anclado dentro
+   de .pin, así se queda quieto en el centro mientras el cielo avanza y
+   nunca queda la pantalla vacía entre una sección y la siguiente. */
 .scene {
+  display: block;
+  min-height: 200svh;
+  padding: 0;
+}
+
+.pin {
+  position: sticky;
+  top: 0;
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5.5rem 1.2rem 4rem;
 }
 
 /* Al crecer, los bloques se salen por los lados a propósito (así se siente
@@ -265,6 +269,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    la página ni permita moverla en horizontal en el celular.
    `clip` en vez de `hidden`: no crea un contenedor de scroll. */
 .scene, .drops { overflow-x: clip; }
+
+/* Las secciones se solapan una pantalla: así, mientras una se despide
+   deslizándose hacia arriba, la siguiente ya está anclada y apareciendo.
+   Sin esto queda un tramo de scroll con la pantalla vacía. */
+.scene + .scene,
+.drops + .scene { margin-top: -100svh; }
 
 .depth, .depth-item {
   transform-origin: 50% 50%;
@@ -282,7 +292,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 /* ===== MANIFIESTO ===== */
-.manifesto { padding: clamp(4rem, 12vw, 9rem) 1.2rem; }
+
 .manifesto p {
   max-width: 50rem;
   font-size: clamp(1.05rem, 3vw, 1.9rem);
@@ -387,7 +397,6 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .project-item a:hover .p-tag { color: var(--navy-deep); }
 
 /* ===== QUIÉNES SOMOS ===== */
-.about { padding: clamp(4rem, 10vw, 8rem) 1.2rem; }
 .about-inner { width: 100%; }
 .about-inner { max-width: 46rem; margin: 0 auto; text-align: center; }
 .about h2 {
@@ -437,7 +446,6 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 /* ===== WAKE UP ===== */
-.wakeup { padding: clamp(5rem, 12vw, 9rem) 1.2rem; }
 .wakeup-inner { width: 100%; }
 
 .wakeup-inner { max-width: 44rem; margin: 0 auto; text-align: center; }
