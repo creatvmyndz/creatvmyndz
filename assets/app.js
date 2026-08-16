@@ -16,7 +16,7 @@ const code = n => (n === null || n === undefined)
 const I18N = {
   es: {
     menu: "MENÚ",
-    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_news: "NEWSLETTER", m_wakeup: "WAKE UP",
+    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
     hero_cta: "↓ NAVEGAR",
     manifesto: "DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD Y LAS TRAEMOS A LA REALIDAD.",
     drops_title: "CRTV",
@@ -27,9 +27,6 @@ const I18N = {
     ab_c1t: "CREER", ab_c1d: "Cree en ti, cree en tus ideas.",
     ab_c2t: "CREAR", ab_c2d: "Nunca pares de crear. Materializa esas ideas: son un regalo.",
     ab_c3t: "CRECER", ab_c3d: "Cuando cumples la 1 y la 2, es inevitable.",
-    nl_title: "ÚNETE A NUESTRA NEWSLETTER Y COMIENZA A CREAR.",
-    nl_label: "Tu correo",
-    nl_btn: "SUSCRIBIRME →",
     wu_kicker: "PROGRAMA",
     wu_sub: "La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito, despierta la forma más pura de crear que hay en ti.",
     wu_f1: "Programa despertar.",
@@ -43,7 +40,7 @@ const I18N = {
   },
   en: {
     menu: "MENU",
-    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_news: "NEWSLETTER", m_wakeup: "WAKE UP",
+    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
     hero_cta: "↓ EXPLORE",
     manifesto: "DREAMS MATERIALIZERS. WE TAKE IDEAS, PUSH THE LIMITS OF CREATIVITY AND BRING THEM INTO REALITY.",
     drops_title: "CRTV",
@@ -54,9 +51,6 @@ const I18N = {
     ab_c1t: "BELIEVE", ab_c1d: "Believe in yourself, believe in your ideas.",
     ab_c2t: "CREATE", ab_c2d: "Never stop creating. Materialize those ideas: they are a gift.",
     ab_c3t: "GROW", ab_c3d: "Once you do the first two, it is inevitable.",
-    nl_title: "JOIN OUR NEWSLETTER AND START CREATING.",
-    nl_label: "Your email",
-    nl_btn: "SUBSCRIBE →",
     wu_kicker: "PROGRAM",
     wu_sub: "Creativity is not something you train: it is something you remember. It was put to sleep inside you, and you can wake it up. Wake up your potential, your purpose, the purest way of creating that lives in you.",
     wu_f1: "Wake-up program.",
@@ -214,6 +208,7 @@ function step() {
 
   flyingEl.textContent = "FLYING " + Math.round(p * 100) + "%";
   document.body.classList.toggle("scrolled", window.scrollY > 40);
+  depthUpdate();
   // El velo tapa más en el día (cielo claro) y menos en la noche.
   scrim.style.opacity = (1 - 0.6 * p).toFixed(3);
 
@@ -223,6 +218,74 @@ function step() {
     if (use === targetIndex) needsDraw = false;
   }
 }
+
+
+/* ============================================================
+   PROFUNDIDAD: cada bloque llega desde el fondo, se enfoca y
+   sale hacia el frente, como si volaras a través de él.
+   ------------------------------------------------------------
+   `p` es dónde está el bloque respecto al centro de la pantalla,
+   medido en pantallas:  +1 = una pantalla más abajo (lejos, atrás)
+                          0 = justo en el centro (enfocado)
+                         -1 = una pantalla más arriba (ya te pasó)
+   ============================================================ */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Bloques grandes (secciones) y elementos sueltos (filas, tarjetas).
+   Los sueltos se mueven menos para que no se pisen entre ellos. */
+const DEPTH = {
+  scene: { farIn: 0.85, near: 0.14, farOut: -0.80, scaleIn: 0.72, scaleOut: 1.50, blur: 7 },
+  item:  { farIn: 0.75, near: 0.12, farOut: -0.65, scaleIn: 0.86, scaleOut: 1.16, blur: 2.5 }
+};
+
+let depthEls = [];
+
+function collectDepth() {
+  depthEls = [...document.querySelectorAll(".depth, .depth-item")].map(el => ({
+    el,
+    cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
+    prev: ""
+  }));
+}
+
+function depthUpdate() {
+  if (reduceMotion || !depthEls.length) return;
+
+  const vh = window.innerHeight;
+  const mid = vh / 2;
+
+  for (const d of depthEls) {
+    const r = d.el.getBoundingClientRect();
+    const p = (r.top + r.height / 2 - mid) / vh;
+    const c = d.cfg;
+
+    let scale, opacity, blur;
+
+    if (p > c.near) {
+      // Viene llegando desde atrás.
+      const e = clamp01((c.farIn - p) / (c.farIn - c.near));
+      scale = c.scaleIn + (1 - c.scaleIn) * e;
+      opacity = e * e;                       // aparece suave, no de golpe
+      blur = c.blur * (1 - e);
+    } else if (p < -c.near) {
+      // Ya te pasó: sigue creciendo y se desvanece hacia el frente.
+      const x = clamp01((-c.near - p) / (-c.near - c.farOut));
+      scale = 1 + (c.scaleOut - 1) * x;
+      opacity = 1 - x * x;
+      blur = c.blur * x;
+    } else {
+      // En foco: nítido y completo, para que se pueda leer.
+      scale = 1; opacity = 1; blur = 0;
+    }
+
+    const t = "scale(" + scale.toFixed(4) + ")";
+    if (t !== d.prev) { d.el.style.transform = t; d.prev = t; }
+    d.el.style.opacity = opacity.toFixed(3);
+    d.el.style.filter = blur > 0.06 ? "blur(" + blur.toFixed(2) + "px)" : "";
+  }
+}
+
+function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
 
 
 /* ------------------------------------------------------------
@@ -254,7 +317,7 @@ function renderList() {
   listEl.innerHTML = "";
   items.forEach(p => {
     const li = document.createElement("li");
-    li.className = "project-item " + p.status;   // "soon" sale con las letras borrosas
+    li.className = "project-item depth-item " + p.status;  // "soon" sale con las letras borrosas
 
     const a = document.createElement("a");
     a.href = "#" + p.id;
@@ -281,6 +344,9 @@ function renderList() {
     li.appendChild(a);
     listEl.appendChild(li);
   });
+
+  collectDepth();   // las filas nuevas también entran a la animación
+  depthUpdate();
 }
 
 document.querySelectorAll(".filter").forEach(btn => {
@@ -410,9 +476,8 @@ function fillContact() {
     ul.appendChild(li);
   });
 
-  const action = "https://formsubmit.co/" + SITE.leadEmail;
-  document.getElementById("lead-form").action = action;
-  document.getElementById("news-form").action = action;
+  document.getElementById("lead-form").action =
+    "https://formsubmit.co/" + SITE.leadEmail;
 }
 
 
@@ -427,6 +492,7 @@ setInterval(updateClocks, 30000);
 
 sizeCanvas();
 initSky(pickSet());
+collectDepth();
 schedule();
 
 window.addEventListener("scroll", schedule, { passive: true });

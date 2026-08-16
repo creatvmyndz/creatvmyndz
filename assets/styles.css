@@ -246,12 +246,43 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   border: 0;
 }
 
-/* ===== MANIFIESTO ===== */
-.manifesto {
-  padding: clamp(4rem, 12vw, 9rem) 1.2rem;
+/* ============================================================
+   PROFUNDIDAD
+   Cada bloque llega desde el fondo, se enfoca y sale al frente.
+   Las posiciones las calcula assets/app.js según el scroll; aquí
+   solo preparamos los elementos para que el navegador lo mueva
+   con la tarjeta gráfica y no se sienta pesado.
+   ============================================================ */
+.scene {
+  min-height: 100svh;
   display: flex;
+  align-items: center;
   justify-content: center;
 }
+
+/* Al crecer, los bloques se salen por los lados a propósito (así se siente
+   que te pasan por al lado). Los recortamos aquí para que eso no ensanche
+   la página ni permita moverla en horizontal en el celular.
+   `clip` en vez de `hidden`: no crea un contenedor de scroll. */
+.scene, .drops { overflow-x: clip; }
+
+.depth, .depth-item {
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+.depth { will-change: transform, opacity; }
+
+/* Si el sistema pide menos movimiento, todo se ve quieto y completo. */
+@media (prefers-reduced-motion: reduce) {
+  .depth, .depth-item {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
+
+/* ===== MANIFIESTO ===== */
+.manifesto { padding: clamp(4rem, 12vw, 9rem) 1.2rem; }
 .manifesto p {
   max-width: 50rem;
   font-size: clamp(1.05rem, 3vw, 1.9rem);
@@ -299,6 +330,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .filter.active { background: var(--white); color: var(--navy-deep); border-color: var(--white); }
 
 .project-list { max-width: 68rem; margin: 0 auto; list-style: none; }
+
+.project-item { margin: clamp(0.5rem, 1.8vh, 1.5rem) 0; }
 
 .project-item a {
   display: flex;
@@ -355,8 +388,9 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 
 /* ===== QUIÉNES SOMOS ===== */
 .about { padding: clamp(4rem, 10vw, 8rem) 1.2rem; }
+.about-inner { width: 100%; }
 .about-inner { max-width: 46rem; margin: 0 auto; text-align: center; }
-.about h2, .news h2 {
+.about h2 {
   font-size: clamp(1.5rem, 4vw, 2.4rem);
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -402,52 +436,9 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   color: var(--white);
 }
 
-/* ===== NEWSLETTER ===== */
-.news { padding: clamp(4rem, 10vw, 8rem) 1.2rem; }
-.news-inner { max-width: 42rem; margin: 0 auto; text-align: center; }
-.news p {
-  margin-top: 1.2rem;
-  font-size: clamp(0.95rem, 2.2vw, 1.1rem);
-  color: var(--white);
-  text-shadow: var(--shadow);
-}
-.contact-mail {
-  display: inline-block;
-  margin-top: 1.8rem;
-  font-size: clamp(1.05rem, 4vw, 1.9rem);
-  font-weight: 800;
-  color: var(--white);
-  text-shadow: var(--shadow);
-  border-bottom: 2px solid var(--accent);
-  padding-bottom: 0.2rem;
-  word-break: break-all;
-}
-.contact-social {
-  list-style: none;
-  margin-top: 2.4rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem;
-}
-.contact-social a {
-  display: inline-block;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--white);
-  padding: 0.5rem 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  border-radius: 999px;
-  transition: background 0.15s;
-}
-.contact-social a:hover { background: rgba(255, 255, 255, 0.18); }
-
-.news-form { margin-top: 2.4rem; }
-.news .contact-mail { font-size: clamp(0.9rem, 2.4vw, 1.15rem); margin-top: 1.6rem; }
-
 /* ===== WAKE UP ===== */
-.wakeup { padding: clamp(4rem, 11vw, 9rem) 1.2rem; }
+.wakeup { padding: clamp(5rem, 12vw, 9rem) 1.2rem; }
+.wakeup-inner { width: 100%; }
 
 .wakeup-inner { max-width: 44rem; margin: 0 auto; text-align: center; }
 
@@ -506,8 +497,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   margin-bottom: 1rem;
 }
 
-.wakeup-row, .news-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
-.wakeup-row input, .news-row input {
+.wakeup-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.wakeup-row input {
   font-family: inherit;
   font-size: 0.95rem;
   padding: 0.9rem 1.2rem;
@@ -518,9 +509,9 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   color: var(--white);
   outline: none;
 }
-.wakeup-row input::placeholder, .news-row input::placeholder { color: rgba(255, 255, 255, 0.5); }
-.wakeup-row input:focus, .news-row input:focus { border-color: var(--accent); }
-.wakeup-row button, .news-row button {
+.wakeup-row input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.wakeup-row input:focus { border-color: var(--accent); }
+.wakeup-row button {
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -531,7 +522,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   border-radius: 10px;
   transition: transform 0.12s;
 }
-.wakeup-row button:hover, .news-row button:hover { transform: translateY(-2px); }
+.wakeup-row button:hover { transform: translateY(-2px); }
 
 .wakeup-note {
   margin-top: 1.1rem;
@@ -543,12 +534,13 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 
 /* ===== FOOTER ===== */
 .footer {
-  padding: 2.4rem 1.2rem;
+  padding: 3.5rem 1.2rem 2.4rem;
   padding-bottom: max(2.4rem, env(safe-area-inset-bottom));
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.8rem;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -556,6 +548,14 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   text-shadow: var(--shadow);
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   margin-top: 2rem;
+}
+
+.footer-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.5rem;
+  opacity: 0.75;
 }
 
 /* ===== MODAL ===== */

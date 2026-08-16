@@ -47,23 +47,22 @@
     <ul class="menu-list">
       <li><a href="#crtv"><span class="menu-num">01</span><span data-i18n="m_projects">CRTV</span></a></li>
       <li><a href="#nosotros"><span class="menu-num">02</span><span data-i18n="m_about">CREATIVE DEALERS</span></a></li>
-      <li><a href="#newsletter"><span class="menu-num">03</span><span data-i18n="m_news">NEWSLETTER</span></a></li>
-      <li><a href="#wakeup"><span class="menu-num">04</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
+      <li><a href="#wakeup"><span class="menu-num">03</span><span data-i18n="m_wakeup">WAKE UP</span></a></li>
     </ul>
     <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
   </nav>
 
   <!-- ===== HERO ===== -->
-  <section class="hero" id="inicio">
-    <div class="hero-inner">
+  <section class="hero scene" id="inicio">
+    <div class="hero-inner depth">
       <img class="logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
       <a class="hero-cta" href="#manifiesto" data-i18n="hero_cta">↓ NAVEGAR</a>
     </div>
   </section>
 
   <!-- ===== MANIFIESTO ===== -->
-  <section class="manifesto" id="manifiesto">
-    <p data-i18n="manifesto">
+  <section class="manifesto scene" id="manifiesto">
+    <p class="depth" data-i18n="manifesto">
       DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD
       Y LAS TRAEMOS A LA REALIDAD.
     </p>
@@ -71,7 +70,7 @@
 
   <!-- ===== CRTV (proyectos) ===== -->
   <main class="drops" id="crtv">
-    <div class="drops-head">
+    <div class="drops-head depth">
       <h2 data-i18n="drops_title">CRTV</h2>
       <div class="filters" role="group" aria-label="Filtrar proyectos">
         <button class="filter active" data-filter="all"  data-i18n="f_all">TODOS</button>
@@ -83,63 +82,45 @@
   </main>
 
   <!-- ===== CREATIVIDAD INFINITA (quiénes somos) ===== -->
-  <section class="about" id="nosotros">
+  <section class="about scene" id="nosotros">
     <div class="about-inner">
-      <h2 data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
-      <p data-i18n="ab_p1">
-        Creemos en la creatividad como propósito de vida y razón de nuestra existencia.
-        Todos somos creativos, y tenemos ese don.
-      </p>
+      <div class="depth">
+        <h2 data-i18n="ab_title">CREATIVIDAD INFINITA</h2>
+        <p data-i18n="ab_p1">
+          Creemos en la creatividad como propósito de vida y razón de nuestra existencia.
+          Todos somos creativos, y tenemos ese don.
+        </p>
+      </div>
       <ul class="about-grid">
-        <li><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
-        <li><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
-        <li><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
+        <li class="depth-item"><strong data-i18n="ab_c1t">CREER</strong><span data-i18n="ab_c1d">Cree en ti, cree en tus ideas.</span></li>
+        <li class="depth-item"><strong data-i18n="ab_c2t">CREAR</strong><span data-i18n="ab_c2d">Nunca pares de crear. Materializa esas ideas: son un regalo.</span></li>
+        <li class="depth-item"><strong data-i18n="ab_c3t">CRECER</strong><span data-i18n="ab_c3d">Cuando cumples la 1 y la 2, es inevitable.</span></li>
       </ul>
-    </div>
-  </section>
-
-  <!-- ===== NEWSLETTER =====
-       Sección libre: aquí puedes montar después lo que quieras. -->
-  <section class="news" id="newsletter">
-    <div class="news-inner">
-      <h2 data-i18n="nl_title">ÚNETE A NUESTRA NEWSLETTER Y COMIENZA A CREAR.</h2>
-
-      <form class="news-form" id="news-form" method="POST">
-        <input type="hidden" name="_subject" value="Nuevo suscriptor newsletter">
-        <input type="hidden" name="_captcha" value="false">
-        <div class="news-row">
-          <label class="sr-only" for="news-email" data-i18n="nl_label">Tu correo</label>
-          <input id="news-email" name="email" type="email" required
-                 placeholder="tucorreo@email.com" autocomplete="email">
-          <button type="submit" data-i18n="nl_btn">SUSCRIBIRME →</button>
-        </div>
-      </form>
-
-      <ul class="contact-social" id="contact-social"></ul>
-      <a class="contact-mail" id="contact-mail" href="#">—</a>
     </div>
   </section>
 
   <!-- ===== WAKE UP ===== -->
-  <section class="wakeup" id="wakeup">
+  <section class="wakeup scene" id="wakeup">
     <div class="wakeup-inner">
-      <p class="wakeup-kicker" data-i18n="wu_kicker">PROGRAMA</p>
-      <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
-      <p class="wakeup-sub" data-i18n="wu_sub">
-        La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro
-        de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito,
-        despierta la forma más pura de crear que hay en ti.
-      </p>
+      <div class="wakeup-head depth">
+        <p class="wakeup-kicker" data-i18n="wu_kicker">PROGRAMA</p>
+        <img class="wakeup-logo" src="assets/img/logo-wakeup.png" alt="WAKE UP!" width="261" height="197" loading="lazy">
+        <p class="wakeup-sub" data-i18n="wu_sub">
+          La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro
+          de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito,
+          despierta la forma más pura de crear que hay en ti.
+        </p>
+      </div>
 
       <ul class="wakeup-features">
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Programa despertar.</p></li>
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</p></li>
-        <li><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</p></li>
+        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f1">Programa despertar.</p></li>
+        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f2">Serie de audios e hipnosis para despertar tu CREATV.</p></li>
+        <li class="depth-item"><span aria-hidden="true">◉</span><p data-i18n="wu_f3">Acceso al Discord y a la comunidad CREATV MYNDZ.</p></li>
       </ul>
 
       <!-- Captura de leads. Cuando el programa esté a la venta, reemplaza este
            formulario por tu botón de compra (Stripe / Gumroad / Hotmart...). -->
-      <form class="wakeup-form" id="lead-form" method="POST">
+      <form class="wakeup-form depth" id="lead-form" method="POST">
         <input type="hidden" name="_subject" value="Nuevo lead WAKE UP">
         <input type="hidden" name="_captcha" value="false">
         <label for="email" data-i18n="wu_label">DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:</label>
@@ -153,8 +134,12 @@
   </section>
 
   <footer class="footer">
-    <p>CREATV MYNDZ © <span id="year"></span></p>
-    <p data-i18n="footer_line">CREATIVE DEALERS</p>
+    <ul class="contact-social" id="contact-social"></ul>
+    <a class="contact-mail" id="contact-mail" href="#">—</a>
+    <div class="footer-line">
+      <span>CREATV MYNDZ © <span id="year"></span></span>
+      <span data-i18n="footer_line">CREATIVE DEALERS</span>
+    </div>
   </footer>
 
   <!-- ===== MODAL DE PROYECTO ===== -->
