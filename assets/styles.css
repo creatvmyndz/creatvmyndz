@@ -344,6 +344,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 .project-inner:hover, .project-inner:focus-visible { opacity: 0.8; }
 
+.playground-logo {
+  width: min(80vw, 620px);
+  height: auto;
+  filter: drop-shadow(0 8px 30px rgba(10, 18, 56, 0.5));
+}
+
 .p-num {
   font-size: 0.78rem;
   font-weight: 600;
@@ -616,13 +622,15 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .mask-screen {
   min-height: 100svh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 6rem 1.2rem 3rem;
+  gap: clamp(0.8rem, 3svh, 2rem);
+  padding: 5.2rem 1.2rem 1.5rem;
 }
 
 .mask-hero-logo {
-  width: min(70vw, 480px);
+  width: min(30vw, 200px);
   height: auto;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.55));
   /* Sigue el gesto que trae de la portada: llega chiquito y crece a su
@@ -635,28 +643,18 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 /* ===== DROP #10: máscara girando en 3D (creativmask.html) =====
-   La sección usa la misma mecánica .scene/.pin de arriba (se ancla
-   mientras giras), pero sin depender de app.js: assets/mask3d.js la
-   mueve sola — el .pin ya viene con pointer-events:none, así que aquí
-   se lo devolvemos a la fila para poder arrastrar la barra.
-   Más baja que una .scene normal: la fila no necesita tanto recorrido
-   para girar las 121 fotos, y así no queda tanto rojo vacío. */
-.mask3d-section.scene { min-height: 150svh; }
-.mask3d-section .pin { align-items: center; padding-top: 2rem; padding-bottom: 2rem; }
-
+   Va debajo del logo, en la misma pantalla — nada de scroll para verla.
+   La máscara gira arrastrando la barra (assets/mask3d.js), no con el
+   scroll de la página. */
 .mask3d-row {
   display: flex;
   align-items: center;
-  gap: clamp(1.6rem, 5vw, 4rem);
+  gap: clamp(1.2rem, 4vw, 3rem);
   max-width: 74rem;
   width: 100%;
-  pointer-events: auto;
-  opacity: 0;
-  transition: opacity 0.25s ease;
 }
-.mask3d-row.visible { opacity: 1; }
 
-.mask3d-visual { flex: none; width: min(46vw, 300px); }
+.mask3d-visual { flex: none; width: min(26vw, 190px); }
 .mask3d-visual canvas {
   display: block;
   width: 100%;
@@ -666,22 +664,22 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 
 .mask3d-scrub {
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 0.8rem;
   accent-color: var(--accent);
 }
 
 .mask3d-copy { flex: 1; min-width: 0; color: var(--white); text-shadow: var(--shadow); }
 .mask3d-copy h2 {
-  font-size: clamp(1.5rem, 3.6vw, 2.3rem);
+  font-size: clamp(1.05rem, 2.2vw, 1.6rem);
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.6rem;
   text-wrap: balance;
 }
 .mask3d-copy p {
-  font-size: 0.95rem;
-  line-height: 1.65;
-  margin-bottom: 1rem;
+  font-size: clamp(0.72rem, 1.1vw, 0.88rem);
+  line-height: 1.42;
+  margin-bottom: 0.55rem;
   opacity: 0.92;
 }
 .mask3d-drop {
@@ -691,8 +689,13 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 @media (max-width: 780px) {
-  .mask3d-row { flex-direction: column; text-align: center; }
-  .mask3d-visual { width: min(62vw, 260px); }
+  .mask-screen { gap: 0.6rem; padding: 4.6rem 1.2rem 1.2rem; }
+  .mask-hero-logo { width: min(24vw, 140px); }
+  .mask3d-row { flex-direction: column; text-align: center; gap: 0.7rem; }
+  .mask3d-visual { width: min(40vw, 170px); }
+  .mask3d-copy p { display: none; }
+  .mask3d-copy p.mask3d-drop { display: block; }
+  .mask3d-copy h2 { font-size: clamp(0.95rem, 4vw, 1.2rem); margin-bottom: 0.4rem; }
 }
 
 /* ===== MÓVIL ===== */

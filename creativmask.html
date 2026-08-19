@@ -33,15 +33,13 @@
     </div>
   </header>
 
+  <!-- ===== TODO EN UNA SOLA PANTALLA: arriba el logo, debajo el DROP #10
+       (la máscara girando + el texto de la campaña) — sin scroll. La
+       máscara gira arrastrando la barra de abajo. ===== -->
   <main class="mask-screen">
     <img class="mask-hero-logo" src="assets/img/logo-creativmask.png" alt="CREATV MASK" width="1024" height="1024">
-  </main>
 
-  <!-- ===== DROP #10: la máscara gira en 3D con el scroll (o arrastrando
-       la barra) mientras al lado va el texto de la campaña ===== -->
-  <section class="mask3d-section scene" id="mask3d">
-   <div class="pin">
-    <div class="mask3d-row">
+    <div class="mask3d-row" id="mask3d">
       <div class="mask3d-visual">
         <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
         <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
@@ -54,8 +52,7 @@
         <p>El 100% de las ganancias de este CRTV serán donadas a causas que apoyen a la reconstrucción, alimentación y acompañamiento a las víctimas del pasado terremoto en Colombia.</p>
       </div>
     </div>
-   </div>
-  </section>
+  </main>
 
   <script src="assets/mask3d.js"></script>
 </body>
