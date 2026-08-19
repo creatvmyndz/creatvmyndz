@@ -106,7 +106,7 @@
 
     // La fila se ve solo mientras la sección está anclada (o si el
     // sistema pide menos movimiento, siempre visible sin animar).
-    if (row) row.classList.toggle("visible", reduceMotion || (p > 0.02 && p < 0.98) || section.getBoundingClientRect().top < vh * 0.5);
+    if (row) row.classList.toggle("visible", reduceMotion || p < 0.98 || section.getBoundingClientRect().top < vh * 0.5);
 
     if (!userScrubbing) {
       const idx = Math.round(p * (TOTAL - 1));

@@ -638,7 +638,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    La sección usa la misma mecánica .scene/.pin de arriba (se ancla
    mientras giras), pero sin depender de app.js: assets/mask3d.js la
    mueve sola — el .pin ya viene con pointer-events:none, así que aquí
-   se lo devolvemos a la fila para poder arrastrar la barra. */
+   se lo devolvemos a la fila para poder arrastrar la barra.
+   Más baja que una .scene normal: la fila no necesita tanto recorrido
+   para girar las 121 fotos, y así no queda tanto rojo vacío. */
+.mask3d-section.scene { min-height: 150svh; }
+.mask3d-section .pin { align-items: center; padding-top: 2rem; padding-bottom: 2rem; }
+
 .mask3d-row {
   display: flex;
   align-items: center;
