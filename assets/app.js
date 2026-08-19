@@ -226,7 +226,8 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
    mientras el siguiente ya viene llegando desde el fondo. */
 const DEPTH = {
   scene: { scaleIn: 0.25, scaleOut: 1.15, blur: 14 },
-  item:  { scaleIn: 0.82, scaleOut: 1.12, blur: 6 }
+  item:  { scaleIn: 0.82, scaleOut: 1.12, blur: 6 },
+  row:   { scaleIn: 0.35, scaleOut: 1.22, blur: 10 }   // cada CRTV de la lista
 };
 
 /* El tamaño tarda todo el acercamiento en crecer, pero el enfoque (nitidez
@@ -252,7 +253,9 @@ function collectDepth() {
       // "close": se ve definida aunque venga chiquita de lejos — el
       // desenfoque solo aparece cuando ya casi te pasa por al lado.
       blurClose: scene ? scene.dataset.blur === "close" : false,
-      cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
+      cfg: el.classList.contains("project-row") ? DEPTH.row
+         : el.classList.contains("depth-item") ? DEPTH.item
+         : DEPTH.scene,
       pT: "", pO: "", pF: "", pP: ""
     };
   });
@@ -448,31 +451,23 @@ function fillContact() {
 /* ------------------------------------------------------------
    LISTA COMPLETA DE CRTV (solo en playground.html)
    ------------------------------------------------------------
-   Cada CRTV es una sección principal más: llega, se ancla al centro y
-   se despide, con la misma mecánica .scene/.pin/.depth que "Dreams",
-   "Creatividad infinita" o "Wake up".
+   Una lista de verdad — se recorre con el scroll normal, no una
+   pantalla completa por CRTV (con 14 te perdías entre tantas). Cada
+   uno sigue siendo solo la letra flotando sobre el cielo, sin tarjeta,
+   y llega desde izquierda/centro/derecha para que no se sienta en
+   fila — misma idea que la portada, pero de un tirón.
    ------------------------------------------------------------ */
 const listEl = document.getElementById("project-list");
-
-/* Cada CRTV aterriza en un punto distinto de la colina: izquierda,
-   centro, derecha, y vuelve a empezar — así no se sienten en fila. */
 const DIRS = ["dir-left", "dir-center", "dir-right"];
 
 function renderProjectList() {
   listEl.innerHTML = "";
   PROJECTS.forEach((p, i) => {
-    const section = document.createElement("section");
-    section.className = "project-scene scene " + p.status;
-    section.dataset.blur = "close";
-    // El último se queda quieto hasta el final (como wake up), en vez
-    // de desvanecerse antes de llegar al fondo de la página.
-    if (i === PROJECTS.length - 1) section.dataset.exit = "no";
-
-    const pin = document.createElement("div");
-    pin.className = "pin " + DIRS[i % DIRS.length];
+    const li = document.createElement("li");
+    li.className = "project-row depth-item " + p.status + " " + DIRS[i % DIRS.length];
 
     const a = document.createElement("a");
-    a.className = "project-inner depth";
+    a.className = "project-inner";
     a.href = "#" + p.id;
 
     const num = document.createElement("span");
@@ -488,9 +483,8 @@ function renderProjectList() {
     tag.textContent = t("tag_" + p.status);
 
     a.append(num, title, tag);
-    pin.appendChild(a);
-    section.appendChild(pin);
-    listEl.appendChild(section);
+    li.appendChild(a);
+    listEl.appendChild(li);
   });
 }
 

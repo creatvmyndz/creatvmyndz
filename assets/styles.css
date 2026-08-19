@@ -271,11 +271,6 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   pointer-events: none;
 }
 
-/* Cada CRTV del playground aterriza en un punto distinto de la colina
-   en vez de siempre caer al centro (ver assets/app.js). */
-.pin.dir-left  { justify-content: flex-start; }
-.pin.dir-right { justify-content: flex-end; }
-
 /* Al crecer, los bloques se salen por los lados a propósito (así se siente
    que te pasan por al lado). Los recortamos aquí para que eso no ensanche
    la página ni permita moverla en horizontal en el celular.
@@ -286,6 +281,11 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    cuando la anterior empieza a despedirse (todavía anclada ella también),
    para que se crucen en el aire en vez de dejar un hueco. */
 .scene + .scene { margin-top: -150svh; }
+
+/* En playground.html, la lista de CRTV (dentro de <main>) no es una
+   sección anclada — con esto entra justo cuando el título de arriba ya
+   es invisible, sin dejar un tramo de scroll vacío en medio. */
+.scene + main { margin-top: -100svh; }
 
 .depth, .depth-item {
   transform-origin: 50% 50%;
@@ -370,9 +370,35 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 .p-tag.soon { color: var(--accent); opacity: 1; }
 
+/* ===== LISTA DE CRTV (playground.html) =====
+   Una lista de verdad, no una pantalla por CRTV: se recorre con el
+   scroll normal (mecánica .depth-item, no .scene/.pin). Cada uno sigue
+   siendo solo la letra sobre el cielo, sin tarjeta ni fondo, y aterriza
+   en un punto distinto — izquierda, centro, derecha — para que no se
+   sienta como una lista aburrida. */
+.project-list {
+  list-style: none;
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: 2vh 1.2rem 22vh;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 14vh, 9rem);
+  overflow-x: clip;
+}
+
+.project-row { width: fit-content; max-width: 100%; }
+.project-row.dir-left   { margin-right: auto; }
+.project-row.dir-center { margin: 0 auto; }
+.project-row.dir-right  { margin-left: auto; }
+.project-row.dir-left   .project-inner { align-items: flex-start; text-align: left; }
+.project-row.dir-right  .project-inner { align-items: flex-end; text-align: right; }
+
+.project-row .p-title { font-size: clamp(2rem, 6.4vw, 3.8rem); }
+
 /* Los próximos van borrosos: se intuyen, no se leen. */
-.project-scene.soon .p-title { filter: blur(7px); opacity: 0.85; }
-.project-scene.soon .project-inner:hover .p-title { filter: blur(3px); }
+.project-row.soon .p-title { filter: blur(6px); opacity: 0.85; }
+.project-row.soon .project-inner:hover .p-title { filter: blur(2.5px); }
 
 /* ===== QUIÉNES SOMOS ===== */
 .about-inner { width: 100%; }
@@ -618,7 +644,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   .topbar-right .lang { padding: 0.22rem 0.45rem; }
   .logo { width: min(56vw, 300px); }
   .p-num { font-size: 0.68rem; }
-  .project-scene.soon .p-title { filter: blur(3.5px); }
+  .project-row.soon .p-title { filter: blur(3.5px); }
   .footer { justify-content: center; text-align: center; }
 }
 
