@@ -471,7 +471,7 @@ function renderProjectList() {
 
     const a = document.createElement("a");
     a.className = "project-inner";
-    a.href = "#" + p.id;
+    a.href = p.link || ("#" + p.id);
 
     const num = document.createElement("span");
     num.className = "p-num";

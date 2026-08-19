@@ -611,6 +611,16 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 @keyframes fallSky { to { opacity: 0; } }
 @keyframes fallGround { to { width: 300vmax; height: 300vmax; margin: -150vmax 0 0 -150vmax; } }
 
+/* ===== PÁGINA DE DETALLE DE CADA CRTV (crtv-*.html) =====
+   Cada una es una sola imagen larga (el diseño completo, exportado tal
+   cual de Canva) a todo el ancho — así no se pierde nada de calidad ni
+   de diseño al pasarlo a HTML. La barra de arriba queda flotando encima. */
+.crtv-detail img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* ===== CREATV MASK (creativmask.html) ===== */
 .mask-bg {
   position: fixed;
