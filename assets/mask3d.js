@@ -103,10 +103,15 @@
     const top = section.getBoundingClientRect().top + window.scrollY;
     const anclado = Math.max(1, section.offsetHeight - vh);
     const p = Math.min(1, Math.max(0, (window.scrollY - top) / anclado));
+    // Antes de llegar, p igual da 0 (queda pegado en 0..1) — sin este
+    // chequeo, la fila se mostraba mientras el .pin TODAVÍA no está
+    // anclado (sigue en su lugar normal, más abajo), y se veía "flotando"
+    // cerca del borde de abajo con un hueco enorme arriba.
+    const reached = window.scrollY >= top;
 
-    // La fila se ve solo mientras la sección está anclada (o si el
+    // La fila se ve solo mientras la sección ya está anclada (o si el
     // sistema pide menos movimiento, siempre visible sin animar).
-    if (row) row.classList.toggle("visible", reduceMotion || p < 0.98 || section.getBoundingClientRect().top < vh * 0.5);
+    if (row) row.classList.toggle("visible", reduceMotion || (reached && p < 0.98));
 
     if (!userScrubbing) {
       const idx = Math.round(p * (TOTAL - 1));
