@@ -2,14 +2,6 @@
    CREATV MYNDZ — LÓGICA DE LA PÁGINA
    ============================================================ */
 
-/* Prefijo de los proyectos: CRTV 01, CRTV 02, ...
-   Si algún día quieres otra palabra, cámbiala aquí. */
-const PREFIX = "CRTV";
-const code = n => (n === null || n === undefined)
-  ? PREFIX
-  : PREFIX + " " + String(n).padStart(2, "0");
-
-
 /* ------------------------------------------------------------
    TRADUCCIONES DE LA INTERFAZ
    ------------------------------------------------------------ */
@@ -17,10 +9,7 @@ const I18N = {
   es: {
     menu: "MENÚ",
     m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    hero_cta: "↓ NAVEGAR",
-    manifesto: "DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD Y LAS TRAEMOS A LA REALIDAD.",
-    drops_title: "CRTV",
-    f_all: "TODOS", f_done: "HECHOS", f_soon: "PRÓXIMOS",
+    crtv_cta: "VER TODOS LOS CRTV →",
     tag_done: "HECHO", tag_soon: "PRÓXIMO",
     ab_title: "CREATIVIDAD INFINITA",
     ab_p1: "Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.",
@@ -34,17 +23,12 @@ const I18N = {
     wu_f3: "Acceso al Discord y a la comunidad CREATV MYNDZ.",
     wu_label: "DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:",
     wu_btn: "DESPERTAR →",
-    footer_line: "CREATIVE DEALERS",
-    modal_cta: "¿QUIERES CREAR ASÍ? → WAKE UP",
-    view_project: "VER PROYECTO ↗"
+    footer_line: "CREATIVE DEALERS"
   },
   en: {
     menu: "MENU",
     m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    hero_cta: "↓ EXPLORE",
-    manifesto: "DREAMS MATERIALIZERS. WE TAKE IDEAS, PUSH THE LIMITS OF CREATIVITY AND BRING THEM INTO REALITY.",
-    drops_title: "CRTV",
-    f_all: "ALL", f_done: "DONE", f_soon: "UPCOMING",
+    crtv_cta: "SEE ALL CRTV →",
     tag_done: "DONE", tag_soon: "UPCOMING",
     ab_title: "INFINITE CREATIVITY",
     ab_p1: "We believe creativity is a life purpose and the reason we exist. We are all creative — that gift is already in you.",
@@ -58,14 +42,11 @@ const I18N = {
     wu_f3: "Access to the Discord and the CREATV MYNDZ community.",
     wu_label: "LEAVE YOUR EMAIL AND BE AMONG THE FIRST TO GET IN:",
     wu_btn: "WAKE UP →",
-    footer_line: "CREATIVE DEALERS",
-    modal_cta: "WANT TO CREATE LIKE THIS? → WAKE UP",
-    view_project: "VIEW PROJECT ↗"
+    footer_line: "CREATIVE DEALERS"
   }
 };
 
 let lang = localStorage.getItem("cm-lang") || "es";
-let activeFilter = "all";
 const t = key => (I18N[lang] && I18N[lang][key]) || I18N.es[key] || "";
 
 
@@ -76,10 +57,13 @@ const t = key => (I18N[lang] && I18N[lang][key]) || I18N.es[key] || "";
    usamos la secuencia de imágenes del video dibujada en un canvas.
    Es la misma técnica que usa Apple y va fluida en iPhone/Android.
    ============================================================ */
-const SKY_TOTAL = 121;               // frames disponibles en assets/sky/
+const SKY_TOTAL = 121;               // frames disponibles por carpeta
 const canvas = document.getElementById("sky");
 const ctx = canvas.getContext("2d", { alpha: false });
 const scrim = document.getElementById("scrim");
+// index.html usa el cielo (assets/sky); playground.html marca en el HTML
+// data-frames="assets/floor" para usar el pasto en su lugar — mismo motor.
+const FRAMES_DIR = canvas.dataset.frames || "assets/sky";
 
 const conn = navigator.connection || {};
 const saveData = !!conn.saveData;
@@ -116,7 +100,7 @@ function initSky(set) {
 }
 
 function src(i) {
-  return "assets/sky/" + skySet + "/" + String(frameIds[i]).padStart(4, "0") + ".webp";
+  return FRAMES_DIR + "/" + skySet + "/" + String(frameIds[i]).padStart(4, "0") + ".webp";
 }
 
 function loadFrame(i, done) {
@@ -241,9 +225,14 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
    aclara hasta quedar nítido y legible. Luego sigue de largo hacia ti
    mientras el siguiente ya viene llegando desde el fondo. */
 const DEPTH = {
-  scene: { scaleIn: 0.70, scaleOut: 1.26, blur: 12 },
+  scene: { scaleIn: 0.25, scaleOut: 1.15, blur: 14 },
   item:  { scaleIn: 0.82, scaleOut: 1.12, blur: 6 }
 };
+
+/* El tamaño tarda todo el acercamiento en crecer, pero el enfoque (nitidez
+   y opacidad) llega antes: a la mitad del camino ya se lee claro, y de ahí
+   en adelante solo sigue creciendo — nunca se ve grande Y borroso a la vez. */
+const FOCO = 0.5;
 
 /* El desenfoque es lo más caro de dibujar. En el celular lo bajamos a la
    mitad: la sensación de profundidad la sostienen el tamaño y la opacidad. */
@@ -260,16 +249,22 @@ function collectDepth() {
       scene,                                   // si está anclado, manda la sección
       noEnter: scene ? scene.dataset.enter === "no" : false,
       noExit:  scene ? scene.dataset.exit  === "no" : false,   // la última no se va
+      // "close": se ve definida aunque venga chiquita de lejos — el
+      // desenfoque solo aparece cuando ya casi te pasa por al lado.
+      blurClose: scene ? scene.dataset.blur === "close" : false,
       cfg: el.classList.contains("depth-item") ? DEPTH.item : DEPTH.scene,
       pT: "", pO: "", pF: "", pP: ""
     };
   });
 }
 
-/* Mientras la sección está anclada, se ve llegar (primer tramo) y luego
-   se queda quieta y nítida. Cuando se despega, se va hacia ti durante una
-   pantalla completa — justo mientras la siguiente ya está apareciendo. */
-const LLEGADA = 0.45;   // parte del tramo anclado que dura el acercamiento
+/* Mientras la sección está anclada (pegada arriba con position:sticky), se
+   ve llegar (primer tramo), se queda quieta y nítida, y luego se va hacia
+   ti (último tramo) — todo SIN moverse de sitio, solo creciendo y
+   disolviéndose. Solo cuando ya es invisible se despega y el scroll
+   normal se la lleva, así nunca se ve "subir" con la página. */
+const LLEGADA = 0.44;   // parte del tramo anclado que dura el acercamiento
+const SALIDA  = 0.44;   // parte del tramo anclado que dura la despedida
 
 function depthUpdate() {
   if (reduceMotion || !depthEls.length) return;
@@ -285,7 +280,7 @@ function depthUpdate() {
       const top = d.scene.getBoundingClientRect().top + y;
       const anclado = Math.max(1, d.scene.offsetHeight - vh);
       e = d.noEnter ? 1 : clamp01((y - top) / (anclado * LLEGADA));
-      x = d.noExit ? 0 : clamp01((y - top - anclado) / vh);
+      x = d.noExit ? 0 : clamp01((y - top - anclado * (1 - SALIDA)) / (anclado * SALIDA));
     } else {
       // Las filas de los CRTV viajan con la página.
       const r = d.el.getBoundingClientRect();
@@ -297,8 +292,22 @@ function depthUpdate() {
     const scale = e < 1
       ? c.scaleIn + (1 - c.scaleIn) * e
       : 1 + (c.scaleOut - 1) * x;
-    const opacity = (e * e) * Math.pow(1 - x, 1.6);
-    const blur = c.blur * BLUR_SCALE * Math.max(1 - e, x);
+
+    let opacity, blur;
+    if (d.blurClose) {
+      // e=0 significa que la sección todavía NO quedó anclada (.pin
+      // sigue subiendo con el scroll normal, como cualquier otro
+      // contenido). Si se viera ahí, parecería que "sube desde abajo".
+      // Por eso arranca invisible y aparece de golpe (ya nítida y
+      // chiquita) apenas queda anclada — nunca antes.
+      const pop = Math.min(1, e / 0.08);
+      opacity = e < 1 ? pop : Math.pow(1 - x, 1.6);
+      blur = c.blur * BLUR_SCALE * x;
+    } else {
+      const focus = Math.min(1, e / FOCO);
+      opacity = (focus * focus) * Math.pow(1 - x, 1.6);
+      blur = c.blur * BLUR_SCALE * Math.max(1 - focus, x);
+    }
 
     // Redondeamos: así el navegador no vuelve a dibujar por cambios que
     // el ojo no alcanza a ver. Es lo que mantiene el scroll fluido.
@@ -330,98 +339,17 @@ function applyLang() {
   });
   document.getElementById("lang-es").classList.toggle("active", lang === "es");
   document.getElementById("lang-en").classList.toggle("active", lang === "en");
-  renderList();
+
+  if (listEl) {
+    renderProjectList();   // las etiquetas HECHO/PRÓXIMO también cambian de idioma
+    collectDepth();
+    depthUpdate();
+  }
 }
 
 document.getElementById("lang-es").addEventListener("click", () => setLang("es"));
 document.getElementById("lang-en").addEventListener("click", () => setLang("en"));
 function setLang(l) { lang = l; localStorage.setItem("cm-lang", l); applyLang(); }
-
-
-/* ------------------------------------------------------------
-   LISTA DE PROYECTOS
-   ------------------------------------------------------------ */
-const listEl = document.getElementById("project-list");
-
-function renderList() {
-  const items = PROJECTS.filter(p => activeFilter === "all" || p.status === activeFilter);
-  listEl.innerHTML = "";
-  items.forEach(p => {
-    const li = document.createElement("li");
-    li.className = "project-item depth-item " + p.status;  // "soon" sale con las letras borrosas
-
-    const a = document.createElement("a");
-    a.href = "#" + p.id;
-
-    const num = document.createElement("span");
-    num.className = "p-num";
-    num.textContent = code(p.num);
-
-    const title = document.createElement("span");
-    title.className = "p-title";
-    title.textContent = p.title;
-
-    const tag = document.createElement("span");
-    tag.className = "p-tag " + p.status;
-    tag.textContent = t("tag_" + p.status);
-
-    a.append(num, title, tag);
-    a.addEventListener("click", e => {
-      if (p.link === "#wakeup") return;   // WAKE UP baja directo a su sección
-      e.preventDefault();
-      openModal(p);
-    });
-
-    li.appendChild(a);
-    listEl.appendChild(li);
-  });
-
-  collectDepth();   // las filas nuevas también entran a la animación
-  depthUpdate();
-}
-
-document.querySelectorAll(".filter").forEach(btn => {
-  btn.addEventListener("click", () => {
-    activeFilter = btn.dataset.filter;
-    document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b === btn));
-    renderList();
-  });
-});
-
-
-/* ------------------------------------------------------------
-   MODAL DE PROYECTO
-   ------------------------------------------------------------ */
-const modal = document.getElementById("modal");
-
-function openModal(p) {
-  document.getElementById("modal-num").textContent = code(p.num);
-  document.getElementById("modal-title").textContent = p.title;
-  document.getElementById("modal-meta").textContent =
-    [p.area, p.year, t("tag_" + p.status)].filter(Boolean).join(" · ");
-  document.getElementById("modal-desc").textContent = p.desc[lang] || p.desc.es;
-
-  const img = document.getElementById("modal-img");
-  img.hidden = !p.image;
-  if (p.image) { img.src = p.image; img.alt = p.title; }
-
-  const link = document.getElementById("modal-link");
-  const external = p.link && p.link !== "#wakeup";
-  link.hidden = !external;
-  if (external) { link.href = p.link; link.textContent = t("view_project"); }
-
-  modal.hidden = false;
-  lockScroll(true);
-  history.replaceState(null, "", "#" + p.id);
-}
-
-function closeModal() {
-  modal.hidden = true;
-  lockScroll(false);
-  history.replaceState(null, "", location.pathname);
-}
-
-modal.querySelectorAll("[data-close]").forEach(el => el.addEventListener("click", closeModal));
 
 
 /* ------------------------------------------------------------
@@ -449,8 +377,7 @@ menu.querySelectorAll("a").forEach(a => a.addEventListener("click", closeMenu));
 
 document.addEventListener("keydown", e => {
   if (e.key !== "Escape") return;
-  if (!modal.hidden) closeModal();
-  else if (!menu.hidden) closeMenu();
+  if (!menu.hidden) closeMenu();
 });
 
 /* Bloquea el scroll de fondo sin perder la posición (importante en iOS). */
@@ -489,33 +416,96 @@ function updateClocks() {
     `${c[0]} ${fmt("America/Bogota")} · ${c[1]} ${fmt("America/New_York")} · ${c[2]} ${fmt("Europe/Madrid")}`;
 }
 
+/* No todas las páginas tienen pie de página con contacto (playground.html
+   no lo tiene), así que cada pieza se llena solo si existe. */
 function fillContact() {
   const mail = document.getElementById("contact-mail");
-  mail.href = "mailto:" + SITE.contactEmail;
-  mail.textContent = SITE.contactEmail;
+  if (mail) {
+    mail.href = "mailto:" + SITE.contactEmail;
+    mail.textContent = SITE.contactEmail;
+  }
 
   const ul = document.getElementById("contact-social");
-  ul.innerHTML = "";
-  SITE.social.filter(s => s.url).forEach(s => {
-    const li = document.createElement("li");
-    const a = document.createElement("a");
-    a.href = s.url;
-    a.target = "_blank";
-    a.rel = "noopener";
-    a.textContent = s.label;
-    li.appendChild(a);
-    ul.appendChild(li);
-  });
+  if (ul) {
+    ul.innerHTML = "";
+    SITE.social.filter(s => s.url).forEach(s => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = s.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = s.label;
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  }
 
-  document.getElementById("lead-form").action =
-    "https://formsubmit.co/" + SITE.leadEmail;
+  const form = document.getElementById("lead-form");
+  if (form) form.action = "https://formsubmit.co/" + SITE.leadEmail;
 }
+
+
+/* ------------------------------------------------------------
+   LISTA COMPLETA DE CRTV (solo en playground.html)
+   ------------------------------------------------------------
+   Cada CRTV es una sección principal más: llega, se ancla al centro y
+   se despide, con la misma mecánica .scene/.pin/.depth que "Dreams",
+   "Creatividad infinita" o "Wake up".
+   ------------------------------------------------------------ */
+const listEl = document.getElementById("project-list");
+
+/* Cada CRTV aterriza en un punto distinto de la colina: izquierda,
+   centro, derecha, y vuelve a empezar — así no se sienten en fila. */
+const DIRS = ["dir-left", "dir-center", "dir-right"];
+
+function renderProjectList() {
+  listEl.innerHTML = "";
+  PROJECTS.forEach((p, i) => {
+    const section = document.createElement("section");
+    section.className = "project-scene scene " + p.status;
+    section.dataset.blur = "close";
+    // El último se queda quieto hasta el final (como wake up), en vez
+    // de desvanecerse antes de llegar al fondo de la página.
+    if (i === PROJECTS.length - 1) section.dataset.exit = "no";
+
+    const pin = document.createElement("div");
+    pin.className = "pin " + DIRS[i % DIRS.length];
+
+    const a = document.createElement("a");
+    a.className = "project-inner depth";
+    a.href = "#" + p.id;
+
+    const num = document.createElement("span");
+    num.className = "p-num";
+    num.textContent = code(p.num);
+
+    const title = document.createElement("span");
+    title.className = "p-title";
+    title.textContent = p.title;
+
+    const tag = document.createElement("span");
+    tag.className = "p-tag " + p.status;
+    tag.textContent = t("tag_" + p.status);
+
+    a.append(num, title, tag);
+    pin.appendChild(a);
+    section.appendChild(pin);
+    listEl.appendChild(section);
+  });
+}
+
+const PREFIX = "CRTV";
+const code = n => (n === null || n === undefined)
+  ? PREFIX
+  : PREFIX + " " + String(n).padStart(2, "0");
 
 
 /* ------------------------------------------------------------
    ARRANQUE
    ------------------------------------------------------------ */
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearEl = document.getElementById("year");
+if (yearEl) yearEl.textContent = new Date().getFullYear();
+
 applyLang();
 fillContact();
 updateClocks();
@@ -523,6 +513,8 @@ setInterval(updateClocks, 30000);
 
 sizeCanvas();
 initSky(pickSet());
+// applyLang() ya renderizó la lista (si existe) y llamó a collectDepth();
+// esto cubre lo que falta: hero/manifiesto/about/wakeup en la portada.
 collectDepth();
 schedule();
 
@@ -540,15 +532,12 @@ window.addEventListener("resize", () => {
   }, 180);
 });
 
-/* Si llegan con un enlace directo (#wakeup, #contacto, #un-proyecto)
-   los llevamos hasta allá. El navegador solo no siempre acierta porque
+/* Si llegan con un enlace directo (#wakeup, #nosotros, #crtv) los
+   llevamos hasta allá. El navegador solo no siempre acierta porque
    el cielo y los logos cambian la altura mientras cargan. */
 (function openFromHash() {
   const id = decodeURIComponent(location.hash.slice(1));
   if (!id) return;
-
-  const p = PROJECTS.find(x => x.id === id);
-  if (p && p.link !== "#wakeup") { openModal(p); return; }
 
   const section = document.getElementById(id);
   if (!section) return;

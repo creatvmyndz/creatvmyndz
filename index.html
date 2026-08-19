@@ -57,33 +57,29 @@
    <div class="pin">
     <div class="hero-inner depth">
       <img class="logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
-      <a class="hero-cta" href="#manifiesto" data-i18n="hero_cta">↓ NAVEGAR</a>
     </div>
    </div>
   </section>
 
-  <!-- ===== MANIFIESTO ===== -->
+  <!-- ===== MANIFIESTO (CREATV MASK) ===== -->
   <section class="manifesto scene" id="manifiesto">
    <div class="pin">
-    <p class="depth" data-i18n="manifesto">
-      DREAMS MATERIALIZERS. TOMAMOS LAS IDEAS, EXPLORAMOS LOS LÍMITES DE LA CREATIVIDAD
-      Y LAS TRAEMOS A LA REALIDAD.
-    </p>
+    <a class="mask-link depth" href="creativmask.html">
+      <img class="mask-logo" src="assets/img/logo-creativmask.png" alt="CREATV MASK" width="1024" height="1024">
+    </a>
    </div>
   </section>
 
-  <!-- ===== CRTV (proyectos) ===== -->
-  <main class="drops" id="crtv">
-    <div class="drops-head depth">
-      <h2 data-i18n="drops_title">CRTV</h2>
-      <div class="filters" role="group" aria-label="Filtrar proyectos">
-        <button class="filter active" data-filter="all"  data-i18n="f_all">TODOS</button>
-        <button class="filter" data-filter="done" data-i18n="f_done">HECHOS</button>
-        <button class="filter" data-filter="soon" data-i18n="f_soon">PRÓXIMOS</button>
-      </div>
-    </div>
-    <ol id="project-list" class="project-list"></ol>
-  </main>
+  <!-- ===== CRTV (creative playground) ===== -->
+  <section class="crtv scene" id="crtv">
+   <div class="pin">
+    <a class="project-inner depth" href="playground.html">
+      <span class="p-num">CRTV</span>
+      <span class="p-title">CREATIVE PLAYGROUND</span>
+      <span class="p-tag" data-i18n="crtv_cta">VER TODOS LOS CRTV →</span>
+    </a>
+   </div>
+  </section>
 
   <!-- ===== CREATIVIDAD INFINITA (quiénes somos) ===== -->
   <section class="about scene" id="nosotros">
@@ -142,28 +138,11 @@
   </section>
 
   <footer class="footer">
-    <ul class="contact-social" id="contact-social"></ul>
-    <a class="contact-mail" id="contact-mail" href="#">—</a>
     <div class="footer-line">
       <span>CREATV MYNDZ © <span id="year"></span></span>
       <span data-i18n="footer_line">CREATIVE DEALERS</span>
     </div>
   </footer>
-
-  <!-- ===== MODAL DE PROYECTO ===== -->
-  <div class="modal" id="modal" hidden>
-    <div class="modal-backdrop" data-close></div>
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <button class="modal-close" data-close aria-label="Cerrar">✕</button>
-      <p class="modal-num" id="modal-num"></p>
-      <h3 id="modal-title"></h3>
-      <p class="modal-meta" id="modal-meta"></p>
-      <img id="modal-img" alt="" hidden>
-      <p class="modal-desc" id="modal-desc"></p>
-      <a class="modal-link" id="modal-link" target="_blank" rel="noopener" hidden></a>
-      <a class="modal-wakeup" href="#wakeup" data-close data-i18n="modal_cta">¿QUIERES CREAR ASÍ? → WAKE UP</a>
-    </div>
-  </div>
 
   <script src="assets/projects.js"></script>
   <script src="assets/app.js"></script>

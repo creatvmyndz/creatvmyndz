@@ -92,6 +92,19 @@ button { font-family: inherit; cursor: pointer; }
 /* FLYING arriba y los relojes justo debajo */
 .topbar-left { display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem; min-width: 0; }
 .flying-row { display: flex; align-items: center; gap: 0.45rem; }
+
+/* Solo en playground.html: a diferencia de FLYING/los relojes, este no
+   se desvanece — se queda fijo arriba todo el recorrido, para volver
+   a la portada sin tener que abrir el menú. */
+.back-index {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--white);
+  text-shadow: var(--shadow);
+  transition: opacity 0.15s;
+}
+.back-index:hover { opacity: 0.75; }
 .clocks { font-size: 0.6rem; font-weight: 500; letter-spacing: 0.08em; opacity: 0.85; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
 .plane { display: inline-block; animation: bob 3s ease-in-out infinite; }
@@ -196,26 +209,12 @@ body.menu-open .topbar { opacity: 0; pointer-events: none; }
 
 /* Logo pequeño y minimalista, protagonista el cielo. */
 .logo {
-  display: block;          /* para que NAVEGAR caiga debajo, no al lado */
+  display: block;
   margin: 0 auto;
   width: min(40vw, 380px);
   height: auto;
   filter: drop-shadow(0 8px 34px rgba(10, 18, 56, 0.45));
 }
-
-/* Quieto: sin animación que distraiga. */
-.hero-cta {
-  display: inline-block;
-  margin-top: 3rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.34em;
-  text-indent: 0.34em;
-  color: var(--white);
-  text-shadow: var(--shadow);
-  transition: opacity 0.15s;
-}
-.hero-cta:hover { opacity: 0.7; }
 
 /* Relojes y CRTV© se desvanecen al bajar: solo se leen arriba del todo. */
 .fades { transition: opacity 0.35s ease; }
@@ -247,13 +246,20 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    ============================================================ */
 /* La sección es solo el "riel" de scroll; el contenido va anclado dentro
    de .pin, así se queda quieto en el centro mientras el cielo avanza y
-   nunca queda la pantalla vacía entre una sección y la siguiente. */
+   nunca queda la pantalla vacía entre una sección y la siguiente. Es alta
+   a propósito: la llegada Y la despedida (assets/app.js) pasan enteras
+   mientras sigue anclada, para que nunca se la vea "subir" con la página. */
 .scene {
   display: block;
-  min-height: 175svh;
+  min-height: 240svh;
   padding: 0;
 }
 
+/* Sin clics propios: cuando dos secciones se cruzan (una llegando, otra
+   despidiéndose) ambos .pin ocupan toda la pantalla al mismo tiempo, y
+   el de encima (aunque su contenido todavía sea invisible) taparía los
+   clics del que sí se ve. assets/app.js reactiva el clic (pointer-events:
+   auto) solo en el contenido .depth una vez que ya está visible. */
 .pin {
   position: sticky;
   top: 0;
@@ -262,19 +268,24 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   align-items: center;
   justify-content: center;
   padding: 5.5rem 1.2rem 4rem;
+  pointer-events: none;
 }
+
+/* Cada CRTV del playground aterriza en un punto distinto de la colina
+   en vez de siempre caer al centro (ver assets/app.js). */
+.pin.dir-left  { justify-content: flex-start; }
+.pin.dir-right { justify-content: flex-end; }
 
 /* Al crecer, los bloques se salen por los lados a propósito (así se siente
    que te pasan por al lado). Los recortamos aquí para que eso no ensanche
    la página ni permita moverla en horizontal en el celular.
    `clip` en vez de `hidden`: no crea un contenedor de scroll. */
-.scene, .drops { overflow-x: clip; }
+.scene { overflow-x: clip; }
 
-/* Las secciones se solapan una pantalla: así, mientras una se despide
-   deslizándose hacia arriba, la siguiente ya está anclada y apareciendo.
-   Sin esto queda un tramo de scroll con la pantalla vacía. */
-.scene + .scene,
-.drops + .scene { margin-top: -100svh; }
+/* Entre dos secciones ancladas, la siguiente empieza a aparecer justo
+   cuando la anterior empieza a despedirse (todavía anclada ella también),
+   para que se crucen en el aire en vez de dejar un hueco. */
+.scene + .scene { margin-top: -150svh; }
 
 .depth, .depth-item {
   transform-origin: 50% 50%;
@@ -291,110 +302,65 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   }
 }
 
-/* ===== MANIFIESTO ===== */
+/* ===== MANIFIESTO (CREATV MASK) ===== */
 
-.manifesto p {
-  max-width: 50rem;
-  font-size: clamp(1.05rem, 3vw, 1.9rem);
-  font-weight: 600;
-  line-height: 1.55;
-  letter-spacing: 0.02em;
+.mask-link { display: block; transition: opacity 0.15s; }
+.mask-link:hover, .mask-link:focus-visible { opacity: 0.85; }
+
+.mask-logo {
+  display: block;
+  width: min(58vw, 340px);
+  height: auto;
+  filter: drop-shadow(0 8px 34px rgba(10, 18, 56, 0.45));
+}
+
+/* ===== CRTV ===== */
+/* Estilos compartidos entre la tarjeta "CREATIVE PLAYGROUND" de la
+   portada y cada CRTV de playground.html: la misma tipografía grande y
+   centrada, sin tarjeta ni fondo — solo la letra flotando sobre el
+   cielo (misma mecánica .scene/.pin de más arriba). */
+.project-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 56rem;
   text-align: center;
   color: var(--white);
   text-shadow: var(--shadow);
+  transition: opacity 0.14s;
 }
-
-/* ===== CRTV (proyectos) ===== */
-.drops { padding: clamp(2rem, 5vw, 4rem) 1.2rem clamp(4rem, 9vw, 7rem); }
-
-.drops-head {
-  max-width: 68rem;
-  margin: 0 auto 2.2rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-}
-.drops-head h2 {
-  font-size: clamp(1.8rem, 5vw, 3rem);
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  color: var(--white);
-  text-shadow: var(--shadow);
-}
-
-.filters { display: flex; flex-wrap: wrap; gap: 0.45rem; }
-.filter {
-  background: rgba(10, 18, 56, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: var(--white);
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  padding: 0.38rem 0.85rem;
-  border-radius: 999px;
-  transition: all 0.15s;
-}
-.filter:hover { border-color: var(--white); }
-.filter.active { background: var(--white); color: var(--navy-deep); border-color: var(--white); }
-
-.project-list { max-width: 68rem; margin: 0 auto; list-style: none; }
-
-.project-item { margin: clamp(0.5rem, 1.8vh, 1.5rem) 0; }
-
-.project-item a {
-  display: flex;
-  align-items: center;
-  gap: clamp(0.7rem, 2vw, 1.6rem);
-  padding: clamp(0.5rem, 1.2vw, 0.75rem) 0.6rem;
-  border-radius: 8px;
-  color: var(--white);
-  text-shadow: var(--shadow);
-  transition: background 0.14s, color 0.14s;
-}
-.project-item a:hover, .project-item a:focus-visible {
-  background: var(--white);
-  color: var(--navy-deep);
-  text-shadow: none;
-}
+.project-inner:hover, .project-inner:focus-visible { opacity: 0.8; }
 
 .p-num {
-  flex: none;
-  width: 4.6rem;
-  font-size: 0.66rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  opacity: 0.75;
+  letter-spacing: 0.24em;
+  opacity: 0.7;
   font-variant-numeric: tabular-nums;
 }
 
-/* Los nombres largos bajan a dos líneas antes que recortarse. */
 .p-title {
-  font-size: clamp(1.4rem, 6vw, 3.4rem);
+  font-size: clamp(2.6rem, 9vw, 5.6rem);
   font-weight: 800;
   letter-spacing: 0.005em;
-  line-height: 1.05;
+  line-height: 1.02;
   text-wrap: balance;
   transition: filter 0.2s;
 }
 
-/* Los próximos van borrosos: se intuyen, no se leen. */
-.project-item.soon .p-title { filter: blur(5px); opacity: 0.9; }
-.project-item.soon a:hover .p-title { filter: blur(2px); }
-
 .p-tag {
-  flex: none;
-  margin-left: auto;
-  font-size: 0.6rem;
+  margin-top: 0.4rem;
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 0.22rem 0.6rem;
-  border-radius: 999px;
-  border: 1px solid currentColor;
+  letter-spacing: 0.2em;
+  opacity: 0.75;
 }
-.p-tag.soon { color: var(--accent); }
-.project-item a:hover .p-tag { color: var(--navy-deep); }
+.p-tag.soon { color: var(--accent); opacity: 1; }
+
+/* Los próximos van borrosos: se intuyen, no se leen. */
+.project-scene.soon .p-title { filter: blur(7px); opacity: 0.85; }
+.project-scene.soon .project-inner:hover .p-title { filter: blur(3px); }
 
 /* ===== QUIÉNES SOMOS ===== */
 .about-inner { width: 100%; }
@@ -566,59 +532,53 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   opacity: 0.75;
 }
 
-/* ===== MODAL ===== */
-.modal { position: fixed; inset: 0; z-index: 100; }
-.modal[hidden] { display: none; }
-
-.modal-backdrop { position: absolute; inset: 0; background: rgba(10, 18, 56, 0.88); }
-
-.modal-card {
-  position: relative;
-  max-width: 34rem;
-  margin: 8vh auto 0;
-  max-height: 84vh;
-  overflow-y: auto;
-  background: var(--white);
-  color: var(--navy-deep);
-  border-radius: 14px;
-  padding: 2.3rem;
-  width: calc(100% - 2rem);
+/* ===== CAÍDA (playground.html) =====
+   Al llegar desde "VER TODOS LOS CRTV" de la portada, el cielo se
+   desvanece mientras el pasto sube desde un punto y se traga la
+   pantalla — se siente como bajar de verdad del cielo a la tierra
+   antes de soltarte el control del scroll. */
+.playground-fall {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: linear-gradient(180deg, #4f86c4 0%, #cfe8ff 100%);
+  animation: fallSky 0.9s ease-in forwards;
 }
-
-.modal-close {
+.playground-fall::after {
+  content: "";
   position: absolute;
-  top: 0.9rem; right: 0.9rem;
-  background: none;
-  border: none;
-  font-size: 1.15rem;
-  color: var(--navy-deep);
+  left: 50%; top: 50%;
+  width: 40px; height: 40px;
+  margin: -20px 0 0 -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #6fae4a 0%, #4c8a34 65%, #2f5a22 100%);
+  animation: fallGround 0.9s cubic-bezier(.6, 0, .15, 1) forwards;
+}
+@keyframes fallSky { to { opacity: 0; } }
+@keyframes fallGround { to { width: 300vmax; height: 300vmax; margin: -150vmax 0 0 -150vmax; } }
+
+/* ===== CREATV MASK (creativmask.html) ===== */
+.mask-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: #1a0505 url("img/fondo-mask.jpg") center center / cover no-repeat;
 }
 
-.modal-num {
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #6b7bb5;
-  font-variant-numeric: tabular-nums;
+.mask-screen {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.2rem 3rem;
 }
-.modal-card h3 { font-size: clamp(1.7rem, 5vw, 2.5rem); font-weight: 800; line-height: 1.05; margin-top: 0.35rem; }
-.modal-meta { margin-top: 0.6rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em; color: #6b7bb5; text-transform: uppercase; }
-.modal-card img { width: 100%; border-radius: 8px; margin-top: 1.3rem; }
-.modal-desc { margin-top: 1.3rem; font-size: 0.95rem; line-height: 1.7; }
-.modal-link { display: inline-block; margin-top: 1.4rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.08em; text-decoration: underline; }
-.modal-wakeup {
-  display: block;
-  margin-top: 1.9rem;
-  padding: 1rem;
-  text-align: center;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  background: var(--navy);
-  color: var(--white);
-  border-radius: 10px;
+
+.mask-hero-logo {
+  width: min(70vw, 480px);
+  height: auto;
+  filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.55));
 }
-.modal-wakeup:hover { background: var(--navy-deep); }
 
 /* ===== MÓVIL ===== */
 @media (max-width: 680px) {
@@ -638,10 +598,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   .menu-btn { padding: 0.35rem 0.8rem; letter-spacing: 0.14em; }
   .topbar-right .lang { padding: 0.22rem 0.45rem; }
   .logo { width: min(56vw, 300px); }
-  .p-num { width: 3.6rem; font-size: 0.6rem; }
-  .p-tag { display: none; }
-  .project-item.soon .p-title { filter: blur(3.5px); }
-  .modal-card { margin-top: 5vh; padding: 1.7rem; }
+  .p-num { font-size: 0.68rem; }
+  .project-scene.soon .p-title { filter: blur(3.5px); }
   .footer { justify-content: center; text-align: center; }
 }
 
