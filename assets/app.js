@@ -227,7 +227,7 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const DEPTH = {
   scene: { scaleIn: 0.25, scaleOut: 1.15, blur: 14 },
   item:  { scaleIn: 0.82, scaleOut: 1.12, blur: 6 },
-  row:   { scaleIn: 0.35, scaleOut: 1.22, blur: 10 }   // cada CRTV de la lista
+  row:   { scaleIn: 0.90, scaleOut: 1.05, blur: 8 }   // cada burbuja de la lista: sube más de lo que crece
 };
 
 /* El tamaño tarda todo el acercamiento en crecer, pero el enfoque (nitidez
@@ -253,6 +253,7 @@ function collectDepth() {
       // "close": se ve definida aunque venga chiquita de lejos — el
       // desenfoque solo aparece cuando ya casi te pasa por al lado.
       blurClose: scene ? scene.dataset.blur === "close" : false,
+      isRow: el.classList.contains("project-row"),
       cfg: el.classList.contains("project-row") ? DEPTH.row
          : el.classList.contains("depth-item") ? DEPTH.item
          : DEPTH.scene,
@@ -312,9 +313,13 @@ function depthUpdate() {
       blur = c.blur * BLUR_SCALE * Math.max(1 - focus, x);
     }
 
+    // Las burbujas de la lista además suben: llegan desde abajo y, ya
+    // enfocadas, siguen subiendo despacio hasta desvanecerse arriba.
+    const rise = d.isRow ? ((1 - Math.min(e, 1)) * 46 - x * 26) : 0;
+
     // Redondeamos: así el navegador no vuelve a dibujar por cambios que
     // el ojo no alcanza a ver. Es lo que mantiene el scroll fluido.
-    const t = "scale(" + scale.toFixed(3) + ")";
+    const t = (rise ? "translateY(" + rise.toFixed(1) + "px) " : "") + "scale(" + scale.toFixed(3) + ")";
     const o = opacity.toFixed(2);
     const f = blur > 0.35 ? "blur(" + (Math.round(blur * 2) / 2) + "px)" : "";
 
@@ -451,20 +456,18 @@ function fillContact() {
 /* ------------------------------------------------------------
    LISTA COMPLETA DE CRTV (solo en playground.html)
    ------------------------------------------------------------
-   Una lista de verdad — se recorre con el scroll normal, no una
+   Casillas de a dos columnas — se recorre con el scroll normal, no una
    pantalla completa por CRTV (con 14 te perdías entre tantas). Cada
-   uno sigue siendo solo la letra flotando sobre el cielo, sin tarjeta,
-   y llega desde izquierda/centro/derecha para que no se sienta en
-   fila — misma idea que la portada, pero de un tirón.
+   una es su burbuja, y sube (además de crecer y enfocarse) al pasar
+   por el centro — ver el tramo "isRow" en depthUpdate().
    ------------------------------------------------------------ */
 const listEl = document.getElementById("project-list");
-const DIRS = ["dir-left", "dir-center", "dir-right"];
 
 function renderProjectList() {
   listEl.innerHTML = "";
   PROJECTS.forEach((p, i) => {
     const li = document.createElement("li");
-    li.className = "project-row depth-item " + p.status + " " + DIRS[i % DIRS.length];
+    li.className = "project-row depth-item " + p.status;
 
     const a = document.createElement("a");
     a.className = "project-inner";

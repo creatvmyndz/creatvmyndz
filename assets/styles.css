@@ -371,30 +371,39 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .p-tag.soon { color: var(--accent); opacity: 1; }
 
 /* ===== LISTA DE CRTV (playground.html) =====
-   Una lista de verdad, no una pantalla por CRTV: se recorre con el
-   scroll normal (mecánica .depth-item, no .scene/.pin). Cada uno sigue
-   siendo solo la letra sobre el cielo, sin tarjeta ni fondo, y aterriza
-   en un punto distinto — izquierda, centro, derecha — para que no se
-   sienta como una lista aburrida. */
+   Casillas de a dos columnas, cada CRTV en su propia burbuja — la
+   segunda columna queda un poco más abajo, como si no estuvieran
+   alineadas en fila. Suben y se desvanecen al pasar (mecánica
+   .depth-item, no .scene/.pin: se recorre con el scroll normal). */
 .project-list {
   list-style: none;
-  max-width: 62rem;
+  max-width: 44rem;
   margin: 0 auto;
-  padding: 2vh 1.2rem 22vh;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(3.5rem, 14vh, 9rem);
+  padding: 2vh 1rem 22vh;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.8rem, 3.5vw, 1.6rem) clamp(0.7rem, 3vw, 1.4rem);
   overflow-x: clip;
 }
+.project-row:nth-child(even) { margin-top: clamp(2rem, 10vh, 4.5rem); }
 
-.project-row { width: fit-content; max-width: 100%; }
-.project-row.dir-left   { margin-right: auto; }
-.project-row.dir-center { margin: 0 auto; }
-.project-row.dir-right  { margin-left: auto; }
-.project-row.dir-left   .project-inner { align-items: flex-start; text-align: left; }
-.project-row.dir-right  .project-inner { align-items: flex-end; text-align: right; }
+.project-row {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 26px;
+  box-shadow: 0 14px 34px rgba(5, 10, 30, 0.35);
+  padding: clamp(1.1rem, 5vw, 1.7rem) clamp(0.9rem, 4vw, 1.3rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-.project-row .p-title { font-size: clamp(2rem, 6.4vw, 3.8rem); }
+.project-row .project-inner { gap: 0.4rem; }
+.project-row .p-title { font-size: clamp(1.25rem, 5.4vw, 1.9rem); line-height: 1.08; }
+.project-row .p-num { font-size: 0.62rem; }
+.project-row .p-tag { font-size: 0.56rem; }
 
 /* Los próximos van borrosos: se intuyen, no se leen. */
 .project-row.soon .p-title { filter: blur(6px); opacity: 0.85; }
