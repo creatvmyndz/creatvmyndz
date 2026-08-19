@@ -9,6 +9,7 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/img/fondo-mask.jpg">
+  <link rel="preload" as="image" href="assets/mask3d/0001.webp">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body class="mask-body">
@@ -25,5 +26,26 @@
     <img class="mask-hero-logo" src="assets/img/logo-creativmask.png" alt="CREATV MASK" width="1024" height="1024">
   </main>
 
+  <!-- ===== DROP #10: la máscara gira en 3D con el scroll (o arrastrando
+       la barra) mientras al lado va el texto de la campaña ===== -->
+  <section class="mask3d-section scene" id="mask3d">
+   <div class="pin">
+    <div class="mask3d-row">
+      <div class="mask3d-visual">
+        <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
+        <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
+      </div>
+      <div class="mask3d-copy">
+        <h2>Los verdaderos SÚPER HÉROES los ves fuera de la pantalla 🕷️🕸️</h2>
+        <p>Luego de ver a tu súper héroe favorito en el cine… ahora ver verdaderos superhéroes en la calle nos ha inspirado a crear algo:</p>
+        <p class="mask3d-drop">DROP #10 @creatvmyndz<br>“Todos los héroes necesitan una máscara”</p>
+        <p>Una forma creativa de aportar un granito de arena a la situación de nuestro país.</p>
+        <p>El 100% de las ganancias de este CRTV serán donadas a causas que apoyen a la reconstrucción, alimentación y acompañamiento a las víctimas del pasado terremoto en Colombia.</p>
+      </div>
+    </div>
+   </div>
+  </section>
+
+  <script src="assets/mask3d.js"></script>
 </body>
 </html>
