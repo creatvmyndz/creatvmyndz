@@ -29,7 +29,7 @@ jobs:
       - name: Preparar los archivos del sitio
         run: |
           mkdir -p dist
-          cp index.html dist/
+          cp *.html dist/
           cp CNAME dist/
           cp -r assets dist/
           touch dist/.nojekyll
