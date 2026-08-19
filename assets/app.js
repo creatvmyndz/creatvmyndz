@@ -514,6 +514,13 @@ if (maskLink) {
     maskLink.classList.add("zooming");
     setTimeout(() => { window.location.href = maskLink.href; }, 500);
   });
+
+  // Si vuelves con "atrás" del navegador, a veces restaura la página tal
+  // como quedó (con la animación ya terminada y el logo chiquito) en vez
+  // de recargarla de cero. Se lo quitamos para que vuelva a su tamaño.
+  window.addEventListener("pageshow", e => {
+    if (e.persisted) maskLink.classList.remove("zooming");
+  });
 }
 
 
