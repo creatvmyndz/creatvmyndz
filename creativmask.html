@@ -63,23 +63,6 @@
     <video class="mask-video" src="assets/video/creatvmask-drop10.mp4" poster="assets/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
   </section>
 
-  <!-- ===== AVISO DE SCROLL: para que se note que hay más abajo (el
-       video). Se desvanece solo apenas la persona hace scroll. ===== -->
-  <div class="scroll-hint" id="scroll-hint" aria-hidden="true">
-    <span>DESLIZA</span>
-    <span class="scroll-hint-arrow">↓</span>
-  </div>
-
   <script src="assets/mask3d.js"></script>
-  <script>
-    var hintEl = document.getElementById("scroll-hint");
-    var hideHint = function () {
-      if (window.scrollY > 40) {
-        hintEl.classList.add("hidden");
-        window.removeEventListener("scroll", hideHint);
-      }
-    };
-    window.addEventListener("scroll", hideHint, { passive: true });
-  </script>
 </body>
 </html>

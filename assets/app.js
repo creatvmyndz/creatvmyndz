@@ -542,6 +542,19 @@ schedule();
 window.addEventListener("scroll", schedule, { passive: true });
 document.addEventListener("visibilitychange", () => { if (!document.hidden) schedule(); });
 
+/* Aviso de "hay que hacer scroll" en la portada — se apaga solo apenas
+   la persona hace el primer scroll. */
+const scrollHint = document.getElementById("scroll-hint");
+if (scrollHint) {
+  const hideScrollHint = () => {
+    if (window.scrollY > 40) {
+      scrollHint.classList.add("hidden");
+      window.removeEventListener("scroll", hideScrollHint);
+    }
+  };
+  window.addEventListener("scroll", hideScrollHint, { passive: true });
+}
+
 let resizeTimer;
 window.addEventListener("resize", () => {
   clearTimeout(resizeTimer);
