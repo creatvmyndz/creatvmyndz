@@ -314,6 +314,18 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   filter: drop-shadow(0 8px 34px rgba(10, 18, 56, 0.45));
 }
 
+/* Al hacer clic: se agiganta rápido y luego se encoge — para cuando ya
+   está chiquito, entra la pantalla roja de creativmask.html (assets/app.js
+   dispara la animación y navega justo al terminar). */
+.mask-link.zooming .mask-logo {
+  animation: maskZoom 0.5s cubic-bezier(.3, 0, .7, 1) forwards;
+}
+@keyframes maskZoom {
+  0%   { transform: scale(1); }
+  32%  { transform: scale(1.9); }
+  100% { transform: scale(0.08); }
+}
+
 /* ===== CRTV ===== */
 /* Estilos compartidos entre la tarjeta "CREATIVE PLAYGROUND" de la
    portada y cada CRTV de playground.html: la misma tipografía grande y
@@ -578,6 +590,13 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   width: min(70vw, 480px);
   height: auto;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.55));
+  /* Sigue el gesto que trae de la portada: llega chiquito y crece a su
+     tamaño, como si el logo hubiera entrado volando a esta pantalla. */
+  animation: maskArrive 0.4s cubic-bezier(.2, .8, .2, 1) both;
+}
+@keyframes maskArrive {
+  0%   { transform: scale(0.08); }
+  100% { transform: scale(1); }
 }
 
 /* ===== MÓVIL ===== */

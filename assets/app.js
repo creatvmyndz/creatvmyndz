@@ -501,6 +501,23 @@ const code = n => (n === null || n === undefined)
 
 
 /* ------------------------------------------------------------
+   CREATV MASK: al hacer clic, el logo se agiganta y se encoge antes
+   de navegar — para cuando ya está chiquito, entra la pantalla roja.
+   ------------------------------------------------------------ */
+const maskLink = document.querySelector(".mask-link");
+if (maskLink) {
+  maskLink.addEventListener("click", e => {
+    // Clic derecho, con modificadores, o el sistema pidiendo menos
+    // movimiento: se navega normal, sin la animación.
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduceMotion) return;
+    e.preventDefault();
+    maskLink.classList.add("zooming");
+    setTimeout(() => { window.location.href = maskLink.href; }, 500);
+  });
+}
+
+
+/* ------------------------------------------------------------
    ARRANQUE
    ------------------------------------------------------------ */
 const yearEl = document.getElementById("year");
