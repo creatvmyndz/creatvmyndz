@@ -33,11 +33,14 @@
     </div>
   </header>
 
-  <!-- ===== TODO EN UNA SOLA PANTALLA: arriba el logo, debajo el DROP #10
-       (la máscara girando + el texto de la campaña) — sin scroll. La
+  <!-- ===== PORTADA: los dos logos arriba, el DROP #10 (máscara girando +
+       texto + botón) debajo — todo en la misma pantalla, sin scroll. La
        máscara gira arrastrando la barra de abajo. ===== -->
   <main class="mask-screen">
-    <img class="mask-hero-logo" src="assets/img/logo-creativmask.png" alt="CREATV MASK" width="1024" height="1024">
+    <div class="mask-logos">
+      <img class="mask-hero-logo" src="assets/img/logo-creativmask.png" alt="CREATV MASK" width="1024" height="1024">
+      <img class="mask-myndz-logo" src="assets/img/logo-creatv.png" alt="CREATV MYNDZ" width="1400" height="593">
+    </div>
 
     <div class="mask3d-row" id="mask3d">
       <div class="mask3d-visual">
@@ -45,14 +48,20 @@
         <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
       </div>
       <div class="mask3d-copy">
-        <h2>Los verdaderos SÚPER HÉROES los ves fuera de la pantalla 🕷️🕸️</h2>
-        <p>Luego de ver a tu súper héroe favorito en el cine… ahora ver verdaderos superhéroes en la calle nos ha inspirado a crear algo:</p>
-        <p class="mask3d-drop">DROP #10 @creatvmyndz<br>“Todos los héroes necesitan una máscara”</p>
-        <p>Una forma creativa de aportar un granito de arena a la situación de nuestro país.</p>
-        <p>El 100% de las ganancias de este CRTV serán donadas a causas que apoyen a la reconstrucción, alimentación y acompañamiento a las víctimas del pasado terremoto en Colombia.</p>
+        <p class="mask3d-title">CREATV MASK — Hoy Soy: SP*DER MAN</p>
+        <p class="mask3d-price">$50.000 COP</p>
+        <p class="mask3d-subtitle">Conviértete en súper héroe</p>
+        <p>100% de las ganancias de este DROP serán donadas a: XXXXXXXXXX, con quienes nos asociamos para reconstruir, llevar alimento y acompañar a las víctimas del pasado terremoto en Colombia.</p>
+        <button type="button" class="mask3d-buy" id="mask3d-buy">COMPRAR</button>
       </div>
     </div>
   </main>
+
+  <!-- ===== EL VIDEO: aparece haciendo scroll. El fondo rojo (.mask-bg)
+       es fixed, así que se queda quieto mientras esto se desplaza. ===== -->
+  <section class="mask-video-section">
+    <video class="mask-video" src="assets/video/creatvmask-drop10.mp4" poster="assets/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
+  </section>
 
   <script src="assets/mask3d.js"></script>
 </body>

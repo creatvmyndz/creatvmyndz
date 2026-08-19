@@ -635,16 +635,24 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.8rem, 3svh, 2rem);
-  padding: 5.2rem 1.2rem 1.5rem;
+  gap: clamp(1.2rem, 4svh, 2.6rem);
+  padding: 5.2rem 1.2rem 2.5rem;
 }
 
-.mask-hero-logo {
-  width: min(30vw, 200px);
-  height: auto;
-  filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.55));
-  /* Sigue el gesto que trae de la portada: llega chiquito y crece a su
-     tamaño, como si el logo hubiera entrado volando a esta pantalla. */
+/* Los dos logos de la portada, uno al lado del otro. */
+.mask-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 4vw, 2.4rem);
+}
+.mask-hero-logo, .mask-myndz-logo {
+  height: clamp(44px, 7.5vw, 76px);
+  width: auto;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+  /* Llegan chiquitos y crecen a su tamaño, como si hubieran entrado
+     volando a esta pantalla. */
   animation: maskArrive 0.4s cubic-bezier(.2, .8, .2, 1) both;
 }
 @keyframes maskArrive {
@@ -653,9 +661,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 /* ===== DROP #10: máscara girando en 3D (creativmask.html) =====
-   Va debajo del logo, en la misma pantalla — nada de scroll para verla.
-   La máscara gira arrastrando la barra (assets/mask3d.js), no con el
-   scroll de la página. */
+   Va debajo de los logos, en la misma pantalla — nada de scroll para
+   verla. La máscara gira arrastrando la barra (assets/mask3d.js). */
 .mask3d-row {
   display: flex;
   align-items: center;
@@ -679,12 +686,23 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 .mask3d-copy { flex: 1; min-width: 0; color: var(--white); text-shadow: var(--shadow); }
-.mask3d-copy h2 {
+.mask3d-title {
   font-size: clamp(1.05rem, 2.2vw, 1.6rem);
   font-weight: 800;
   line-height: 1.2;
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.3rem;
   text-wrap: balance;
+}
+.mask3d-price {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 600;
+  opacity: 0.65;
+  margin-bottom: 1rem;
+}
+.mask3d-subtitle {
+  font-size: clamp(0.85rem, 1.3vw, 1rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
 }
 .mask3d-copy p {
   font-size: clamp(0.72rem, 1.1vw, 0.88rem);
@@ -692,20 +710,43 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   margin-bottom: 0.55rem;
   opacity: 0.92;
 }
-.mask3d-drop {
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  opacity: 1 !important;
+.mask3d-buy {
+  margin-top: 0.6rem;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--white);
+  color: #1a0505;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.mask3d-buy:hover { transform: translateY(-2px); opacity: 0.88; }
+
+/* ===== VIDEO DEL DROP: aparece más abajo, con scroll normal (el fondo
+   rojo de .mask-bg queda fijo porque ya es position:fixed). ===== */
+.mask-video-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.2rem 5rem;
+}
+.mask-video {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  border-radius: 18px;
+  background: #000;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
 }
 
 @media (max-width: 780px) {
-  .mask-screen { gap: 0.6rem; padding: 4.6rem 1.2rem 1.2rem; }
-  .mask-hero-logo { width: min(24vw, 140px); }
-  .mask3d-row { flex-direction: column; text-align: center; gap: 0.7rem; }
-  .mask3d-visual { width: min(40vw, 170px); }
-  .mask3d-copy p { display: none; }
-  .mask3d-copy p.mask3d-drop { display: block; }
-  .mask3d-copy h2 { font-size: clamp(0.95rem, 4vw, 1.2rem); margin-bottom: 0.4rem; }
+  .mask-screen { gap: 1rem; padding: 4.6rem 1.2rem 2rem; }
+  .mask-hero-logo, .mask-myndz-logo { height: clamp(34px, 9vw, 50px); }
+  .mask3d-row { flex-direction: column; text-align: center; gap: 0.9rem; }
+  .mask3d-visual { width: min(46vw, 190px); }
 }
 
 /* ===== MÓVIL ===== */
