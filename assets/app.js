@@ -9,7 +9,8 @@ const I18N = {
   es: {
     menu: "MENÚ",
     m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    crtv_cta: "VER TODOS LOS CRTV →",
+    crtv_cta: "TOCAR PARA EXPLORAR →",
+    mask_cta: "TOCAR PARA EXPLORAR →",
     tag_done: "HECHO", tag_soon: "PRÓXIMO",
     ab_title: "CREATIVIDAD INFINITA",
     ab_p1: "Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.",
@@ -28,7 +29,8 @@ const I18N = {
   en: {
     menu: "MENU",
     m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    crtv_cta: "SEE ALL CRTV →",
+    crtv_cta: "TAP TO EXPLORE →",
+    mask_cta: "TAP TO EXPLORE →",
     tag_done: "DONE", tag_soon: "UPCOMING",
     ab_title: "INFINITE CREATIVITY",
     ab_p1: "We believe creativity is a life purpose and the reason we exist. We are all creative — that gift is already in you.",
