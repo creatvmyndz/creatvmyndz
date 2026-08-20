@@ -54,8 +54,13 @@
     <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
   </nav>
 
-  <!-- ===== CRTV: la lista completa — lo primero que se ve al entrar ===== -->
+  <!-- ===== CRTV: la lista completa — lo primero que se ve al entrar.
+       El logo va arriba, dentro del <main>, así que sube con el scroll
+       junto con la lista en vez de quedar en una pantalla aparte. ===== -->
   <main>
+    <div class="playground-logo-wrap">
+      <img class="playground-logo" src="assets/img/logo-creativ-playground.png" alt="CREATIVE PLAYGROUND" width="1520" height="344">
+    </div>
     <ul id="project-list" class="project-list"></ul>
   </main>
 

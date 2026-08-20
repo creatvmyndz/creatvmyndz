@@ -350,6 +350,7 @@ function applyLang() {
 
   if (listEl) {
     renderProjectList();   // las etiquetas HECHO/PRÓXIMO también cambian de idioma
+    layoutMasonry();
     collectDepth();
     depthUpdate();
   }
@@ -491,6 +492,35 @@ function renderProjectList() {
   });
 }
 
+/* Un grid normal estira cada fila a la altura de la burbuja más alta
+   de las dos — con títulos de largos tan distintos, eso dejaba mucho
+   espacio vacío adentro de las burbujas cortas. Acomodamos las columnas
+   a mano: cada CRTV entra en la que en ese momento está más corta, en
+   el mismo orden de la lista, y así quedan bien empacadas.
+   left/top en vez de transform: el motor de profundidad (depthUpdate)
+   ya usa transform para el efecto de burbuja subiendo. */
+function layoutMasonry() {
+  if (!listEl) return;
+  const items = [...listEl.children];
+  if (!items.length) { listEl.style.height = ""; return; }
+
+  const colGap = Math.min(22.4, Math.max(11.2, window.innerWidth * 0.03));
+  const rowGap = Math.min(25.6, Math.max(12.8, window.innerWidth * 0.035));
+  const colWidth = (listEl.clientWidth - colGap) / 2;
+  const colHeights = [0, 0];
+
+  items.forEach(item => {
+    item.style.position = "absolute";
+    item.style.width = colWidth + "px";
+    const col = colHeights[0] <= colHeights[1] ? 0 : 1;
+    item.style.left = col === 0 ? "0px" : (colWidth + colGap) + "px";
+    item.style.top = colHeights[col] + "px";
+    colHeights[col] += item.getBoundingClientRect().height + rowGap;
+  });
+
+  listEl.style.height = (Math.max(...colHeights) - rowGap) + "px";
+}
+
 const PREFIX = "CRTV";
 const code = n => (n === null || n === undefined)
   ? PREFIX
@@ -562,6 +592,7 @@ window.addEventListener("resize", () => {
     sizeCanvas();
     initSky(pickSet());   // cambia horizontal/vertical si giras el teléfono
     updateClocks();       // nombres largos o cortos según el ancho
+    if (listEl) layoutMasonry();   // el ancho de columna cambió
     schedule();
   }, 180);
 });

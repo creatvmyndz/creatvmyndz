@@ -405,22 +405,31 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 .p-tag.soon { color: var(--accent); opacity: 1; }
 
+/* ===== LOGO ARRIBA DE LA LISTA (playground.html) =====
+   Ya no es una pantalla propia — es lo primero del <main>, así que
+   sube con el scroll igual que el resto de la lista. */
+.playground-logo-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 7rem 1.2rem 1.6rem;
+}
+
 /* ===== LISTA DE CRTV (playground.html) =====
-   Casillas de a dos columnas, cada CRTV en su propia burbuja — la
-   segunda columna queda un poco más abajo, como si no estuvieran
-   alineadas en fila. Suben y se desvanecen al pasar (mecánica
-   .depth-item, no .scene/.pin: se recorre con el scroll normal). */
+   Mampostería real: cada CRTV en su propia burbuja, de alto distinto
+   según el título, empacadas sin dejar huecos — antes, con grid, la
+   fila se estiraba a la burbuja más alta de las dos y la corta quedaba
+   con mucho espacio vacío adentro. assets/app.js (layoutMasonry) ubica
+   cada una con left/top, en la columna que en ese momento está más
+   corta; el motor de profundidad usa transform encima para el efecto
+   de burbuja subiendo, así que no chocan. */
 .project-list {
   list-style: none;
   max-width: 44rem;
   margin: 0 auto;
-  padding: 7rem 1rem 22vh;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(0.8rem, 3.5vw, 1.6rem) clamp(0.7rem, 3vw, 1.4rem);
+  padding: 0 1rem 22vh;
+  position: relative;
   overflow-x: clip;
 }
-.project-row:nth-child(even) { margin-top: clamp(2rem, 10vh, 4.5rem); }
 
 .project-row {
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
@@ -798,7 +807,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   .topbar-right .lang { padding: 0.22rem 0.45rem; }
   .logo { width: min(56vw, 300px); }
   .p-num { font-size: 0.68rem; }
-  .project-list { padding-top: 8.5rem; }
+  .playground-logo-wrap { padding-top: 8.5rem; }
   .project-row.soon .p-title { filter: blur(3.5px); }
   .footer { justify-content: center; text-align: center; }
 }
