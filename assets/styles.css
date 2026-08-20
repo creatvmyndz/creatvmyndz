@@ -677,6 +677,17 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   padding: 5.2rem 1.2rem 2.5rem;
 }
 
+/* Sello chiquito arriba del todo — quién produce el drop. */
+.studio-logo {
+  display: block;
+  height: clamp(14px, 2.6vw, 22px);
+  width: auto;
+  margin-bottom: -0.6rem;
+  opacity: 0.92;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.5));
+  animation: maskArrive 0.4s cubic-bezier(.2, .8, .2, 1) both;
+}
+
 /* Los dos logos de la portada, uno al lado del otro. */
 .mask-logos {
   display: flex;
@@ -767,6 +778,18 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   transition: transform 0.15s, opacity 0.15s;
 }
 .mask3d-buy:hover { transform: translateY(-2px); opacity: 0.88; }
+
+/* ===== MAÑANA SERÁ: entre la ficha del producto y el video. ===== */
+.manana-logo-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.2rem 2rem;
+}
+.manana-logo {
+  width: min(78vw, 460px);
+  height: auto;
+  filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.5));
+}
 
 /* ===== VIDEO DEL DROP: aparece más abajo, con scroll normal (el fondo
    rojo de .mask-bg queda fijo porque ya es position:fixed). ===== */
