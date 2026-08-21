@@ -8,16 +8,16 @@
 const I18N = {
   es: {
     menu: "MENÚ",
-    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    crtv_cta: "TOCAR PARA EXPLORAR →",
-    mask_cta: "TOCAR PARA EXPLORAR →",
-    tag_done: "HECHO", tag_soon: "PRÓXIMO",
+    m_projects: "CRTV", m_about: "PLAYGROUND", m_wakeup: "WAKE UP",
+    crtv_cta: "EXPLORAR GARDEN",
+    mask_cta: "VER PROYECTO",
     ab_title: "CREATIVIDAD INFINITA",
     ab_p1: "Creemos en la creatividad como propósito de vida y razón de nuestra existencia. Todos somos creativos, y tenemos ese don.",
     ab_c1t: "CREER", ab_c1d: "Cree en ti, cree en tus ideas.",
     ab_c2t: "CREAR", ab_c2d: "Nunca pares de crear. Materializa esas ideas: son un regalo.",
     ab_c3t: "CRECER", ab_c3d: "Cuando cumples la 1 y la 2, es inevitable.",
-    wu_kicker: "PROGRAMA",
+    ab_cta: "COMENZAR A CREAR →",
+    wu_kicker: "DESPERTAR CREATIVO",
     wu_sub: "La creatividad no es algo que se entrena: se recuerda. Es algo que durmieron dentro de ti, y puedes despertarla. Despierta tu potencial, despierta tu propósito, despierta la forma más pura de crear que hay en ti.",
     wu_f1: "Programa despertar.",
     wu_f2: "Serie de audios e hipnosis para despertar tu CREATV.",
@@ -28,16 +28,16 @@ const I18N = {
   },
   en: {
     menu: "MENU",
-    m_projects: "CRTV", m_about: "CREATIVE DEALERS", m_wakeup: "WAKE UP",
-    crtv_cta: "TAP TO EXPLORE →",
-    mask_cta: "TAP TO EXPLORE →",
-    tag_done: "DONE", tag_soon: "UPCOMING",
+    m_projects: "CRTV", m_about: "PLAYGROUND", m_wakeup: "WAKE UP",
+    crtv_cta: "EXPLORE GARDEN",
+    mask_cta: "SEE PROJECT",
     ab_title: "INFINITE CREATIVITY",
     ab_p1: "We believe creativity is a life purpose and the reason we exist. We are all creative — that gift is already in you.",
     ab_c1t: "BELIEVE", ab_c1d: "Believe in yourself, believe in your ideas.",
     ab_c2t: "CREATE", ab_c2d: "Never stop creating. Materialize those ideas: they are a gift.",
     ab_c3t: "GROW", ab_c3d: "Once you do the first two, it is inevitable.",
-    wu_kicker: "PROGRAM",
+    ab_cta: "START CREATING →",
+    wu_kicker: "CREATIVE AWAKENING",
     wu_sub: "Creativity is not something you train: it is something you remember. It was put to sleep inside you, and you can wake it up. Wake up your potential, your purpose, the purest way of creating that lives in you.",
     wu_f1: "Wake-up program.",
     wu_f2: "A series of audios and hypnosis to wake up your CREATV.",
@@ -351,7 +351,7 @@ function applyLang() {
   document.getElementById("lang-en").classList.toggle("active", lang === "en");
 
   if (listEl) {
-    renderProjectList();   // las etiquetas HECHO/PRÓXIMO también cambian de idioma
+    renderProjectList();
     layoutMasonry();
     collectDepth();
     depthUpdate();
@@ -472,24 +472,24 @@ function renderProjectList() {
     const li = document.createElement("li");
     li.className = "project-row depth-item " + p.status;
 
-    const a = document.createElement("a");
-    a.className = "project-inner";
-    a.href = p.link || ("#" + p.id);
-
     const num = document.createElement("span");
     num.className = "p-num";
     num.textContent = code(p.num);
+
+    const bubble = document.createElement("div");
+    bubble.className = "project-bubble";
+
+    const a = document.createElement("a");
+    a.className = "project-inner";
+    a.href = p.link || ("#" + p.id);
 
     const title = document.createElement("span");
     title.className = "p-title";
     title.textContent = p.title;
 
-    const tag = document.createElement("span");
-    tag.className = "p-tag " + p.status;
-    tag.textContent = t("tag_" + p.status);
-
-    a.append(num, title, tag);
-    li.appendChild(a);
+    a.appendChild(title);
+    bubble.appendChild(a);
+    li.append(num, bubble);
     listEl.appendChild(li);
   });
 }
@@ -505,6 +505,10 @@ function layoutMasonry() {
   if (!listEl) return;
   const items = [...listEl.children];
   if (!items.length) { listEl.style.height = ""; return; }
+  // Si el contenedor todavía no tiene ancho real (p. ej. la primera
+  // pasada, antes de que el layout termine), esperamos al siguiente
+  // frame en vez de dejar las burbujas del ancho de una migaja.
+  if (listEl.clientWidth < 100) { requestAnimationFrame(layoutMasonry); return; }
 
   const colGap = Math.min(22.4, Math.max(11.2, window.innerWidth * 0.03));
   const rowGap = Math.min(25.6, Math.max(12.8, window.innerWidth * 0.035));
@@ -530,6 +534,17 @@ const code = n => (n === null || n === undefined)
 
 
 /* ------------------------------------------------------------
+   RECORDAR POR DÓNDE IBA
+   ------------------------------------------------------------
+   Al salir hacia creativmask.html o playground.html desde una sección
+   del index, guardamos cuál sigue. Así, al volver con "↑ CREATV MYNDZ",
+   el index arranca ya en esa siguiente sección en vez de dejar que la
+   persona vuelva a hacer scroll por lo que ya vio.
+   ------------------------------------------------------------ */
+const RESUME_KEY = "cm-resume";
+const NEXT_SECTION = { manifiesto: "crtv", crtv: "nosotros" };
+
+/* ------------------------------------------------------------
    CREATV MASK: al hacer clic, el logo se agiganta y se encoge antes
    de navegar — para cuando ya está chiquito, entra la pantalla roja.
    ------------------------------------------------------------ */
@@ -540,6 +555,7 @@ if (maskLink) {
     // movimiento: se navega normal, sin la animación.
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduceMotion) return;
     e.preventDefault();
+    sessionStorage.setItem(RESUME_KEY, NEXT_SECTION.manifiesto);
     maskLink.classList.add("zooming");
     setTimeout(() => { window.location.href = maskLink.href; }, 500);
   });
@@ -549,6 +565,13 @@ if (maskLink) {
   // de recargarla de cero. Se lo quitamos para que vuelva a su tamaño.
   window.addEventListener("pageshow", e => {
     if (e.persisted) maskLink.classList.remove("zooming");
+  });
+}
+
+const crtvLink = document.querySelector(".crtv .project-inner");
+if (crtvLink) {
+  crtvLink.addEventListener("click", () => {
+    sessionStorage.setItem(RESUME_KEY, NEXT_SECTION.crtv);
   });
 }
 
@@ -599,11 +622,16 @@ window.addEventListener("resize", () => {
   }, 180);
 });
 
-/* Si llegan con un enlace directo (#wakeup, #nosotros, #crtv) los
-   llevamos hasta allá. El navegador solo no siempre acierta porque
-   el cielo y los logos cambian la altura mientras cargan. */
+/* Si llegan con un enlace directo (#wakeup, #nosotros, #crtv), o
+   vuelven de creativmask.html/playground.html (ver RESUME_KEY más
+   arriba), los llevamos hasta esa sección. El navegador solo no
+   siempre acierta porque el cielo y los logos cambian la altura
+   mientras cargan. */
 (function openFromHash() {
-  const id = decodeURIComponent(location.hash.slice(1));
+  const resumeId = sessionStorage.getItem(RESUME_KEY);
+  if (resumeId) sessionStorage.removeItem(RESUME_KEY);
+
+  const id = resumeId || decodeURIComponent(location.hash.slice(1));
   if (!id) return;
 
   const section = document.getElementById(id);
@@ -613,6 +641,20 @@ window.addEventListener("resize", () => {
     section.scrollIntoView({ behavior: "instant", block: "start" });
     schedule();
   };
-  jump();
+  // Un solo intento no basta: mientras algo todavía no terminó de
+  // acomodarse (una fuente que entra tarde, una imagen que reserva su
+  // espacio), la posición calculada queda corta o se pasa. Insistimos
+  // cada poco hasta que la sección realmente quede arriba del todo (o
+  // hasta un segundo, para no insistir para siempre). setTimeout en vez
+  // de requestAnimationFrame: sigue corriendo aunque la pestaña no esté
+  // pintando activamente en este momento.
+  let tries = 0;
+  const settle = () => {
+    jump();
+    if (++tries < 20 && Math.abs(section.getBoundingClientRect().top) > 2) {
+      setTimeout(settle, 50);
+    }
+  };
+  settle();
   window.addEventListener("load", jump, { once: true });
 })();

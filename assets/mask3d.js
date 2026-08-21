@@ -111,6 +111,22 @@
 
   document.addEventListener("visibilitychange", () => { if (!document.hidden) schedule(); });
 
+  /* Tocar la máscara abre la galería de fotos (mismas fotos del giro,
+     en varios ángulos fijos). */
+  const canvasBtn = document.getElementById("mask3d-canvas-btn");
+  const gallery = document.getElementById("mask-gallery");
+  const galleryClose = document.getElementById("mask-gallery-close");
+  if (canvasBtn && gallery) {
+    const openGallery = () => { gallery.hidden = false; document.body.classList.add("mask-gallery-open"); };
+    const closeGallery = () => { gallery.hidden = true; document.body.classList.remove("mask-gallery-open"); };
+    canvasBtn.addEventListener("click", openGallery);
+    if (galleryClose) galleryClose.addEventListener("click", closeGallery);
+    gallery.addEventListener("click", e => { if (e.target === gallery) closeGallery(); });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !gallery.hidden) closeGallery();
+    });
+  }
+
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);

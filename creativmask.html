@@ -46,8 +46,11 @@
 
     <div class="mask3d-row" id="mask3d">
       <div class="mask3d-visual">
-        <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
+        <button type="button" class="mask3d-canvas-btn" id="mask3d-canvas-btn" aria-label="Ver fotos de la máscara">
+          <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
+        </button>
         <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
+        <p class="mask3d-hint">Toca la máscara para ver más fotos</p>
       </div>
       <div class="mask3d-copy">
         <p class="mask3d-title">CREATV MASK — Hoy Soy: SP*DER MAN</p>
@@ -74,6 +77,25 @@
   <!-- ===== HOY SOY: cierre de la pantalla, debajo del video. ===== -->
   <div class="hoysoy-logo-wrap">
     <img class="hoysoy-logo" src="assets/img/logo-hoysoy.webp" alt="Hoy Soy" width="1143" height="880">
+  </div>
+
+  <!-- ===== GALERÍA: se abre al tocar la máscara — varios ángulos de las
+       mismas fotos que usa el giro en 3D. ===== -->
+  <div class="mask-gallery" id="mask-gallery" hidden>
+    <div class="mask-gallery-inner">
+      <button type="button" class="mask-gallery-close" id="mask-gallery-close" aria-label="Cerrar">✕</button>
+      <h2 class="mask-gallery-title">CREATV MASK — Fotos</h2>
+      <div class="mask-gallery-grid">
+        <img src="assets/mask3d/0001.webp" alt="CREATV MASK, vista 1" loading="lazy">
+        <img src="assets/mask3d/0016.webp" alt="CREATV MASK, vista 2" loading="lazy">
+        <img src="assets/mask3d/0031.webp" alt="CREATV MASK, vista 3" loading="lazy">
+        <img src="assets/mask3d/0046.webp" alt="CREATV MASK, vista 4" loading="lazy">
+        <img src="assets/mask3d/0061.webp" alt="CREATV MASK, vista 5" loading="lazy">
+        <img src="assets/mask3d/0076.webp" alt="CREATV MASK, vista 6" loading="lazy">
+        <img src="assets/mask3d/0091.webp" alt="CREATV MASK, vista 7" loading="lazy">
+        <img src="assets/mask3d/0106.webp" alt="CREATV MASK, vista 8" loading="lazy">
+      </div>
+    </div>
   </div>
 
   <script src="assets/mask3d.js"></script>
