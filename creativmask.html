@@ -98,6 +98,46 @@
     </div>
   </div>
 
+  <!-- ===== PEDIDO: se abre al tocar COMPRAR. Pide la dirección de envío
+       y, al enviarla, manda el pedido por correo (FormSubmit, sin
+       backend) y de una vez lleva al pago en Bold. ===== -->
+  <div class="order-modal" id="order-modal" hidden>
+    <div class="order-modal-inner">
+      <button type="button" class="order-modal-close" id="order-modal-close" aria-label="Cerrar">✕</button>
+      <h2 class="order-modal-title">Datos de envío</h2>
+      <p class="order-modal-sub">Antes de pagar, cuéntanos a dónde llevamos tu CREATV MASK.</p>
+
+      <form class="order-form" id="order-form" method="POST" action="https://formsubmit.co/camiloveggaart@gmail.com">
+        <input type="hidden" name="_subject" value="Nuevo pedido — CREATV MASK">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://checkout.bold.co/payment/LNK_EL208VQ37H">
+        <input type="hidden" name="Producto" value="CREATV MASK — Hoy Soy: SP*DER MAN">
+
+        <label>Nombre completo
+          <input type="text" name="Nombre" required autocomplete="name">
+        </label>
+        <label>Teléfono / WhatsApp
+          <input type="tel" name="Teléfono" required autocomplete="tel">
+        </label>
+        <label>Correo
+          <input type="email" name="Correo" required autocomplete="email">
+        </label>
+        <label>Dirección de envío
+          <input type="text" name="Dirección" required autocomplete="street-address">
+        </label>
+        <label>Ciudad
+          <input type="text" name="Ciudad" required autocomplete="address-level2">
+        </label>
+        <label>Cantidad
+          <input type="number" name="Cantidad" id="order-qty" min="1" value="1" required>
+        </label>
+
+        <p class="order-total">Total a pagar en Bold: <strong id="order-total-value">$50.000 COP</strong></p>
+        <button type="submit" class="pill-btn order-submit">Continuar al pago →</button>
+      </form>
+    </div>
+  </div>
+
   <script src="assets/mask3d.js"></script>
 </body>
 </html>

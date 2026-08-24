@@ -117,14 +117,40 @@
   const gallery = document.getElementById("mask-gallery");
   const galleryClose = document.getElementById("mask-gallery-close");
   if (canvasBtn && gallery) {
-    const openGallery = () => { gallery.hidden = false; document.body.classList.add("mask-gallery-open"); };
-    const closeGallery = () => { gallery.hidden = true; document.body.classList.remove("mask-gallery-open"); };
+    const openGallery = () => { gallery.hidden = false; document.body.classList.add("modal-open"); };
+    const closeGallery = () => { gallery.hidden = true; document.body.classList.remove("modal-open"); };
     canvasBtn.addEventListener("click", openGallery);
     if (galleryClose) galleryClose.addEventListener("click", closeGallery);
     gallery.addEventListener("click", e => { if (e.target === gallery) closeGallery(); });
     document.addEventListener("keydown", e => {
       if (e.key === "Escape" && !gallery.hidden) closeGallery();
     });
+  }
+
+  /* COMPRAR abre el formulario de envío. Al enviarlo, FormSubmit manda
+     el pedido por correo y de una vez redirige a Bold a pagar (campo
+     _next en el <form>) — sin backend propio. */
+  const buyBtn = document.getElementById("mask3d-buy");
+  const orderModal = document.getElementById("order-modal");
+  const orderClose = document.getElementById("order-modal-close");
+  const orderQty = document.getElementById("order-qty");
+  const orderTotal = document.getElementById("order-total-value");
+  const UNIT_PRICE = 50000;
+  if (buyBtn && orderModal) {
+    const openOrder = () => { orderModal.hidden = false; document.body.classList.add("modal-open"); };
+    const closeOrder = () => { orderModal.hidden = true; document.body.classList.remove("modal-open"); };
+    buyBtn.addEventListener("click", openOrder);
+    if (orderClose) orderClose.addEventListener("click", closeOrder);
+    orderModal.addEventListener("click", e => { if (e.target === orderModal) closeOrder(); });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && !orderModal.hidden) closeOrder();
+    });
+    if (orderQty && orderTotal) {
+      orderQty.addEventListener("input", () => {
+        const qty = Math.max(1, Number(orderQty.value) || 1);
+        orderTotal.textContent = "$" + (qty * UNIT_PRICE).toLocaleString("es-CO") + " COP";
+      });
+    }
   }
 
   let resizeTimer;

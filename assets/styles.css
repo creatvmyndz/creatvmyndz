@@ -864,7 +864,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 /* ===== GALERÍA DE FOTOS: se abre al tocar la máscara. ===== */
-body.mask-gallery-open { overflow: hidden; }
+body.modal-open { overflow: hidden; }
 .mask-gallery {
   position: fixed;
   inset: 0;
@@ -913,6 +913,100 @@ body.mask-gallery-open { overflow: hidden; }
   border-radius: 16px;
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
 }
+
+/* ===== PEDIDO: formulario de envío, se abre al tocar COMPRAR. ===== */
+.order-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.2rem;
+  background: rgba(10, 2, 2, 0.94);
+  animation: fade 0.2s ease;
+}
+.order-modal[hidden] { display: none; }
+.order-modal-inner {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 20px;
+  padding: 2.2rem 1.6rem 1.8rem;
+}
+.order-modal-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  color: var(--white);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+}
+.order-modal-title {
+  color: var(--white);
+  text-shadow: var(--shadow);
+  font-size: clamp(1.1rem, 3vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+.order-modal-sub {
+  margin-top: 0.5rem;
+  color: var(--white);
+  opacity: 0.85;
+  font-size: 0.82rem;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.order-form { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 1rem; }
+.order-form label {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--white);
+  opacity: 0.85;
+}
+.order-form input {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  background: rgba(10, 2, 2, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  color: var(--white);
+  outline: none;
+}
+.order-form input:focus { border-color: var(--white); }
+
+.order-total {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--white);
+  opacity: 0.9;
+}
+.order-total strong { font-size: 1.05rem; }
+
+.order-submit {
+  align-self: center;
+  border: none;
+  background: var(--white);
+  color: #1a0505;
+  font-family: inherit;
+  cursor: pointer;
+}
+.order-submit:hover { background: rgba(255, 255, 255, 0.85); border-color: transparent; }
 
 @media (max-width: 780px) {
   .mask-screen { gap: 1rem; padding: 4.6rem 1.2rem 2rem; }
