@@ -1044,6 +1044,15 @@ body.modal-open { overflow: hidden; }
 }
 .order-total strong { font-size: 1.05rem; }
 
+.order-note {
+  margin-top: -0.4rem;
+  text-align: center;
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--white);
+  opacity: 0.65;
+}
+
 .order-submit {
   align-self: center;
   border: none;
