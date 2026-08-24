@@ -15,6 +15,10 @@ const SITE = {
   // correo de activación. Confírmalo y desde ahí llegan todos los leads.
   leadEmail: "dacoloradog@gmail.com",
 
+  // Copia de cada lead — no necesita activación aparte, solo el
+  // leadEmail de arriba (el principal) la pide.
+  ccEmail: "camiloveggaart@gmail.com",
+
   // Correo público que aparece abajo en la sección de newsletter.
   contactEmail: "dacoloradog@gmail.com",
 

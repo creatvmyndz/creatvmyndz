@@ -453,6 +453,8 @@ function fillContact() {
 
   const form = document.getElementById("lead-form");
   if (form) form.action = "https://formsubmit.co/" + SITE.leadEmail;
+  const cc = document.getElementById("lead-cc");
+  if (cc) cc.value = SITE.ccEmail || "";
 }
 
 
