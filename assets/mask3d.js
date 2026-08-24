@@ -129,13 +129,17 @@
 
   /* COMPRAR abre el formulario de envío. Al enviarlo, FormSubmit manda
      el pedido por correo y de una vez redirige a Bold a pagar (campo
-     _next en el <form>) — sin backend propio. */
+     _next en el <form>) — sin backend propio. Al mismo tiempo, sin
+     bloquear ese envío, mandamos una copia a una hoja de Google Sheets
+     (Apps Script) para tener todos los pedidos juntos en un solo lugar. */
   const buyBtn = document.getElementById("mask3d-buy");
   const orderModal = document.getElementById("order-modal");
   const orderClose = document.getElementById("order-modal-close");
+  const orderForm = document.getElementById("order-form");
   const orderQty = document.getElementById("order-qty");
   const orderTotal = document.getElementById("order-total-value");
   const UNIT_PRICE = 50000;
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbwOYJFm4aqF0UjzZLHzPsb29oJioWtpISKgdmXnFmaQ9MndZRMfyEo9MGlkd2qTrcpkHA/exec";
   if (buyBtn && orderModal) {
     const openOrder = () => { orderModal.hidden = false; document.body.classList.add("modal-open"); };
     const closeOrder = () => { orderModal.hidden = true; document.body.classList.remove("modal-open"); };
@@ -149,6 +153,14 @@
       orderQty.addEventListener("input", () => {
         const qty = Math.max(1, Number(orderQty.value) || 1);
         orderTotal.textContent = "$" + (qty * UNIT_PRICE).toLocaleString("es-CO") + " COP";
+      });
+    }
+    if (orderForm) {
+      orderForm.addEventListener("submit", () => {
+        // No prevenimos el envío normal (FormSubmit sigue de largo hacia
+        // Bold) — esto solo va en paralelo, sin esperar respuesta.
+        const data = new URLSearchParams(new FormData(orderForm));
+        fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: data }).catch(() => {});
       });
     }
   }
