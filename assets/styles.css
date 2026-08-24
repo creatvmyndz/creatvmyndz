@@ -1086,6 +1086,213 @@ body.modal-open { overflow: hidden; }
   .footer { justify-content: center; text-align: center; }
 }
 
+/* ===== WAKE UP: EL PROGRAMA (wakeup-program.html) ===== */
+.wakeup-body { background: var(--navy-deep); }
+
+.wakeup-gate {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.2rem 3rem;
+}
+.wakeup-gate-inner { width: 100%; max-width: 24rem; text-align: center; }
+.wakeup-gate-kicker {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em;
+  color: var(--accent);
+}
+.wakeup-gate-title {
+  margin-top: 0.5rem;
+  font-size: clamp(2.2rem, 8vw, 3rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.wakeup-gate-sub {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.wakeup-gate-form { margin-top: 2rem; display: flex; flex-direction: column; gap: 1rem; text-align: left; }
+.wakeup-gate-form label {
+  display: block;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+}
+.wakeup-gate-form input {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  color: var(--white);
+  outline: none;
+}
+.wakeup-gate-form input:focus { border-color: var(--accent); }
+.wakeup-gate-form .pill-btn {
+  align-self: center;
+  margin-top: 0.4rem;
+  border: none;
+  background: var(--accent);
+  color: var(--navy-deep);
+  font-family: inherit;
+}
+.wakeup-gate-form .pill-btn:hover { background: rgba(34, 211, 238, 0.85); }
+.wakeup-gate-error { color: #ff8a8a; font-size: 0.8rem; text-align: center; }
+
+.wakeup-hub { max-width: 40rem; margin: 0 auto; padding: 6.5rem 1.2rem 5rem; }
+.wakeup-hub-head { text-align: center; }
+.wakeup-hub-kicker {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.44em;
+  text-indent: 0.44em;
+  color: var(--accent);
+}
+.wakeup-hub-title { margin-top: 0.5rem; font-size: clamp(1.8rem, 6vw, 2.4rem); font-weight: 800; }
+.wakeup-hub-sub { margin-top: 0.7rem; color: var(--muted); font-size: 0.9rem; }
+
+/* El camino: una línea vertical conectando cada módulo. */
+.wakeup-path { position: relative; margin-top: 3rem; display: flex; flex-direction: column; gap: 1.4rem; }
+.wakeup-path::before {
+  content: "";
+  position: absolute;
+  left: 1.6rem;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.wakeup-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  color: var(--white);
+}
+.wakeup-node-dot {
+  position: relative;
+  z-index: 1;
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.06);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--muted);
+}
+.wakeup-node-info { display: flex; flex-direction: column; gap: 0.15rem; }
+.wakeup-node-kicker { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.16em; color: var(--muted); }
+.wakeup-node-title { font-size: 1.05rem; font-weight: 800; letter-spacing: 0.01em; }
+
+.wakeup-node.locked { opacity: 0.45; cursor: not-allowed; }
+.wakeup-node.locked .wakeup-node-dot { font-size: 1.3rem; }
+
+.wakeup-node.current .wakeup-node-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--navy-deep);
+  box-shadow: 0 0 0 6px rgba(34, 211, 238, 0.16);
+}
+.wakeup-node.current .wakeup-node-title { color: var(--accent); }
+.wakeup-node.current, .wakeup-node.done { cursor: pointer; transition: transform 0.15s; }
+.wakeup-node.current:hover, .wakeup-node.done:hover { transform: translateX(4px); }
+
+.wakeup-node.done .wakeup-node-dot {
+  background: rgba(34, 211, 238, 0.18);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.wakeup-node.done .wakeup-node-title { opacity: 0.75; }
+
+/* Detalle de un módulo — mismo look que .order-modal/.mask-gallery. */
+.module-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.2rem;
+  background: rgba(10, 18, 56, 0.94);
+  animation: fade 0.2s ease;
+}
+.module-modal[hidden] { display: none; }
+.module-modal-inner {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2.2rem 1.6rem 1.8rem;
+}
+.module-modal-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: var(--white);
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+}
+.module-modal-kicker {
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+.module-modal-title { margin-top: 0.4rem; font-size: clamp(1.2rem, 4vw, 1.5rem); font-weight: 800; }
+
+.module-block { margin-top: 1.4rem; }
+.module-block h3 {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.module-block p { font-size: 0.9rem; line-height: 1.6; }
+
+.module-complete-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.8rem;
+  border: none;
+  background: var(--accent);
+  color: var(--navy-deep);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.module-complete-btn:hover { background: rgba(34, 211, 238, 0.85); }
+.module-complete-btn:disabled { opacity: 0.6; cursor: default; }
+.module-done-note { margin-top: 1.8rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; }
+
 /* ===== ACCESIBILIDAD ===== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

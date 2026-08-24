@@ -455,6 +455,16 @@ function fillContact() {
   if (form) form.action = "https://formsubmit.co/" + SITE.leadEmail;
   const cc = document.getElementById("lead-cc");
   if (cc) cc.value = SITE.ccEmail || "";
+
+  // Después de dejar el correo, la persona cae directo en el programa
+  // WAKE UP (con su correo ya puesto — ahí solo le falta la contraseña).
+  const next = document.getElementById("lead-next");
+  const emailInput = document.getElementById("email");
+  if (form && next && emailInput) {
+    form.addEventListener("submit", () => {
+      next.value = "wakeup-program.html?correo=" + encodeURIComponent(emailInput.value.trim());
+    });
+  }
 }
 
 
