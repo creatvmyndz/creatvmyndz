@@ -13,10 +13,10 @@ const SITE = {
   // A dónde llegan los correos de la newsletter y de WAKE UP.
   // OJO: la primera vez que alguien los use, FormSubmit te manda un
   // correo de activación. Confírmalo y desde ahí llegan todos los leads.
-  leadEmail: "camiloveggaart@gmail.com",
+  leadEmail: "dacoloradog@gmail.com",
 
   // Correo público que aparece abajo en la sección de newsletter.
-  contactEmail: "camiloveggaart@gmail.com",
+  contactEmail: "dacoloradog@gmail.com",
 
   // Redes: borra las que no uses o cambia la URL.
   social: [
