@@ -22,6 +22,11 @@
   <link rel="preload" as="image" href="assets/img/fondo-mask.jpg">
   <link rel="preload" as="image" href="assets/mask3d/0001.webp">
   <link rel="stylesheet" href="assets/styles.css">
+  <!-- Única fuente que carga desde afuera en todo el sitio (el resto va
+       autoalojado) — es solo para el muro de donantes, look caligráfico. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
 </head>
 <body class="mask-body">
 
@@ -79,6 +84,14 @@
     <img class="hoysoy-logo" src="assets/img/logo-hoysoy.webp" alt="Hoy Soy" width="1143" height="880">
   </div>
 
+  <!-- ===== MURO DE DONANTES: nombres de quienes ya pagaron y quisieron
+       aparecer (assets/mask3d.js los trae de la hoja de Sheets). Si no
+       hay ninguno todavía, la sección completa se queda oculta. ===== -->
+  <section class="donor-wall" id="donor-wall" hidden>
+    <h2 class="donor-wall-title">Gracias a quienes ya son parte de esto</h2>
+    <div class="donor-names" id="donor-names"></div>
+  </section>
+
   <!-- ===== GALERÍA: se abre al tocar la máscara — varios ángulos de las
        mismas fotos que usa el giro en 3D. ===== -->
   <div class="mask-gallery" id="mask-gallery" hidden>
@@ -131,6 +144,10 @@
         </label>
         <label>Cantidad
           <input type="number" name="Cantidad" id="order-qty" min="1" value="1" required>
+        </label>
+        <label class="order-check">
+          <input type="checkbox" name="Muro" value="Sí" checked>
+          Quiero que mi nombre aparezca en el muro de donantes
         </label>
 
         <p class="order-total">Total a pagar en Bold: <strong id="order-total-value">$50.000 COP</strong></p>

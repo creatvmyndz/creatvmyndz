@@ -863,6 +863,37 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   filter: drop-shadow(0 12px 30px rgba(0, 0, 0, 0.5));
 }
 
+/* ===== MURO DE DONANTES: nombres traídos de Sheets (assets/mask3d.js).
+   Cada uno con su propio tamaño/inclinación (--s/--r, al azar por
+   nombre) para que se sienta escrito a mano, no una lista prolija. */
+.donor-wall { padding: 1rem 1.2rem 4rem; text-align: center; }
+.donor-wall-title {
+  color: var(--white);
+  text-shadow: var(--shadow);
+  font-size: clamp(0.95rem, 2.6vw, 1.2rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.6rem;
+}
+.donor-names {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0.3rem 1.4rem;
+  max-width: 48rem;
+  margin: 0 auto;
+}
+.donor-name {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: calc(1.7rem * var(--s, 1));
+  color: var(--white);
+  text-shadow: var(--shadow);
+  transform: rotate(var(--r, 0deg));
+  opacity: 0.92;
+}
+
 /* ===== GALERÍA DE FOTOS: se abre al tocar la máscara. ===== */
 body.modal-open { overflow: hidden; }
 .mask-gallery {
@@ -989,6 +1020,21 @@ body.modal-open { overflow: hidden; }
   outline: none;
 }
 .order-form input:focus { border-color: var(--white); }
+
+.order-check {
+  display: flex !important;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.72rem !important;
+  letter-spacing: 0.02em !important;
+  opacity: 0.9;
+}
+.order-check input {
+  display: block;
+  width: auto;
+  margin-top: 0;
+  accent-color: var(--white);
+}
 
 .order-total {
   text-align: center;

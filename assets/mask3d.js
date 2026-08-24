@@ -165,6 +165,31 @@
     }
   }
 
+  /* MURO DE DONANTES: la misma hoja de Sheets, pero pidiéndole (GET, no
+     POST) solo los nombres de quienes ya están marcados "Pagado" y
+     quisieron aparecer — el filtro real lo hace el Apps Script del lado
+     de la hoja, acá solo pintamos lo que llegue. Si no llega nada (o
+     falla), la sección se queda oculta — nunca se ve un muro vacío. */
+  const donorWall = document.getElementById("donor-wall");
+  const donorNames = document.getElementById("donor-names");
+  if (donorWall && donorNames) {
+    fetch(SHEET_URL)
+      .then(r => r.json())
+      .then(names => {
+        if (!Array.isArray(names) || !names.length) return;
+        names.forEach(name => {
+          const span = document.createElement("span");
+          span.className = "donor-name";
+          span.textContent = name;
+          span.style.setProperty("--r", (Math.random() * 6 - 3).toFixed(2) + "deg");
+          span.style.setProperty("--s", (0.85 + Math.random() * 0.5).toFixed(2));
+          donorNames.appendChild(span);
+        });
+        donorWall.hidden = false;
+      })
+      .catch(() => {});
+  }
+
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
