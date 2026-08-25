@@ -813,18 +813,11 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
   opacity: 0.92;
 }
-.mask-hero-headline-script {
-  font-family: "Caveat Brush", cursive;
-  font-size: clamp(2.4rem, 8vw, 3.6rem);
-  color: #e60124;
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-}
-.mask-hero-headline-sub {
-  margin-top: 0.2rem;
-  font-family: "Caveat Brush", cursive;
-  font-size: clamp(1.6rem, 5.4vw, 2.4rem);
-  color: var(--white);
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
+.mask-hero-headline-img {
+  display: block;
+  width: min(88vw, 420px);
+  height: auto;
+  filter: drop-shadow(0 3px 16px rgba(0, 0, 0, 0.5));
 }
 
 .mask3d-copy { flex: 1; min-width: 0; color: var(--white); text-shadow: var(--shadow); text-align: center; }
@@ -854,6 +847,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   opacity: 0.92;
   max-width: 32rem;
   margin: 0.9rem auto 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 .mask3d-buy {
   margin-top: 0.2rem;
@@ -880,24 +875,6 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   transform: rotate(-6deg);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
   pointer-events: none;
-}
-
-.mask-smoke {
-  width: min(90vw, 420px);
-  height: auto;
-  margin: 0.6rem 0 -0.6rem;
-  opacity: 0.9;
-}
-
-.mask-scroll-cue {
-  margin-top: 0.4rem;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--white);
-  text-shadow: var(--shadow);
-  opacity: 0.75;
 }
 
 /* ===== VIDEO DEL DROP: aparece más abajo, con scroll normal (el fondo
@@ -958,6 +935,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   letter-spacing: 0.04em;
   color: var(--white);
   opacity: 0.8;
+  text-transform: uppercase;
 }
 .donor-names {
   display: flex;
@@ -997,14 +975,28 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    protagonista de la portada ahora es la foto 2D; esto es el cierre
    interactivo, no repite la ficha del producto (ya se donó arriba). ===== */
 .mask3d-standalone {
+  position: relative;
   padding: 1rem 1.2rem 5rem;
   text-align: center;
+  overflow: hidden;
 }
 .mask3d-standalone-inner {
+  position: relative;
   max-width: 14rem;
   margin: 1.8rem auto 0;
 }
 .mask3d-standalone-inner .mask3d-hint { margin-top: 0.7rem; }
+
+.mask-spiderweb {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(70vw, 320px);
+  height: auto;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
 
 /* ===== GALERÍA DE FOTOS: se abre al tocar la máscara. ===== */
 body.modal-open { overflow: hidden; }
