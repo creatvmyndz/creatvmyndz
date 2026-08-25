@@ -26,7 +26,7 @@
        autoalojado) — es solo para el muro de donantes, look caligráfico. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Caveat+Brush&display=swap">
 </head>
 <body class="mask-body">
 
@@ -49,6 +49,11 @@
       <img class="mask-myndz-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593">
     </div>
 
+    <div class="mask-hero-headline">
+      <span class="mask-hero-headline-script">Conviértete</span>
+      <span class="mask-hero-headline-sub">en un súper héroe</span>
+    </div>
+
     <div class="mask3d-row" id="mask3d">
       <div class="mask3d-visual">
         <button type="button" class="mask3d-canvas-btn" id="mask3d-canvas-btn" aria-label="Ver fotos de la máscara">
@@ -58,38 +63,37 @@
         <p class="mask3d-hint">Toca la máscara para ver más fotos</p>
       </div>
       <div class="mask3d-copy">
-        <p class="mask3d-title">CREATV MASK — Hoy Soy: SP*DER MAN</p>
+        <p class="mask3d-title">CREATV MASK 1 — Hoy Soy: Spiderman</p>
         <p class="mask3d-price">$50.000 COP</p>
-        <p class="mask3d-subtitle">Conviértete en súper héroe</p>
-        <p>100% de las ganancias de este DROP serán donadas a: XXXXXXXXXX, con quienes nos asociamos para reconstruir, llevar alimento y acompañar a las víctimas del pasado terremoto en Colombia.</p>
-        <button type="button" class="mask3d-buy" id="mask3d-buy">COMPRAR</button>
+        <p class="mask3d-subtitle-script">Mask Spiderman</p>
+        <button type="button" class="mask3d-buy" id="mask3d-buy">Donar!!</button>
+        <p class="mask3d-body">Sé un héroe – por tu donación: 100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
       </div>
     </div>
-  </main>
 
-  <!-- ===== MAÑANA SERÁ: entre la ficha del producto y el video, como
-       presentando lo que sigue. ===== -->
-  <div class="manana-logo-wrap">
-    <img class="manana-logo" src="assets/img/logo-manana-sera.webp" alt="Mañana Será — Un Nuevo Día" width="1932" height="660">
-  </div>
+    <p class="mask-scroll-cue">Ver drop ↓</p>
+  </main>
 
   <!-- ===== EL VIDEO: aparece haciendo scroll. El fondo rojo (.mask-bg)
        es fixed, así que se queda quieto mientras esto se desplaza. ===== -->
   <section class="mask-video-section">
+    <h2 class="mask-script-heading">Siempre hay alguien que necesita un héroe</h2>
     <video class="mask-video" src="assets/video/creatvmask-drop10.mp4" poster="assets/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
+    <h2 class="mask-script-heading mask-script-heading-big">Que la ayuda no pare</h2>
+    <h2 class="mask-script-heading">Se puede ser un héroe todo el año</h2>
+    <p class="mask3d-body">100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
   </section>
-
-  <!-- ===== HOY SOY: cierre de la pantalla, debajo del video. ===== -->
-  <div class="hoysoy-logo-wrap">
-    <img class="hoysoy-logo" src="assets/img/logo-hoysoy.webp" alt="Hoy Soy" width="1143" height="880">
-  </div>
 
   <!-- ===== MURO DE DONANTES: nombres de quienes ya pagaron y quisieron
        aparecer (assets/mask3d.js los trae de la hoja de Sheets). Si no
        hay ninguno todavía, la sección completa se queda oculta. ===== -->
   <section class="donor-wall" id="donor-wall" hidden>
-    <h2 class="donor-wall-title">Gracias a quienes ya son parte de esto</h2>
+    <p class="mask-avengers-line">Nada nos va a vencer<br>si seguimos juntos</p>
+    <h2 class="donor-wall-title">Wall of super heros</h2>
+    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
     <div class="donor-names" id="donor-names"></div>
+    <p class="donor-wall-count" id="donor-wall-count"></p>
+    <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
   </section>
 
   <!-- ===== GALERÍA: se abre al tocar la máscara — varios ángulos de las
@@ -118,14 +122,14 @@
     <div class="order-modal-inner">
       <button type="button" class="order-modal-close" id="order-modal-close" aria-label="Cerrar">✕</button>
       <h2 class="order-modal-title">Datos de envío</h2>
-      <p class="order-modal-sub">Antes de pagar, cuéntanos a dónde llevamos tu CREATV MASK.</p>
+      <p class="order-modal-sub">Antes de donar, cuéntanos a dónde llevamos tu CREATV MASK.</p>
 
       <form class="order-form" id="order-form" method="POST" action="https://formsubmit.co/dacoloradog@gmail.com">
         <input type="hidden" name="_subject" value="Nuevo pedido — CREATV MASK">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_cc" value="camiloveggaart@gmail.com">
         <input type="hidden" name="_next" value="https://checkout.bold.co/payment/LNK_OO88HOJAIS">
-        <input type="hidden" name="Producto" value="CREATV MASK — Hoy Soy: SP*DER MAN">
+        <input type="hidden" name="Producto" value="CREATV MASK 1 — Hoy Soy: Spiderman">
 
         <label>Nombre completo
           <input type="text" name="Nombre" required autocomplete="name">
@@ -152,7 +156,7 @@
 
         <p class="order-total">Total a pagar en Bold: <strong id="order-total-value">$50.000 COP</strong></p>
         <p class="order-note">En la siguiente pantalla, Bold te va a pedir que escribas el monto — pon el total de arriba.</p>
-        <button type="submit" class="pill-btn order-submit">Continuar al pago →</button>
+        <button type="submit" class="pill-btn order-submit">Donar y continuar →</button>
       </form>
     </div>
   </div>

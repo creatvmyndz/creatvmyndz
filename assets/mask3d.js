@@ -172,6 +172,7 @@
      falla), la sección se queda oculta — nunca se ve un muro vacío. */
   const donorWall = document.getElementById("donor-wall");
   const donorNames = document.getElementById("donor-names");
+  const donorCount = document.getElementById("donor-wall-count");
   if (donorWall && donorNames) {
     fetch(SHEET_URL)
       .then(r => r.json())
@@ -185,6 +186,7 @@
           span.style.setProperty("--s", (0.85 + Math.random() * 0.5).toFixed(2));
           donorNames.appendChild(span);
         });
+        if (donorCount) donorCount.textContent = names.length + (names.length === 1 ? " héroe y contando" : " héroes y contando");
         donorWall.hidden = false;
       })
       .catch(() => {});
