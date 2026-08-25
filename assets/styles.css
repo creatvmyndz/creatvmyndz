@@ -793,8 +793,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   opacity: 0.7;
 }
 
-/* El titular grande "Conviértete / en un súper héroe" — letra de
-   marcador (Caveat Brush), como en el diseño de Canva. */
+/* El titular grande "Conviértete / en un súper héroe" — letra pintada
+   a mano, exportada del diseño de Canva. */
 .mask-hero-headline {
   position: relative;
   display: flex;
@@ -802,16 +802,6 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   align-items: center;
   text-align: center;
   line-height: 1;
-}
-.mask-hero-spider {
-  position: absolute;
-  top: -2.2rem;
-  right: 0;
-  width: clamp(34px, 8vw, 52px);
-  height: auto;
-  transform: rotate(8deg);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
-  opacity: 0.92;
 }
 .mask-hero-headline-img {
   display: block;
@@ -1138,6 +1128,15 @@ body.modal-open { overflow: hidden; }
   width: auto;
   margin-top: 0;
   accent-color: var(--white);
+}
+
+.order-equiv {
+  margin-top: -0.5rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--white);
+  opacity: 0.75;
 }
 
 .order-total {

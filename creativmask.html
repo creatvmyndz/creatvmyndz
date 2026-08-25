@@ -20,7 +20,7 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/mask/img/fondo-mask.jpg">
-  <link rel="preload" as="image" href="assets/mask/img/mask-2d.webp">
+  <link rel="preload" as="image" href="assets/mask/img/mask-2d.svg">
   <link rel="stylesheet" href="assets/styles.css">
   <!-- Única fuente que carga desde afuera en todo el sitio (el resto va
        autoalojado) — es solo para el muro de donantes, look caligráfico. -->
@@ -50,13 +50,12 @@
     </div>
 
     <div class="mask-hero-headline">
-      <img class="mask-hero-spider" src="assets/mask/img/logo-arana.webp" alt="" aria-hidden="true">
       <img class="mask-hero-headline-img" src="assets/mask/img/conviertete-headline.webp" alt="Conviértete en un súper héroe">
     </div>
 
     <div class="mask3d-row">
       <div class="mask3d-visual">
-        <img class="mask-2d-image" src="assets/mask/img/mask-2d.webp" alt="CREATV MASK — Spiderman" width="255" height="383">
+        <img class="mask-2d-image" src="assets/mask/img/mask-2d.svg" alt="CREATV MASK — Spiderman" width="297" height="417">
       </div>
       <div class="mask3d-copy">
         <p class="mask3d-title">CREATV MASK 1 — Hoy Soy: Spiderman</p>
@@ -94,20 +93,10 @@
     <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
   </section>
 
-  <!-- ===== BONUS: la máscara girando en 3D, de cierre — la protagonista
-       de la portada ahora es la foto 2D, pero no queríamos perder el
-       giro; lo dejamos como el broche final de la página. ===== -->
-  <section class="mask3d-standalone" id="mask3d">
-    <img class="mask-spiderweb" src="assets/mask/img/spiderweb.webp" alt="" aria-hidden="true">
-    <h2 class="mask-script-heading">Gírala tú mismo</h2>
-    <div class="mask3d-standalone-inner">
-      <button type="button" class="mask3d-canvas-btn" id="mask3d-canvas-btn" aria-label="Ver fotos de la máscara">
-        <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
-      </button>
-      <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
-      <p class="mask3d-hint">Toca la máscara para ver más fotos</p>
-    </div>
-  </section>
+  <!-- ===== BONUS (quitado de pantalla por ahora): la máscara girando en
+       3D. Los assets (121 frames, canvas, scrub) siguen en el proyecto
+       por si se vuelve a mostrar más adelante — solo no está en el DOM.
+       Ver también .mask3d-standalone / .mask-spiderweb en styles.css. ===== -->
 
   <!-- ===== GALERÍA: se abre al tocar la máscara — varios ángulos de las
        mismas fotos que usa el giro en 3D. ===== -->
@@ -158,16 +147,17 @@
         <label>Ciudad
           <input type="text" name="Ciudad" required autocomplete="address-level2">
         </label>
-        <label>Cantidad
-          <input type="number" name="Cantidad" id="order-qty" min="1" value="1" required>
+        <label>¿Cuánto quieres donar?
+          <input type="number" name="Monto" id="order-amount" min="50000" step="1000" value="50000" required>
         </label>
+        <p class="order-equiv" id="order-equiv">Eso es 1 máscara</p>
         <label class="order-check">
           <input type="checkbox" name="Muro" value="Sí" checked>
           Quiero que mi nombre aparezca en el muro de donantes
         </label>
 
         <p class="order-total">Total a donar: <strong id="order-total-value">$50.000 COP</strong></p>
-        <p class="order-note">El monto queda fijo — se abre la pasarela segura de Bold con el total ya calculado.</p>
+        <p class="order-note">Cada máscara son $50.000 — si donas más, el resto también ayuda a la causa. El monto queda fijo al pasar a Bold.</p>
         <button type="submit" class="pill-btn order-submit">Donar y continuar →</button>
       </form>
     </div>
