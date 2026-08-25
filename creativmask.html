@@ -133,33 +133,42 @@
         <input type="hidden" name="Producto" value="CREATV MASK 1 — Hoy Soy: Spiderman">
 
         <label>Nombre completo
-          <input type="text" name="Nombre" required autocomplete="name">
+          <input type="text" name="Nombre" id="order-nombre" required autocomplete="name">
         </label>
         <label>Teléfono / WhatsApp
-          <input type="tel" name="Teléfono" required autocomplete="tel">
+          <input type="tel" name="Teléfono" id="order-telefono" required autocomplete="tel">
         </label>
         <label>Correo
-          <input type="email" name="Correo" required autocomplete="email">
+          <input type="email" name="Correo" id="order-correo" required autocomplete="email">
         </label>
         <label>Dirección de envío
-          <input type="text" name="Dirección" required autocomplete="street-address">
+          <input type="text" name="Dirección" id="order-direccion" required autocomplete="street-address">
         </label>
         <label>Ciudad
-          <input type="text" name="Ciudad" required autocomplete="address-level2">
+          <input type="text" name="Ciudad" id="order-ciudad" required autocomplete="address-level2">
+        </label>
+        <label>Cantidad de máscaras
+          <input type="number" name="Cantidad" id="order-qty" min="1" value="1" required>
         </label>
         <label>¿Cuánto quieres donar?
           <input type="number" name="Monto" id="order-amount" min="50000" step="1000" value="50000" required>
         </label>
-        <p class="order-equiv" id="order-equiv">Eso es 1 máscara</p>
+        <p class="order-equiv" id="order-equiv">Mínimo para 1 máscara: $50.000 COP</p>
         <label class="order-check">
-          <input type="checkbox" name="Muro" value="Sí" checked>
+          <input type="checkbox" name="Muro" id="order-muro" value="Sí" checked>
           Quiero que mi nombre aparezca en el muro de donantes
         </label>
 
-        <p class="order-total">Total a donar: <strong id="order-total-value">$50.000 COP</strong></p>
-        <p class="order-note">Cada máscara son $50.000 — si donas más, el resto también ayuda a la causa. El monto queda fijo al pasar a Bold.</p>
-        <button type="submit" class="pill-btn order-submit">Donar y continuar →</button>
+        <p class="order-note">Cada máscara son $50.000 — puedes donar más para ayudar a la causa. El monto queda fijo al pasar a Bold.</p>
+        <button type="submit" class="pill-btn order-submit">Revisar donación →</button>
       </form>
+
+      <div class="order-review" id="order-review" hidden>
+        <p class="order-review-title">Revisa tus datos antes de donar</p>
+        <dl class="order-review-list" id="order-review-list"></dl>
+        <button type="button" class="pill-btn order-review-back" id="order-review-back">← Editar</button>
+        <button type="button" class="pill-btn order-submit" id="order-review-confirm">Confirmar y donar →</button>
+      </div>
     </div>
   </div>
 

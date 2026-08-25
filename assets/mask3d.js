@@ -135,25 +135,34 @@
     });
   }
 
-  /* COMPRAR abre el formulario de envío. Al enviarlo:
-     1) le pedimos a la hoja de Sheets (Apps Script) que calcule el total
-        y firme el pedido — así el monto que ve Bold queda bloqueado, no
-        se puede editar ni manipular desde el navegador;
-     2) en paralelo, sin bloquear, mandamos el aviso por correo (FormSubmit);
-     3) con la firma que responde Sheets, abrimos la pasarela de Bold ya
-        con el monto exacto puesto, sin pasar por un link estático. */
+  /* COMPRAR abre el formulario de envío, en 3 pasos:
+     1) la persona elige cantidad de máscaras + cuánto donar (nunca menos
+        del mínimo para esa cantidad: $50.000 por máscara);
+     2) antes de pagar, ve un resumen de todo lo que escribió y confirma;
+     3) recién ahí le pedimos a Sheets (Apps Script) que calcule y firme
+        el pedido — el monto que ve Bold queda bloqueado, no se puede
+        editar ni manipular desde el navegador — y mandamos el aviso por
+        correo (FormSubmit) en paralelo, sin bloquear. */
   const buyBtn = document.getElementById("mask3d-buy");
   const orderModal = document.getElementById("order-modal");
   const orderClose = document.getElementById("order-modal-close");
   const orderForm = document.getElementById("order-form");
+  const orderQty = document.getElementById("order-qty");
   const orderAmount = document.getElementById("order-amount");
-  const orderTotal = document.getElementById("order-total-value");
   const orderEquiv = document.getElementById("order-equiv");
-  const orderSubmitBtn = orderForm ? orderForm.querySelector(".order-submit") : null;
+  const orderReview = document.getElementById("order-review");
+  const orderReviewList = document.getElementById("order-review-list");
+  const orderReviewBack = document.getElementById("order-review-back");
+  const orderReviewConfirm = document.getElementById("order-review-confirm");
   const UNIT_PRICE = 50000;
   const SHEET_URL = "https://script.google.com/macros/s/AKfycbwOYJFm4aqF0UjzZLHzPsb29oJioWtpISKgdmXnFmaQ9MndZRMfyEo9MGlkd2qTrcpkHA/exec";
   if (buyBtn && orderModal) {
-    const openOrder = () => { orderModal.hidden = false; document.body.classList.add("modal-open"); };
+    const openOrder = () => {
+      orderModal.hidden = false;
+      document.body.classList.add("modal-open");
+      orderForm.hidden = false;
+      orderReview.hidden = true;
+    };
     const closeOrder = () => { orderModal.hidden = true; document.body.classList.remove("modal-open"); };
     buyBtn.addEventListener("click", openOrder);
     if (orderClose) orderClose.addEventListener("click", closeOrder);
@@ -161,25 +170,68 @@
     document.addEventListener("keydown", e => {
       if (e.key === "Escape" && !orderModal.hidden) closeOrder();
     });
-    if (orderAmount && orderTotal) {
-      const updateEquiv = () => {
-        const amount = Math.max(UNIT_PRICE, Number(orderAmount.value) || UNIT_PRICE);
-        const qty = Math.floor(amount / UNIT_PRICE) || 1;
-        const extra = amount - qty * UNIT_PRICE;
-        orderTotal.textContent = "$" + amount.toLocaleString("es-CO") + " COP";
-        if (orderEquiv) {
-          let text = "Eso es " + qty + (qty === 1 ? " máscara" : " máscaras");
-          if (extra > 0) text += " y $" + extra.toLocaleString("es-CO") + " de más para la causa";
-          orderEquiv.textContent = text;
-        }
+
+    if (orderQty && orderAmount && orderEquiv) {
+      const minFor = qty => Math.max(1, Math.floor(qty) || 1) * UNIT_PRICE;
+      const updateMin = () => {
+        const min = minFor(Number(orderQty.value));
+        orderAmount.min = String(min);
+        if (Number(orderAmount.value) < min) orderAmount.value = String(min);
+        updateEquiv();
       };
+      const updateEquiv = () => {
+        const qty = Math.max(1, Math.floor(Number(orderQty.value)) || 1);
+        const min = qty * UNIT_PRICE;
+        const amount = Math.max(min, Number(orderAmount.value) || min);
+        const extra = amount - min;
+        let text = "Mínimo para " + qty + (qty === 1 ? " máscara" : " máscaras") + ": $" + min.toLocaleString("es-CO") + " COP";
+        if (extra > 0) text += " (donando $" + amount.toLocaleString("es-CO") + " — $" + extra.toLocaleString("es-CO") + " de más para la causa)";
+        orderEquiv.textContent = text;
+      };
+      orderQty.addEventListener("input", updateMin);
       orderAmount.addEventListener("input", updateEquiv);
-      updateEquiv();
+      updateMin();
     }
+
+    /* Paso 1 → 2: valida el formulario y muestra el resumen. */
     if (orderForm) {
       orderForm.addEventListener("submit", e => {
         e.preventDefault();
-        if (orderSubmitBtn) { orderSubmitBtn.disabled = true; orderSubmitBtn.textContent = "Procesando…"; }
+        if (!orderForm.reportValidity()) return;
+
+        const qty = Math.max(1, Math.floor(Number(orderQty.value)) || 1);
+        const amount = Math.max(qty * UNIT_PRICE, Number(orderAmount.value) || qty * UNIT_PRICE);
+        const rows = [
+          ["Nombre", document.getElementById("order-nombre").value],
+          ["Teléfono", document.getElementById("order-telefono").value],
+          ["Correo", document.getElementById("order-correo").value],
+          ["Dirección", document.getElementById("order-direccion").value],
+          ["Ciudad", document.getElementById("order-ciudad").value],
+          ["Cantidad", qty + (qty === 1 ? " máscara" : " máscaras")],
+          ["Total a donar", "$" + amount.toLocaleString("es-CO") + " COP"],
+          ["Muro de donantes", document.getElementById("order-muro").checked ? "Sí" : "No"],
+        ];
+        orderReviewList.innerHTML = rows.map(([k, v]) =>
+          "<dt>" + k + "</dt><dd>" + String(v).replace(/</g, "&lt;") + "</dd>"
+        ).join("");
+
+        orderForm.hidden = true;
+        orderReview.hidden = false;
+      });
+    }
+
+    if (orderReviewBack) {
+      orderReviewBack.addEventListener("click", () => {
+        orderReview.hidden = true;
+        orderForm.hidden = false;
+      });
+    }
+
+    /* Paso 2 → 3: confirmado — recién ahí se manda todo y se abre Bold. */
+    if (orderReviewConfirm) {
+      orderReviewConfirm.addEventListener("click", () => {
+        orderReviewConfirm.disabled = true;
+        orderReviewConfirm.textContent = "Procesando…";
 
         // Aviso por correo — no necesitamos esperar la respuesta.
         fetch(orderForm.action, { method: "POST", mode: "no-cors", body: new FormData(orderForm) }).catch(() => {});
@@ -205,7 +257,8 @@
             alert("No pudimos conectar con el pago. Intenta de nuevo en un momento.");
           })
           .finally(() => {
-            if (orderSubmitBtn) { orderSubmitBtn.disabled = false; orderSubmitBtn.textContent = "Donar y continuar →"; }
+            orderReviewConfirm.disabled = false;
+            orderReviewConfirm.textContent = "Confirmar y donar →";
           });
       });
     }
