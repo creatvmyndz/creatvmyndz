@@ -886,6 +886,29 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   background: #000;
 }
 
+/* Fotos reales del terremoto — cada una con su propio alto (columnas al
+   estilo Pinterest), sin recortar ninguna a la fuerza. */
+.mask-photo-grid {
+  column-count: 2;
+  column-gap: 0.6rem;
+  max-width: 48rem;
+  margin: 2.2rem auto 0;
+  text-align: left;
+}
+.mask-photo-grid img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.6rem;
+  border-radius: 10px;
+  break-inside: avoid;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+@media (min-width: 640px) {
+  .mask-photo-grid { column-count: 3; column-gap: 0.8rem; }
+  .mask-photo-grid img { margin-bottom: 0.8rem; }
+}
+
 .mask-script-heading {
   font-family: "Caveat Brush", cursive;
   font-weight: 400;
@@ -946,6 +969,22 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   text-shadow: var(--shadow);
   transform: rotate(var(--r, 0deg));
   opacity: 0.92;
+}
+.donor-loading, .donor-empty {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--white);
+  text-shadow: var(--shadow);
+  opacity: 0.75;
+}
+.donor-loading { animation: donorPulse 1.4s ease-in-out infinite; }
+@keyframes donorPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .donor-loading { animation: none; }
 }
 .donor-wall-count {
   margin-top: 2.4rem;

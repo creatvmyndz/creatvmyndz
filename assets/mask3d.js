@@ -248,7 +248,7 @@
               amount: order.amount,
               apiKey: order.apiKey,
               integritySignature: order.signature,
-              description: "CREATV MASK 1 — Hoy Soy: Spiderman",
+              description: "CREATV MASK Spider Man - Heroes Collection N1",
               redirectionUrl: "https://creatvmyndz.com/creativmask.html?donacion=gracias",
             });
             checkout.open();
@@ -271,19 +271,27 @@
     });
   }
 
-  /* MURO DE DONANTES: la misma hoja de Sheets, pero pidiéndole (GET, no
-     POST) solo los nombres de quienes ya están marcados "Pagado" y
-     quisieron aparecer — el filtro real lo hace el Apps Script del lado
-     de la hoja, acá solo pintamos lo que llegue. Si no llega nada (o
-     falla), la sección se queda oculta — nunca se ve un muro vacío. */
-  const donorWall = document.getElementById("donor-wall");
+  /* MURO DE DONANTES: la sección ya está visible desde que carga la
+     página (así se puede seguir bajando sin esperar nada) — mientras
+     responde la hoja de Sheets se ve "Cargando héroes…", y acá lo
+     reemplazamos por los nombres (o, si todavía no hay ninguno, por una
+     invitación a ser el primero). La misma petición (GET, no POST) solo
+     trae quienes ya están marcados "Pagado" y quisieron aparecer — el
+     filtro real lo hace el Apps Script del lado de la hoja. */
   const donorNames = document.getElementById("donor-names");
   const donorCount = document.getElementById("donor-wall-count");
-  if (donorWall && donorNames) {
+  if (donorNames) {
     fetch(SHEET_URL)
       .then(r => r.json())
       .then(names => {
-        if (!Array.isArray(names) || !names.length) return;
+        donorNames.innerHTML = "";
+        if (!Array.isArray(names) || !names.length) {
+          const span = document.createElement("span");
+          span.className = "donor-empty";
+          span.textContent = "Sé el primer héroe en donar";
+          donorNames.appendChild(span);
+          return;
+        }
         names.forEach(name => {
           const span = document.createElement("span");
           span.className = "donor-name";
@@ -293,8 +301,13 @@
           donorNames.appendChild(span);
         });
         if (donorCount) donorCount.textContent = names.length + (names.length === 1 ? " héroe y contando" : " héroes y contando");
-        donorWall.hidden = false;
       })
-      .catch(() => {});
+      .catch(() => {
+        donorNames.innerHTML = "";
+        const span = document.createElement("span");
+        span.className = "donor-empty";
+        span.textContent = "Sé el primer héroe en donar";
+        donorNames.appendChild(span);
+      });
   }
 })();

@@ -55,10 +55,10 @@
 
     <div class="mask3d-row">
       <div class="mask3d-visual">
-        <img class="mask-2d-image" src="assets/mask/img/mask-2d.svg" alt="CREATV MASK — Spiderman" width="297" height="417">
+        <img class="mask-2d-image" src="assets/mask/img/mask-2d.svg" alt="CREATV MASK Spider Man - Heroes Collection N1" width="297" height="417">
       </div>
       <div class="mask3d-copy">
-        <p class="mask3d-title">CREATV MASK 1 — Hoy Soy: Spiderman</p>
+        <p class="mask3d-title">CREATV MASK Spider Man - Heroes Collection N1</p>
         <p class="mask3d-price">$50.000 COP</p>
         <img class="mask3d-subtitle-img" src="assets/mask/img/mask-spiderman-title.webp" alt="Mask Spiderman">
         <div class="mask3d-buy-wrap">
@@ -77,18 +77,33 @@
     <h2 class="mask-script-heading">Siempre hay alguien que necesita un héroe</h2>
     <video class="mask-video" src="assets/mask/video/creatvmask-drop10.mp4" poster="assets/mask/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
     <h2 class="mask-script-heading mask-script-heading-big">Que la ayuda no pare</h2>
-    <h2 class="mask-script-heading">Se puede ser un héroe todo el año</h2>
+    <h2 class="mask-script-heading">Conviértete en un héroe</h2>
     <p class="mask3d-body">100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
+
+    <div class="mask-photo-grid">
+      <img src="assets/mask/fotos/foto-01.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-02.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-03.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-04.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-05.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-06.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-07.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-08.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-09.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-10.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <img src="assets/mask/fotos/foto-11.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+    </div>
   </section>
 
-  <!-- ===== MURO DE DONANTES: nombres de quienes ya pagaron y quisieron
-       aparecer (assets/mask3d.js los trae de la hoja de Sheets). Si no
-       hay ninguno todavía, la sección completa se queda oculta. ===== -->
-  <section class="donor-wall" id="donor-wall" hidden>
+  <!-- ===== MURO DE DONANTES: la sección siempre está en la página (para
+       que se pueda seguir bajando sin esperar nada) — los nombres los
+       trae assets/mask3d.js de la hoja de Sheets y, mientras responde,
+       se ve un aviso de carga en su lugar. ===== -->
+  <section class="donor-wall" id="donor-wall">
     <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.svg" alt="Nada nos va a vencer si seguimos juntos">
-    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heros.webp" alt="Wall of super heros">
+    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes">
     <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
-    <div class="donor-names" id="donor-names"></div>
+    <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
     <p class="donor-wall-count" id="donor-wall-count"></p>
     <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
   </section>
@@ -130,7 +145,7 @@
         <input type="hidden" name="_subject" value="Nuevo pedido — CREATV MASK">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_cc" value="camiloveggaart@gmail.com">
-        <input type="hidden" name="Producto" value="CREATV MASK 1 — Hoy Soy: Spiderman">
+        <input type="hidden" name="Producto" value="CREATV MASK Spider Man - Heroes Collection N1">
 
         <label>Nombre completo
           <input type="text" name="Nombre" id="order-nombre" required autocomplete="name">
