@@ -690,7 +690,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: #1a0505 url("img/fondo-mask.jpg") center center / cover no-repeat;
+  background: #1a0505 url("mask/img/fondo-mask.jpg") center center / cover no-repeat;
 }
 
 .mask-screen {
@@ -753,6 +753,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 .mask3d-visual { flex: none; width: min(26vw, 190px); }
+.mask-2d-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
+}
 
 .mask3d-canvas-btn {
   display: block;
@@ -790,11 +796,22 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 /* El titular grande "Conviértete / en un súper héroe" — letra de
    marcador (Caveat Brush), como en el diseño de Canva. */
 .mask-hero-headline {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   line-height: 1;
+}
+.mask-hero-spider {
+  position: absolute;
+  top: -2.2rem;
+  right: 0;
+  width: clamp(34px, 8vw, 52px);
+  height: auto;
+  transform: rotate(8deg);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+  opacity: 0.92;
 }
 .mask-hero-headline-script {
   font-family: "Caveat Brush", cursive;
@@ -918,18 +935,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    nombre) para que se sienta escrito a mano, no una lista prolija. */
 .donor-wall { padding: 2rem 1.2rem 4rem; text-align: center; }
 
-/* Reemplaza el logo de Avengers del diseño original (marca registrada
-   de Marvel — no lo reproducimos tal cual): la misma frase, en
-   tipografía propia bien fuerte. */
-.mask-avengers-line {
-  font-family: var(--font);
-  font-weight: 800;
-  font-size: clamp(1.3rem, 5vw, 1.9rem);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--white);
-  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3), 0 10px 26px rgba(0, 0, 0, 0.5);
-  margin-bottom: 2.2rem;
+.mask-avengers-logo {
+  display: block;
+  width: min(85vw, 460px);
+  height: auto;
+  margin: 0 auto 2.2rem;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }
 
 .donor-wall-title {
@@ -980,6 +991,19 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   color: var(--white);
   opacity: 0.75;
 }
+
+/* ===== BONUS: la máscara girando en 3D, al final de todo. La
+   protagonista de la portada ahora es la foto 2D; esto es el cierre
+   interactivo, no repite la ficha del producto (ya se donó arriba). ===== */
+.mask3d-standalone {
+  padding: 1rem 1.2rem 5rem;
+  text-align: center;
+}
+.mask3d-standalone-inner {
+  max-width: 14rem;
+  margin: 1.8rem auto 0;
+}
+.mask3d-standalone-inner .mask3d-hint { margin-top: 0.7rem; }
 
 /* ===== GALERÍA DE FOTOS: se abre al tocar la máscara. ===== */
 body.modal-open { overflow: hidden; }

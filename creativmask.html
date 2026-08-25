@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#1a0505">
   <meta property="og:title" content="CREATV MASK — CREATV MYNDZ">
   <meta property="og:description" content="CREATV MASK, de CREATV MYNDZ.">
-  <meta property="og:image" content="https://creatvmyndz.com/assets/img/og-mask.jpg">
+  <meta property="og:image" content="https://creatvmyndz.com/assets/mask/img/og-mask.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:url" content="https://creatvmyndz.com/creativmask.html">
@@ -16,11 +16,11 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="CREATV MASK — CREATV MYNDZ">
   <meta name="twitter:description" content="CREATV MASK, de CREATV MYNDZ.">
-  <meta name="twitter:image" content="https://creatvmyndz.com/assets/img/og-mask.jpg">
+  <meta name="twitter:image" content="https://creatvmyndz.com/assets/mask/img/og-mask.jpg">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
-  <link rel="preload" as="image" href="assets/img/fondo-mask.jpg">
-  <link rel="preload" as="image" href="assets/mask3d/0001.webp">
+  <link rel="preload" as="image" href="assets/mask/img/fondo-mask.jpg">
+  <link rel="preload" as="image" href="assets/mask/img/mask-2d.webp">
   <link rel="stylesheet" href="assets/styles.css">
   <!-- Única fuente que carga desde afuera en todo el sitio (el resto va
        autoalojado) — es solo para el muro de donantes, look caligráfico. -->
@@ -38,29 +38,26 @@
     </div>
   </header>
 
-  <!-- ===== PORTADA: los dos logos arriba, el DROP #10 (máscara girando +
-       texto + botón) debajo — todo en la misma pantalla, sin scroll. La
-       máscara gira arrastrando la barra de abajo. ===== -->
+  <!-- ===== PORTADA: los dos logos arriba, la máscara (foto 2D — la
+       versión que gira en 3D quedó de bonus al final de la página) y
+       la ficha del producto — todo en la misma pantalla, sin scroll. ===== -->
   <main class="mask-screen">
     <img class="studio-logo" src="assets/img/logo-creatv-studios.webp" alt="CREATV STUDIOS" width="1414" height="337">
 
     <div class="mask-logos">
-      <img class="mask-hero-logo" src="assets/img/logo-creativmask.webp" alt="CREATV MASK" width="1254" height="1254">
+      <img class="mask-hero-logo" src="assets/mask/img/logo-creativmask.webp" alt="CREATV MASK" width="1254" height="1254">
       <img class="mask-myndz-logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593">
     </div>
 
     <div class="mask-hero-headline">
+      <img class="mask-hero-spider" src="assets/mask/img/logo-arana.webp" alt="" aria-hidden="true">
       <span class="mask-hero-headline-script">Conviértete</span>
       <span class="mask-hero-headline-sub">en un súper héroe</span>
     </div>
 
-    <div class="mask3d-row" id="mask3d">
+    <div class="mask3d-row">
       <div class="mask3d-visual">
-        <button type="button" class="mask3d-canvas-btn" id="mask3d-canvas-btn" aria-label="Ver fotos de la máscara">
-          <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
-        </button>
-        <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
-        <p class="mask3d-hint">Toca la máscara para ver más fotos</p>
+        <img class="mask-2d-image" src="assets/mask/img/mask-2d.webp" alt="CREATV MASK — Spiderman" width="255" height="383">
       </div>
       <div class="mask3d-copy">
         <p class="mask3d-title">CREATV MASK 1 — Hoy Soy: Spiderman</p>
@@ -68,13 +65,13 @@
         <p class="mask3d-subtitle-script">Mask Spiderman</p>
         <div class="mask3d-buy-wrap">
           <button type="button" class="mask3d-buy" id="mask3d-buy">Donar!!</button>
-          <img class="mask-arrow" src="assets/img/mask-arrow.webp" alt="" aria-hidden="true">
+          <img class="mask-arrow" src="assets/mask/img/mask-arrow.webp" alt="" aria-hidden="true">
         </div>
         <p class="mask3d-body">Sé un héroe – por tu donación: 100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
       </div>
     </div>
 
-    <img class="mask-smoke" src="assets/img/mask-smoke.webp" alt="" aria-hidden="true">
+    <img class="mask-smoke" src="assets/mask/img/mask-smoke.webp" alt="" aria-hidden="true">
     <p class="mask-scroll-cue">Ver drop ↓</p>
   </main>
 
@@ -82,7 +79,7 @@
        es fixed, así que se queda quieto mientras esto se desplaza. ===== -->
   <section class="mask-video-section">
     <h2 class="mask-script-heading">Siempre hay alguien que necesita un héroe</h2>
-    <video class="mask-video" src="assets/video/creatvmask-drop10.mp4" poster="assets/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
+    <video class="mask-video" src="assets/mask/video/creatvmask-drop10.mp4" poster="assets/mask/img/creatvmask-drop10-poster.jpg" controls playsinline preload="metadata"></video>
     <h2 class="mask-script-heading mask-script-heading-big">Que la ayuda no pare</h2>
     <h2 class="mask-script-heading">Se puede ser un héroe todo el año</h2>
     <p class="mask3d-body">100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
@@ -92,12 +89,26 @@
        aparecer (assets/mask3d.js los trae de la hoja de Sheets). Si no
        hay ninguno todavía, la sección completa se queda oculta. ===== -->
   <section class="donor-wall" id="donor-wall" hidden>
-    <p class="mask-avengers-line">Nada nos va a vencer<br>si seguimos juntos</p>
+    <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.webp" alt="Nada nos va a vencer si seguimos juntos">
     <h2 class="donor-wall-title">Wall of super heros</h2>
     <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
     <div class="donor-names" id="donor-names"></div>
     <p class="donor-wall-count" id="donor-wall-count"></p>
     <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
+  </section>
+
+  <!-- ===== BONUS: la máscara girando en 3D, de cierre — la protagonista
+       de la portada ahora es la foto 2D, pero no queríamos perder el
+       giro; lo dejamos como el broche final de la página. ===== -->
+  <section class="mask3d-standalone" id="mask3d">
+    <h2 class="mask-script-heading">Gírala tú mismo</h2>
+    <div class="mask3d-standalone-inner">
+      <button type="button" class="mask3d-canvas-btn" id="mask3d-canvas-btn" aria-label="Ver fotos de la máscara">
+        <canvas id="mask3d-canvas" aria-label="CREATV MASK girando en 3D"></canvas>
+      </button>
+      <input type="range" id="mask3d-scrub" class="mask3d-scrub" min="0" max="120" value="0" aria-label="Girar la máscara">
+      <p class="mask3d-hint">Toca la máscara para ver más fotos</p>
+    </div>
   </section>
 
   <!-- ===== GALERÍA: se abre al tocar la máscara — varios ángulos de las
@@ -107,19 +118,19 @@
       <button type="button" class="mask-gallery-close" id="mask-gallery-close" aria-label="Cerrar">✕</button>
       <h2 class="mask-gallery-title">CREATV MASK — Fotos</h2>
       <div class="mask-gallery-grid">
-        <img src="assets/mask3d/0001.webp" alt="CREATV MASK, vista 1" loading="lazy">
-        <img src="assets/mask3d/0016.webp" alt="CREATV MASK, vista 2" loading="lazy">
-        <img src="assets/mask3d/0031.webp" alt="CREATV MASK, vista 3" loading="lazy">
-        <img src="assets/mask3d/0046.webp" alt="CREATV MASK, vista 4" loading="lazy">
-        <img src="assets/mask3d/0061.webp" alt="CREATV MASK, vista 5" loading="lazy">
-        <img src="assets/mask3d/0076.webp" alt="CREATV MASK, vista 6" loading="lazy">
-        <img src="assets/mask3d/0091.webp" alt="CREATV MASK, vista 7" loading="lazy">
-        <img src="assets/mask3d/0106.webp" alt="CREATV MASK, vista 8" loading="lazy">
+        <img src="assets/mask/mask3d/0001.webp" alt="CREATV MASK, vista 1" loading="lazy">
+        <img src="assets/mask/mask3d/0016.webp" alt="CREATV MASK, vista 2" loading="lazy">
+        <img src="assets/mask/mask3d/0031.webp" alt="CREATV MASK, vista 3" loading="lazy">
+        <img src="assets/mask/mask3d/0046.webp" alt="CREATV MASK, vista 4" loading="lazy">
+        <img src="assets/mask/mask3d/0061.webp" alt="CREATV MASK, vista 5" loading="lazy">
+        <img src="assets/mask/mask3d/0076.webp" alt="CREATV MASK, vista 6" loading="lazy">
+        <img src="assets/mask/mask3d/0091.webp" alt="CREATV MASK, vista 7" loading="lazy">
+        <img src="assets/mask/mask3d/0106.webp" alt="CREATV MASK, vista 8" loading="lazy">
       </div>
     </div>
   </div>
 
-  <!-- ===== PEDIDO: se abre al tocar COMPRAR. Pide la dirección de envío
+  <!-- ===== PEDIDO: se abre al tocar DONAR. Pide la dirección de envío
        y, al enviarla, manda el pedido por correo (FormSubmit, sin
        backend) y de una vez lleva al pago en Bold. ===== -->
   <div class="order-modal" id="order-modal" hidden>

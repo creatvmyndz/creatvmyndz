@@ -20,7 +20,7 @@
   const frames = Array.from({ length: TOTAL }, () => ({ img: null, ready: false }));
 
   function src(i) {
-    return "assets/mask3d/" + String(i + 1).padStart(4, "0") + ".webp";
+    return "assets/mask/mask3d/" + String(i + 1).padStart(4, "0") + ".webp";
   }
 
   let targetIndex = 0;
