@@ -20,7 +20,7 @@
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/mask/img/fondo-mask.jpg">
-  <link rel="preload" as="image" href="assets/mask/img/mask-2d.svg">
+  <link rel="preload" as="image" href="assets/mask/img/mask-2d.webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/styles.css">
   <!-- Única fuente que carga desde afuera en todo el sitio (el resto va
        autoalojado) — es solo para el muro de donantes, look caligráfico. -->
@@ -55,7 +55,7 @@
 
     <div class="mask3d-row">
       <div class="mask3d-visual">
-        <img class="mask-2d-image" src="assets/mask/img/mask-2d.svg" alt="CREATV MASK Spider Man - Heroes Collection N1" width="297" height="417">
+        <img class="mask-2d-image" src="assets/mask/img/mask-2d.webp" alt="CREATV MASK Spider Man - Heroes Collection N1" width="748" height="1134" fetchpriority="high">
       </div>
       <div class="mask3d-copy">
         <p class="mask3d-title">CREATV MASK Spider Man - Heroes Collection N1</p>
@@ -79,7 +79,24 @@
     <h2 class="mask-script-heading mask-script-heading-big">Que la ayuda no pare</h2>
     <h2 class="mask-script-heading">Conviértete en un héroe</h2>
     <p class="mask3d-body">100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
+  </section>
 
+  <!-- ===== MURO DE DONANTES: la sección siempre está en la página (para
+       que se pueda seguir bajando sin esperar nada) — los nombres los
+       trae assets/mask3d.js de la hoja de Sheets y, mientras responde,
+       se ve un aviso de carga en su lugar. ===== -->
+  <section class="donor-wall" id="donor-wall">
+    <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.webp" alt="Nada nos va a vencer si seguimos juntos" width="920" height="405" loading="lazy">
+    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes">
+    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
+    <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
+    <p class="donor-wall-count" id="donor-wall-count"></p>
+    <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
+  </section>
+
+  <!-- ===== FOTOS: cierre de la página, evidencia real de la zona del
+       terremoto — cada una conserva su propio tamaño/orientación. ===== -->
+  <section class="mask-photos-section">
     <div class="mask-photo-grid">
       <img src="assets/mask/fotos/foto-01.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
       <img src="assets/mask/fotos/foto-02.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
@@ -92,20 +109,9 @@
       <img src="assets/mask/fotos/foto-09.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
       <img src="assets/mask/fotos/foto-10.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
       <img src="assets/mask/fotos/foto-11.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
+      <video src="assets/mask/fotos/video1.mp4" poster="assets/mask/fotos/video1-poster.webp" width="720" height="1280" controls playsinline preload="none"></video>
+      <video src="assets/mask/fotos/video2.mp4" poster="assets/mask/fotos/video2-poster.webp" width="720" height="1280" controls playsinline preload="none"></video>
     </div>
-  </section>
-
-  <!-- ===== MURO DE DONANTES: la sección siempre está en la página (para
-       que se pueda seguir bajando sin esperar nada) — los nombres los
-       trae assets/mask3d.js de la hoja de Sheets y, mientras responde,
-       se ve un aviso de carga en su lugar. ===== -->
-  <section class="donor-wall" id="donor-wall">
-    <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.svg" alt="Nada nos va a vencer si seguimos juntos">
-    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes">
-    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
-    <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
-    <p class="donor-wall-count" id="donor-wall-count"></p>
-    <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
   </section>
 
   <!-- ===== BONUS (quitado de pantalla por ahora): la máscara girando en

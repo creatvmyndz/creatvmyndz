@@ -886,8 +886,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   background: #000;
 }
 
-/* Fotos reales del terremoto — cada una con su propio alto (columnas al
-   estilo Pinterest), sin recortar ninguna a la fuerza. */
+/* ===== FOTOS: cierre de la página — evidencia real de la zona del
+   terremoto, cada una con su propio alto (columnas al estilo
+   Pinterest), sin recortar ninguna a la fuerza. ===== */
+.mask-photos-section {
+  padding: 1rem 1.2rem 4rem;
+}
 .mask-photo-grid {
   column-count: 2;
   column-gap: 0.6rem;
@@ -895,7 +899,8 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   margin: 2.2rem auto 0;
   text-align: left;
 }
-.mask-photo-grid img {
+.mask-photo-grid img,
+.mask-photo-grid video {
   display: block;
   width: 100%;
   height: auto;
@@ -903,10 +908,11 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   border-radius: 10px;
   break-inside: avoid;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  background: #000;
 }
 @media (min-width: 640px) {
   .mask-photo-grid { column-count: 3; column-gap: 0.8rem; }
-  .mask-photo-grid img { margin-bottom: 0.8rem; }
+  .mask-photo-grid img, .mask-photo-grid video { margin-bottom: 0.8rem; }
 }
 
 .mask-script-heading {
