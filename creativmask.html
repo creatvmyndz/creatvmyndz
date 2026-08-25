@@ -81,21 +81,8 @@
     <p class="mask3d-body">100% de las ganancias de este DROP serán donadas a diferentes causas sociales: la primera será a los afectados por el pasado terremoto en Colombia.</p>
   </section>
 
-  <!-- ===== MURO DE DONANTES: la sección siempre está en la página (para
-       que se pueda seguir bajando sin esperar nada) — los nombres los
-       trae assets/mask3d.js de la hoja de Sheets y, mientras responde,
-       se ve un aviso de carga en su lugar. ===== -->
-  <section class="donor-wall" id="donor-wall">
-    <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.webp" alt="Nada nos va a vencer si seguimos juntos" width="920" height="405" loading="lazy">
-    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes">
-    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
-    <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
-    <p class="donor-wall-count" id="donor-wall-count"></p>
-    <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
-  </section>
-
-  <!-- ===== FOTOS: cierre de la página, evidencia real de la zona del
-       terremoto — cada una conserva su propio tamaño/orientación. ===== -->
+  <!-- ===== FOTOS: evidencia real de la zona del terremoto — cada una
+       conserva su propio tamaño/orientación. ===== -->
   <section class="mask-photos-section">
     <div class="mask-photo-grid">
       <img src="assets/mask/fotos/foto-01.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
@@ -109,9 +96,20 @@
       <img src="assets/mask/fotos/foto-09.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
       <img src="assets/mask/fotos/foto-10.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
       <img src="assets/mask/fotos/foto-11.webp" alt="Rescatistas trabajando en la zona del terremoto" loading="lazy">
-      <video src="assets/mask/fotos/video1.mp4" poster="assets/mask/fotos/video1-poster.webp" width="720" height="1280" controls playsinline preload="none"></video>
-      <video src="assets/mask/fotos/video2.mp4" poster="assets/mask/fotos/video2-poster.webp" width="720" height="1280" controls playsinline preload="none"></video>
     </div>
+  </section>
+
+  <!-- ===== MURO DE DONANTES: cierre de la página. Siempre está en el DOM
+       (para que se pueda seguir bajando sin esperar nada) — los nombres
+       los trae assets/mask3d.js de la hoja de Sheets y, mientras
+       responde, se ve un aviso de carga en su lugar. ===== -->
+  <section class="donor-wall" id="donor-wall">
+    <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.webp" alt="Nada nos va a vencer si seguimos juntos" width="920" height="405" loading="lazy">
+    <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes">
+    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
+    <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
+    <p class="donor-wall-count" id="donor-wall-count"></p>
+    <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
   </section>
 
   <!-- ===== BONUS (quitado de pantalla por ahora): la máscara girando en
