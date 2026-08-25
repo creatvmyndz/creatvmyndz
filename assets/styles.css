@@ -841,11 +841,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   opacity: 0.65;
   margin-bottom: 0.6rem;
 }
-.mask3d-subtitle-script {
-  font-family: "Caveat Brush", cursive;
-  font-size: clamp(1.5rem, 3.4vw, 2rem);
-  color: var(--white);
-  margin-bottom: 0.8rem;
+.mask3d-subtitle-img {
+  display: block;
+  width: min(60vw, 260px);
+  height: auto;
+  margin: 0 auto 0.8rem;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.45));
 }
 .mask3d-body {
   font-size: clamp(0.72rem, 1.1vw, 0.88rem);
@@ -857,17 +858,17 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .mask3d-buy {
   margin-top: 0.2rem;
   padding: 0.85rem 2.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   border-radius: 999px;
   background: linear-gradient(180deg, #ff5b5b, #e42a2a);
-  color: var(--white);
-  font-family: "Caveat Brush", cursive;
-  font-weight: 400;
-  font-size: 1.5rem;
   box-shadow: 0 10px 24px rgba(228, 42, 42, 0.45);
   transition: transform 0.15s, opacity 0.15s;
 }
 .mask3d-buy:hover { transform: translateY(-2px); opacity: 0.9; }
+.mask3d-buy-word { display: block; height: 1.4rem; width: auto; }
 
 .mask3d-buy-wrap { position: relative; display: inline-flex; }
 .mask-arrow {
@@ -943,12 +944,12 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
 }
 
-.donor-wall-title {
-  font-family: "Caveat Brush", cursive;
-  font-weight: 400;
-  color: var(--white);
-  text-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
-  font-size: clamp(1.8rem, 7vw, 2.6rem);
+.donor-wall-title-img {
+  display: block;
+  width: min(92vw, 520px);
+  height: auto;
+  margin: 0 auto 0.4rem;
+  filter: drop-shadow(0 3px 16px rgba(0, 0, 0, 0.5));
 }
 .donor-wall-sub {
   margin-top: 0.3rem;
