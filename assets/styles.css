@@ -799,7 +799,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .mask-hero-headline-script {
   font-family: "Caveat Brush", cursive;
   font-size: clamp(2.4rem, 8vw, 3.6rem);
-  color: #ff4d4d;
+  color: #e60124;
   text-shadow: 0 3px 16px rgba(0, 0, 0, 0.5);
 }
 .mask-hero-headline-sub {
@@ -851,6 +851,25 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   transition: transform 0.15s, opacity 0.15s;
 }
 .mask3d-buy:hover { transform: translateY(-2px); opacity: 0.9; }
+
+.mask3d-buy-wrap { position: relative; display: inline-flex; }
+.mask-arrow {
+  position: absolute;
+  left: -1.6rem;
+  bottom: -1.3rem;
+  width: 2.6rem;
+  height: auto;
+  transform: rotate(-6deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
+.mask-smoke {
+  width: min(90vw, 420px);
+  height: auto;
+  margin: 0.6rem 0 -0.6rem;
+  opacity: 0.9;
+}
 
 .mask-scroll-cue {
   margin-top: 0.4rem;
