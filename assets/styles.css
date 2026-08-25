@@ -746,13 +746,15 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    verla. La máscara gira arrastrando la barra (assets/mask3d.js). */
 .mask3d-row {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(1.2rem, 4vw, 3rem);
+  text-align: center;
+  gap: 0.9rem;
   max-width: 74rem;
   width: 100%;
 }
 
-.mask3d-visual { flex: none; width: min(26vw, 190px); }
+.mask3d-visual { flex: none; width: min(46vw, 220px); }
 .mask-2d-image {
   display: block;
   width: 100%;
@@ -1170,8 +1172,6 @@ body.modal-open { overflow: hidden; }
   .mask-screen { gap: 1rem; padding: 4.6rem 1.2rem 2rem; }
   .mask-myndz-logo { height: clamp(30px, 7.5vw, 44px); }
   .mask-hero-logo { height: clamp(96px, 26vw, 140px); }
-  .mask3d-row { flex-direction: column; text-align: center; gap: 0.9rem; }
-  .mask3d-visual { width: min(46vw, 190px); }
 }
 
 /* ===== MÓVIL ===== */
