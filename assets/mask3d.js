@@ -127,17 +127,20 @@
     });
   }
 
-  /* COMPRAR abre el formulario de envío. Al enviarlo, FormSubmit manda
-     el pedido por correo y de una vez redirige a Bold a pagar (campo
-     _next en el <form>) — sin backend propio. Al mismo tiempo, sin
-     bloquear ese envío, mandamos una copia a una hoja de Google Sheets
-     (Apps Script) para tener todos los pedidos juntos en un solo lugar. */
+  /* COMPRAR abre el formulario de envío. Al enviarlo:
+     1) le pedimos a la hoja de Sheets (Apps Script) que calcule el total
+        y firme el pedido — así el monto que ve Bold queda bloqueado, no
+        se puede editar ni manipular desde el navegador;
+     2) en paralelo, sin bloquear, mandamos el aviso por correo (FormSubmit);
+     3) con la firma que responde Sheets, abrimos la pasarela de Bold ya
+        con el monto exacto puesto, sin pasar por un link estático. */
   const buyBtn = document.getElementById("mask3d-buy");
   const orderModal = document.getElementById("order-modal");
   const orderClose = document.getElementById("order-modal-close");
   const orderForm = document.getElementById("order-form");
   const orderQty = document.getElementById("order-qty");
   const orderTotal = document.getElementById("order-total-value");
+  const orderSubmitBtn = orderForm ? orderForm.querySelector(".order-submit") : null;
   const UNIT_PRICE = 50000;
   const SHEET_URL = "https://script.google.com/macros/s/AKfycbwOYJFm4aqF0UjzZLHzPsb29oJioWtpISKgdmXnFmaQ9MndZRMfyEo9MGlkd2qTrcpkHA/exec";
   if (buyBtn && orderModal) {
@@ -156,13 +159,45 @@
       });
     }
     if (orderForm) {
-      orderForm.addEventListener("submit", () => {
-        // No prevenimos el envío normal (FormSubmit sigue de largo hacia
-        // Bold) — esto solo va en paralelo, sin esperar respuesta.
+      orderForm.addEventListener("submit", e => {
+        e.preventDefault();
+        if (orderSubmitBtn) { orderSubmitBtn.disabled = true; orderSubmitBtn.textContent = "Procesando…"; }
+
+        // Aviso por correo — no necesitamos esperar la respuesta.
+        fetch(orderForm.action, { method: "POST", mode: "no-cors", body: new FormData(orderForm) }).catch(() => {});
+
         const data = new URLSearchParams(new FormData(orderForm));
-        fetch(SHEET_URL, { method: "POST", mode: "no-cors", body: data }).catch(() => {});
+        fetch(SHEET_URL, { method: "POST", body: data })
+          .then(r => r.json())
+          .then(order => {
+            if (!order || !order.signature) throw new Error("sin firma");
+            closeOrder();
+            const checkout = new BoldCheckout({
+              orderId: order.orderId,
+              currency: order.currency,
+              amount: order.amount,
+              apiKey: order.apiKey,
+              integritySignature: order.signature,
+              description: "CREATV MASK 1 — Hoy Soy: Spiderman",
+              redirectionUrl: "https://creatvmyndz.com/creativmask.html?donacion=gracias",
+            });
+            checkout.open();
+          })
+          .catch(() => {
+            alert("No pudimos conectar con el pago. Intenta de nuevo en un momento.");
+          })
+          .finally(() => {
+            if (orderSubmitBtn) { orderSubmitBtn.disabled = false; orderSubmitBtn.textContent = "Donar y continuar →"; }
+          });
       });
     }
+  }
+
+  /* Si Bold nos devuelve aquí después de un pago, mostramos un aviso. */
+  if (new URLSearchParams(location.search).get("donacion") === "gracias") {
+    window.addEventListener("DOMContentLoaded", () => {
+      alert("¡Gracias por tu donación! En un momento vas a recibir la confirmación por correo.");
+    });
   }
 
   /* MURO DE DONANTES: la misma hoja de Sheets, pero pidiéndole (GET, no
