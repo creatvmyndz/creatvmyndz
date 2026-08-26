@@ -2,6 +2,21 @@
    CREATV MYNDZ — LÓGICA DE LA PÁGINA
    ============================================================ */
 
+/* El efecto de "anclado" (position: sticky + scenes gigantes que se
+   montan una sobre otra con margen negativo) se ve perfecto en
+   Safari/Chrome, pero los navegadores internos de Instagram/Facebook
+   (WebView con su propio wrapper de scroll) no siempre respetan el
+   sticky ahí adentro — el resultado es que todas las secciones
+   terminan apiladas encima de una sola, sin poder tocar nada. En vez
+   de confiar en @supports (que solo detecta si la propiedad EXISTE,
+   no si funciona bien dentro del wrapper de estas apps), la marcamos
+   a mano por user-agent: son las que más lo dan. Ver también el
+   bloque "@supports not (position: sticky)" en styles.css, que cubre
+   cualquier otro navegador que de verdad no soporte sticky. */
+if (/Instagram|FBAN|FBAV|FB_IAB|Line\//.test(navigator.userAgent)) {
+  document.documentElement.classList.add("iab-fallback");
+}
+
 /* ------------------------------------------------------------
    TRADUCCIONES DE LA INTERFAZ
    ------------------------------------------------------------ */

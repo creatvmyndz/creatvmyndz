@@ -350,6 +350,40 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
   }
 }
 
+/* Todo este efecto de "anclado + acercándose" depende de que
+   position: sticky funcione de verdad. Si el navegador no lo soporta
+   (o lo ignora, como se vio en el navegador interno de Instagram), el
+   margen negativo de abajo (pensado para que la siguiente sección se
+   monte sobre la que se está yendo) hace que TODAS las secciones
+   queden apiladas unas encima de otras y nada se pueda tocar. Acá cae
+   a un diseño simple, uno debajo del otro, sin la animación — feo,
+   pero nunca roto. */
+@supports not (position: sticky) {
+  .scene { min-height: auto; }
+  .scene + .scene { margin-top: 0; }
+  .pin { position: static; }
+  .depth, .depth-item {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* Mismo respaldo, pero activado a mano (assets/app.js) para el
+   navegador interno de Instagram/Facebook — ver el comentario junto a
+   "iab-fallback" ahí. */
+html.iab-fallback .scene { min-height: auto; }
+html.iab-fallback .scene + .scene { margin-top: 0; }
+html.iab-fallback .pin { position: static; }
+html.iab-fallback .depth,
+html.iab-fallback .depth-item {
+  transform: none !important;
+  opacity: 1 !important;
+  filter: none !important;
+  pointer-events: auto !important;
+}
+
 /* ===== MANIFIESTO (CREATV MASK) ===== */
 
 .mask-link {
