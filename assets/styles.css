@@ -302,6 +302,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
    mientras sigue anclada, para que nunca se la vea "subir" con la página. */
 .scene {
   display: block;
+  min-height: 240vh;
   min-height: 240svh;
   padding: 0;
 }
@@ -314,6 +315,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 .pin {
   position: sticky;
   top: 0;
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   align-items: center;
@@ -331,7 +333,7 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 /* Entre dos secciones ancladas, la siguiente empieza a aparecer justo
    cuando la anterior empieza a despedirse (todavía anclada ella también),
    para que se crucen en el aire en vez de dejar un hueco. */
-.scene + .scene { margin-top: -150svh; }
+.scene + .scene { margin-top: -150vh; margin-top: -150svh; }
 
 .depth, .depth-item {
   transform-origin: 50% 50%;
@@ -694,12 +696,13 @@ body.scrolled .fades { opacity: 0; pointer-events: none; }
 }
 
 .mask-screen {
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(1.2rem, 4svh, 2.6rem);
+  gap: clamp(1.2rem, 4vh, 2.6rem);
   padding: 5.2rem 1.2rem 2.5rem;
 }
 
@@ -1270,6 +1273,7 @@ body.modal-open { overflow: hidden; }
 .wakeup-body { background: var(--navy-deep); }
 
 .wakeup-gate {
+  min-height: 100vh;
   min-height: 100svh;
   display: flex;
   align-items: center;
