@@ -659,6 +659,21 @@ html.iab-fallback .depth-item {
   text-shadow: var(--shadow);
 }
 
+/* Chiquito y discreto a propósito — es para ir viendo cómo va la
+   construcción de los módulos, no compite con el CTA principal. */
+.wakeup-preview-link {
+  display: block;
+  margin-top: 1.4rem;
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-shadow: var(--shadow);
+  opacity: 0.75;
+  transition: opacity 0.15s;
+}
+.wakeup-preview-link:hover { opacity: 1; }
+
 /* ===== FOOTER ===== */
 .footer {
   padding: 3.5rem 1.2rem 2.4rem;
