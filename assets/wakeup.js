@@ -7,6 +7,10 @@
    como mask3d.js, para no chocar nombres con las otras páginas.
    ============================================================ */
 (function () {
+  // Por ahora dejamos pasar directo, sin pedir correo ni contraseña —
+  // pon esto en true cuando quieras que el portón vuelva a pedirlos.
+  const GATE_ENABLED = false;
+
   const PASSWORD = "creatvmyndz";
 
   // OJO: esto es solo una traba simple, no seguridad real — cualquiera
@@ -62,8 +66,13 @@
     openHub();
   });
 
-  // Si ya entró antes en este navegador, se salta el portón.
-  if (email) openHub();
+  if (!GATE_ENABLED) {
+    // Portón apagado: directo al programa, sin pedir nada.
+    openHub();
+  } else if (email) {
+    // Si ya entró antes en este navegador, se salta el portón.
+    openHub();
+  }
 
   function loadProgress() {
     hubSub.textContent = "Cargando tu progreso…";
