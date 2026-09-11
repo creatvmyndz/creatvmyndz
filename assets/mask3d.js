@@ -101,18 +101,33 @@
 
     /* Paso 2 → 3: confirmado — recién ahí se manda todo y se abre Bold. */
     if (orderReviewConfirm) {
+      const showError = msg => {
+        let el = document.getElementById("order-error");
+        if (!el) {
+          el = document.createElement("p");
+          el.id = "order-error";
+          el.className = "order-error";
+          el.setAttribute("role", "alert");
+          orderReviewConfirm.insertAdjacentElement("beforebegin", el);
+        }
+        el.textContent = msg;
+      };
+      const timeoutSignal = ms => (window.AbortSignal && AbortSignal.timeout) ? AbortSignal.timeout(ms) : undefined;
+
       orderReviewConfirm.addEventListener("click", () => {
         orderReviewConfirm.disabled = true;
         orderReviewConfirm.textContent = "Procesando…";
-
-        // Aviso por correo — no necesitamos esperar la respuesta.
-        fetch(orderForm.action, { method: "POST", mode: "no-cors", body: new FormData(orderForm) }).catch(() => {});
+        const old = document.getElementById("order-error"); if (old) old.remove();
 
         const data = new URLSearchParams(new FormData(orderForm));
-        fetch(SHEET_URL, { method: "POST", body: data })
+        fetch(SHEET_URL, { method: "POST", body: data, signal: timeoutSignal(12000) })
           .then(r => r.json())
           .then(order => {
             if (!order || !order.signature) throw new Error("sin firma");
+            if (typeof BoldCheckout === "undefined") throw new Error("sin bold");
+            // El aviso por correo sale solo cuando ya hay firma: si el pago
+            // no se pudo abrir, no llega un pedido fantasma a la bandeja.
+            fetch(orderForm.action, { method: "POST", mode: "no-cors", body: new FormData(orderForm) }).catch(() => {});
             closeOrder();
             const checkout = new BoldCheckout({
               orderId: order.orderId,
@@ -126,7 +141,7 @@
             checkout.open();
           })
           .catch(() => {
-            alert("No pudimos conectar con el pago. Intenta de nuevo en un momento.");
+            showError("No pudimos conectar con el pago. Revisa tu conexión e intenta de nuevo en un momento.");
           })
           .finally(() => {
             orderReviewConfirm.disabled = false;
@@ -138,9 +153,11 @@
 
   /* Si Bold nos devuelve aquí después de un pago, mostramos un aviso. */
   if (new URLSearchParams(location.search).get("donacion") === "gracias") {
-    window.addEventListener("DOMContentLoaded", () => {
-      alert("¡Gracias por tu donación! En un momento vas a recibir la confirmación por correo.");
-    });
+    const b = document.createElement("div");
+    b.className = "mask-thanks";
+    b.setAttribute("role", "status");
+    b.textContent = "¡Gracias por tu donación! En un momento te llega la confirmación por correo.";
+    document.body.prepend(b);
   }
 
   /* MURO DE DONANTES: la sección ya está visible desde que carga la
@@ -153,7 +170,8 @@
   const donorNames = document.getElementById("donor-names");
   const donorCount = document.getElementById("donor-wall-count");
   if (donorNames) {
-    fetch(SHEET_URL)
+    const donorTimeout = (window.AbortSignal && AbortSignal.timeout) ? AbortSignal.timeout(12000) : undefined;
+    fetch(SHEET_URL, { signal: donorTimeout })
       .then(r => r.json())
       .then(names => {
         donorNames.innerHTML = "";
@@ -175,10 +193,12 @@
         if (donorCount) donorCount.textContent = names.length + (names.length === 1 ? " héroe y contando" : " héroes y contando");
       })
       .catch(() => {
+        // Falló o tardó demasiado: no decimos "sé el primero" (puede que
+        // ya haya héroes), solo que no cargó.
         donorNames.innerHTML = "";
         const span = document.createElement("span");
         span.className = "donor-empty";
-        span.textContent = "Sé el primer héroe en donar";
+        span.textContent = "El muro no cargó — intenta de nuevo en un momento";
         donorNames.appendChild(span);
       });
   }

@@ -67,7 +67,16 @@ const I18N = {
   }
 };
 
-let lang = localStorage.getItem("cm-lang") || "es";
+/* localStorage/sessionStorage pueden lanzar (Safari en modo privado, cuota
+   llena). Como esto corre al cargar, un throw aquí dejaría la portada en
+   blanco — por eso todo pasa por este envoltorio. */
+const storage = {
+  get(area, k) { try { return window[area].getItem(k); } catch (e) { return null; } },
+  set(area, k, v) { try { window[area].setItem(k, v); } catch (e) {} },
+  remove(area, k) { try { window[area].removeItem(k); } catch (e) {} }
+};
+
+let lang = storage.get("localStorage", "cm-lang") || "es";
 const t = key => (I18N[lang] && I18N[lang][key]) || I18N.es[key] || "";
 
 
@@ -427,7 +436,7 @@ function applyLang() {
 
 document.getElementById("lang-es").addEventListener("click", () => setLang("es"));
 document.getElementById("lang-en").addEventListener("click", () => setLang("en"));
-function setLang(l) { lang = l; localStorage.setItem("cm-lang", l); applyLang(); }
+function setLang(l) { lang = l; storage.set("localStorage", "cm-lang", l); applyLang(); }
 
 
 /* ------------------------------------------------------------
@@ -632,7 +641,7 @@ if (maskLink) {
 const crtvLink = document.querySelector(".crtv .project-inner");
 if (crtvLink) {
   crtvLink.addEventListener("click", () => {
-    sessionStorage.setItem(RESUME_KEY, NEXT_SECTION.crtv);
+    storage.set("sessionStorage", RESUME_KEY, NEXT_SECTION.crtv);
   });
 }
 
@@ -689,8 +698,8 @@ window.addEventListener("resize", () => {
    siempre acierta porque el cielo y los logos cambian la altura
    mientras cargan. */
 (function openFromHash() {
-  const resumeId = sessionStorage.getItem(RESUME_KEY);
-  if (resumeId) sessionStorage.removeItem(RESUME_KEY);
+  const resumeId = storage.get("sessionStorage", RESUME_KEY);
+  if (resumeId) storage.remove("sessionStorage", RESUME_KEY);
 
   const id = resumeId || decodeURIComponent(location.hash.slice(1));
   if (!id) return;

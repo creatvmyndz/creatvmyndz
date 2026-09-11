@@ -1158,6 +1158,30 @@ body.modal-open { overflow: hidden; }
 }
 .order-submit:hover { background: rgba(255, 255, 255, 0.85); border-color: transparent; }
 .order-submit:disabled { opacity: 0.6; cursor: default; }
+.order-error {
+  margin: -0.2rem 0 0.2rem;
+  text-align: center;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: #ffb3b3;
+}
+/* Aviso al volver de Bold (?donacion=gracias): píldora fija arriba. */
+.mask-thanks {
+  position: fixed;
+  top: max(3.4rem, calc(env(safe-area-inset-top) + 2.9rem));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  max-width: min(92vw, 30rem);
+  padding: 0.8rem 1.2rem;
+  border-radius: 999px;
+  background: var(--white);
+  color: #1a0505;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
 
 /* ===== REVISIÓN: paso intermedio antes de ir a Bold — muestra lo que
    la persona escribió para que lo confirme (o vuelva a editar). ===== */

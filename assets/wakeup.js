@@ -19,6 +19,21 @@
   const PROGRESS_URL = "PEGA_AQUI_LA_URL_DEL_APPS_SCRIPT_DE_WAKEUP";
 
   const EMAIL_KEY = "wakeup-email";
+  const DONE_KEY = "wakeup-done";
+
+  // Mientras PROGRESS_URL siga en placeholder, el progreso se guarda solo
+  // en este navegador (nada de disparar peticiones que van a fallar).
+  // Apenas pegues la URL real del Apps Script, la hoja manda.
+  const BACKEND_READY = !/PEGA_AQUI/.test(PROGRESS_URL);
+
+  // localStorage puede lanzar (Safari en modo privado, cuota llena):
+  // nunca dejamos que eso tumbe la página.
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  };
+  const localDone = () => { try { const v = JSON.parse(store.get(DONE_KEY) || "[]"); return Array.isArray(v) ? v.map(Number) : []; } catch (e) { return []; } };
+  const timeoutSignal = ms => (window.AbortSignal && AbortSignal.timeout) ? AbortSignal.timeout(ms) : undefined;
 
   const gate = document.getElementById("wakeup-gate");
   const gateForm = document.getElementById("gate-form");
@@ -39,7 +54,7 @@
   const completeBtn = document.getElementById("module-complete-btn");
   const doneNote = document.getElementById("module-done-note");
 
-  let email = localStorage.getItem(EMAIL_KEY) || "";
+  let email = store.get(EMAIL_KEY) || "";
   let completed = [];   // números de módulo ya completados
   let activeNum = null;  // el módulo abierto ahora mismo en el modal
 
@@ -62,7 +77,7 @@
     }
     gateError.hidden = true;
     email = gateEmail.value.trim().toLowerCase();
-    localStorage.setItem(EMAIL_KEY, email);
+    store.set(EMAIL_KEY, email);
     openHub();
   });
 
@@ -75,18 +90,26 @@
   }
 
   function loadProgress() {
+    if (!BACKEND_READY || !email) {
+      completed = localDone();
+      hubSub.textContent = "Completa cada módulo para desbloquear el siguiente. Tu progreso se guarda en este navegador.";
+      renderPath();
+      return;
+    }
     hubSub.textContent = "Cargando tu progreso…";
-    fetch(PROGRESS_URL + "?correo=" + encodeURIComponent(email))
+    fetch(PROGRESS_URL + "?correo=" + encodeURIComponent(email), { signal: timeoutSignal(8000) })
       .then(r => r.json())
       .then(nums => {
         completed = Array.isArray(nums) ? nums.map(Number) : [];
+        store.set(DONE_KEY, JSON.stringify(completed));
         hubSub.textContent = "Completa cada módulo para desbloquear el siguiente.";
         renderPath();
       })
       .catch(() => {
-        // Sin conexión a la hoja: seguimos, pero todo arranca en 0 —
-        // mejor eso que dejar a la persona sin poder ver el programa.
-        completed = [];
+        // Sin conexión a la hoja (o tardó más de 8 s): seguimos con lo
+        // último guardado acá — mejor eso que dejar a la persona sin
+        // poder ver el programa.
+        completed = localDone();
         hubSub.textContent = "Completa cada módulo para desbloquear el siguiente.";
         renderPath();
       });
@@ -165,10 +188,13 @@
     completeBtn.disabled = true;
     completeBtn.textContent = "Guardando…";
     const data = new URLSearchParams({ Correo: email, Modulo: String(activeNum) });
-    fetch(PROGRESS_URL, { method: "POST", mode: "no-cors", body: data })
-      .catch(() => {})
+    const save = (BACKEND_READY && email)
+      ? fetch(PROGRESS_URL, { method: "POST", mode: "no-cors", body: data, signal: timeoutSignal(8000) }).catch(() => {})
+      : Promise.resolve();
+    save
       .then(() => {
         if (completed.indexOf(activeNum) === -1) completed.push(activeNum);
+        store.set(DONE_KEY, JSON.stringify(completed));
         completeBtn.disabled = false;
         completeBtn.textContent = "Ya completé este módulo →";
         closeModule();
