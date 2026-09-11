@@ -4,7 +4,7 @@
    Página aparte y autónoma (no usa el motor del cielo de app.js).
    Dos cosas viven acá: la galería pineada (las tarjetas aparecen
    según cuánto has bajado) y la calculadora. Todo en un IIFE, como
-   mask3d.js y wakeup.js, para no chocar nombres.
+   wakeup.js, para no chocar nombres.
    ============================================================ */
 (function () {
   const html = document.documentElement;

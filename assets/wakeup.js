@@ -4,7 +4,7 @@
    Página aparte, autónoma (no usa el motor del cielo de app.js).
    El progreso vive en una hoja de Sheets, por correo — así la
    persona lo ve igual desde cualquier dispositivo. Todo en un IIFE,
-   como mask3d.js, para no chocar nombres con las otras páginas.
+   para no chocar nombres con las otras páginas.
    ============================================================ */
 (function () {
   // Por ahora dejamos pasar directo, sin pedir correo ni contraseña —
