@@ -17,6 +17,8 @@
   <meta name="twitter:title" content="CREATV MASK — CREATV MYNDZ">
   <meta name="twitter:description" content="CREATV MASK, de CREATV MYNDZ.">
   <meta name="twitter:image" content="https://creatvmyndz.com/assets/mask/img/og-mask.jpg">
+  <link rel="canonical" href="https://creatvmyndz.com/creativmask.html">
+  <meta name="robots" content="noindex">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="image" href="assets/mask/img/fondo-mask.jpg">
@@ -42,6 +44,7 @@
        versión que gira en 3D quedó de bonus al final de la página) y
        la ficha del producto — todo en la misma pantalla, sin scroll. ===== -->
   <main class="mask-screen">
+    <h1 class="sr-only">CREATV MASK — Heroes Collection N1</h1>
     <img class="studio-logo" src="assets/img/logo-creatv-studios.webp" alt="CREATV STUDIOS" width="1414" height="337">
 
     <div class="mask-logos">
@@ -60,7 +63,7 @@
       <div class="mask3d-copy">
         <p class="mask3d-title">CREATV MASK Spider Man - Heroes Collection N1</p>
         <p class="mask3d-price">$50.000 COP</p>
-        <img class="mask3d-subtitle-img" src="assets/mask/img/mask-spiderman-title.webp" alt="Mask Spiderman" width="1564" height="179">
+        <img class="mask3d-subtitle-img" src="assets/mask/img/mask-spiderman-title.webp" alt="Mask Spider Man" width="1564" height="179">
         <div class="mask3d-buy-wrap">
           <button type="button" class="mask3d-buy" id="mask3d-buy"><img class="mask3d-buy-word" src="assets/mask/img/donar-word.webp" alt="Donar!!" width="706" height="174"></button>
           <img class="mask-arrow" src="assets/mask/img/paper-airplane.webp" alt="" aria-hidden="true" width="286" height="257">
@@ -106,7 +109,7 @@
   <section class="donor-wall" id="donor-wall">
     <img class="mask-avengers-logo" src="assets/mask/img/logo-avengers.webp" alt="Nada nos va a vencer si seguimos juntos" width="920" height="405" loading="lazy">
     <img class="donor-wall-title-img" src="assets/mask/img/wall-of-super-heroes.webp" alt="Wall of super heroes" width="1512" height="185">
-    <p class="donor-wall-sub">Cada día son más los super heroes en la vida real</p>
+    <p class="donor-wall-sub">Cada día son más los superhéroes en la vida real</p>
     <div class="donor-names" id="donor-names"><span class="donor-loading">Cargando héroes…</span></div>
     <p class="donor-wall-count" id="donor-wall-count"></p>
     <p class="donor-wall-foot">Los verdaderos héroes están fuera de las pantallas</p>
@@ -139,10 +142,10 @@
   <!-- ===== PEDIDO: se abre al tocar DONAR. Pide la dirección de envío
        y, al enviarla, manda el pedido por correo (FormSubmit, sin
        backend) y de una vez lleva al pago en Bold. ===== -->
-  <div class="order-modal" id="order-modal" hidden>
+  <div class="order-modal" id="order-modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title" hidden>
     <div class="order-modal-inner">
       <button type="button" class="order-modal-close" id="order-modal-close" aria-label="Cerrar">✕</button>
-      <h2 class="order-modal-title">Datos de envío</h2>
+      <h2 class="order-modal-title" id="order-modal-title">Datos de envío</h2>
       <p class="order-modal-sub">Antes de donar, cuéntanos a dónde llevamos tu CREATV MASK.</p>
 
       <form class="order-form" id="order-form" method="POST" action="https://formsubmit.co/dacoloradog@gmail.com">

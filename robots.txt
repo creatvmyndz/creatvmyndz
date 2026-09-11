@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /assets/CRTVS/
+
+Sitemap: https://creatvmyndz.com/sitemap.xml

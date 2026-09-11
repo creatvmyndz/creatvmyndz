@@ -39,6 +39,8 @@ const I18N = {
     wu_f3: "Acceso al Discord y a la comunidad CREATV MYNDZ.",
     wu_label: "DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:",
     wu_btn: "DESPERTAR →",
+    wu_preview: "Ver construcción del programa →",
+    footer_lab: "Página de prueba →",
     footer_line: "CREATIVE DEALERS"
   },
   en: {
@@ -59,6 +61,8 @@ const I18N = {
     wu_f3: "Access to the Discord and the CREATV MYNDZ community.",
     wu_label: "LEAVE YOUR EMAIL AND BE AMONG THE FIRST TO GET IN:",
     wu_btn: "WAKE UP →",
+    wu_preview: "See the program in progress →",
+    footer_lab: "Test page →",
     footer_line: "CREATIVE DEALERS"
   }
 };
@@ -406,8 +410,12 @@ function applyLang() {
     const key = el.getAttribute("data-i18n");
     if (I18N[lang][key]) el.textContent = I18N[lang][key];
   });
-  document.getElementById("lang-es").classList.toggle("active", lang === "es");
-  document.getElementById("lang-en").classList.toggle("active", lang === "en");
+  for (const l of ["es", "en"]) {
+    const btn = document.getElementById("lang-" + l);
+    if (!btn) continue;
+    btn.classList.toggle("active", lang === l);
+    btn.setAttribute("aria-pressed", lang === l ? "true" : "false");
+  }
 
   if (listEl) {
     renderProjectList();
@@ -550,9 +558,12 @@ function renderProjectList() {
     const bubble = document.createElement("div");
     bubble.className = "project-bubble";
 
-    const a = document.createElement("a");
+    // Solo los CRTV con página propia son enlaces; los demás (o los que
+    // vienen "soon") se pintan igual pero sin ancla muerta ni foco.
+    const hasLink = !!p.link && p.status !== "soon";
+    const a = document.createElement(hasLink ? "a" : "span");
     a.className = "project-inner";
-    a.href = p.link || ("#" + p.id);
+    if (hasLink) a.href = p.link; else a.setAttribute("aria-disabled", "true");
 
     const title = document.createElement("span");
     title.className = "p-title";

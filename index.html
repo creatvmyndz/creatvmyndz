@@ -17,6 +17,7 @@
   <meta name="twitter:title" content="CREATV MYNDZ — Dreams Materializers">
   <meta name="twitter:description" content="Tomamos las ideas, exploramos los límites de la creatividad y las traemos a la realidad.">
   <meta name="twitter:image" content="https://creatvmyndz.com/assets/img/og.jpg">
+  <link rel="canonical" href="https://creatvmyndz.com/">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="preload" as="font" type="font/woff2" href="assets/fonts/outfit-latin.woff2" crossorigin>
@@ -43,8 +44,8 @@
 
     <div class="topbar-right">
       <span class="crtv-mark fades">CRTV©</span>
-      <button id="lang-es" class="lang active" type="button">ES</button>
-      <button id="lang-en" class="lang" type="button">EN</button>
+      <button id="lang-es" class="lang active" type="button" aria-pressed="true">ES</button>
+      <button id="lang-en" class="lang" type="button" aria-pressed="false">EN</button>
     </div>
   </header>
 
@@ -59,10 +60,13 @@
     <p class="menu-foot" data-i18n="footer_line">CREATIVE DEALERS</p>
   </nav>
 
+  <main id="contenido">
+
   <!-- ===== HERO ===== -->
   <section class="hero scene" id="inicio" data-enter="no">
    <div class="pin">
     <div class="hero-inner depth">
+      <h1 class="sr-only">CREATV MYNDZ — Dreams Materializers</h1>
       <img class="logo" src="assets/img/logo-creatv.webp" alt="CREATV MYNDZ" width="1400" height="593" fetchpriority="high">
     </div>
    </div>
@@ -145,17 +149,19 @@
         </div>
       </form>
 
-      <a class="wakeup-preview-link depth-item" href="wakeup-program.html">Ver construcción del programa →</a>
+      <a class="wakeup-preview-link depth-item" href="wakeup-program.html" data-i18n="wu_preview">Ver construcción del programa →</a>
     </div>
    </div>
   </section>
+
+  </main>
 
   <footer class="footer">
     <div class="footer-line">
       <span>CREATV MYNDZ © <span id="year"></span></span>
       <span data-i18n="footer_line">CREATIVE DEALERS</span>
     </div>
-    <a class="footer-lab-link" href="lab.html">Página de prueba →</a>
+    <a class="footer-lab-link" href="lab.html" data-i18n="footer_lab">Página de prueba →</a>
   </footer>
 
   <!-- ===== AVISO DE SCROLL: para que se note que hay que bajar.

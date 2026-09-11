@@ -7,6 +7,18 @@
   <meta name="description" content="El programa WAKE UP: 10 módulos para despertar tu creatividad, de CREATV MYNDZ.">
   <meta name="theme-color" content="#0a1238">
   <meta name="robots" content="noindex">
+  <link rel="canonical" href="https://creatvmyndz.com/wakeup-program.html">
+  <meta property="og:title" content="WAKE UP — CREATV MYNDZ">
+  <meta property="og:description" content="El programa WAKE UP: 10 módulos para despertar tu creatividad, de CREATV MYNDZ.">
+  <meta property="og:image" content="https://creatvmyndz.com/assets/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://creatvmyndz.com/wakeup-program.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WAKE UP — CREATV MYNDZ">
+  <meta name="twitter:description" content="El programa WAKE UP: 10 módulos para despertar tu creatividad, de CREATV MYNDZ.">
+  <meta name="twitter:image" content="https://creatvmyndz.com/assets/img/og.jpg">
   <link rel="icon" href="assets/img/favicon.png" sizes="any">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <link rel="stylesheet" href="assets/styles.css">
@@ -27,7 +39,7 @@
   <div class="wakeup-gate" id="wakeup-gate">
     <div class="wakeup-gate-inner">
       <p class="wakeup-gate-kicker">PROGRAMA</p>
-      <h1 class="wakeup-gate-title">WAKE UP</h1>
+      <h2 class="wakeup-gate-title">WAKE UP</h2>
       <p class="wakeup-gate-sub">10 módulos para despertar tu creatividad. Entra con el correo que dejaste y la contraseña que te compartimos.</p>
       <form id="gate-form" class="wakeup-gate-form">
         <label>Correo
@@ -56,7 +68,7 @@
   </main>
 
   <!-- ===== DETALLE DE UN MÓDULO: se abre al tocar uno desbloqueado. ===== -->
-  <div class="module-modal" id="module-modal" hidden>
+  <div class="module-modal" id="module-modal" role="dialog" aria-modal="true" aria-labelledby="module-title" hidden>
     <div class="module-modal-inner">
       <button type="button" class="module-modal-close" id="module-modal-close" aria-label="Cerrar">✕</button>
       <p class="module-modal-kicker" id="module-kicker"></p>
