@@ -104,6 +104,14 @@ function initSky(set) {
   if (set === skySet) return;
   skySet = set;
 
+  // Si veníamos del otro set (giraste el teléfono), cancelamos lo que
+  // seguía bajando y arrancamos la fila de cero — si no, el contador de
+  // descargas quedaba pegado y el set nuevo nunca terminaba de llegar.
+  for (const f of frames) if (f.img && !f.ready) f.img.src = "";
+  inFlight = 0;
+  idleMode = false;
+  idleScheduled = false;
+
   frameIds = [];
   for (let i = 1; i <= SKY_TOTAL; i += stride) frameIds.push(i);
   if (frameIds[frameIds.length - 1] !== SKY_TOTAL) frameIds.push(SKY_TOTAL);
@@ -131,27 +139,53 @@ function loadFrame(i, done) {
   img.src = src(i);
 }
 
-/* Carga el resto de frames con un máximo de descargas simultáneas,
-   priorizando siempre los cercanos a donde está mirando el usuario. */
+/* Carga por ventana. De una se piden solo los frames alrededor de donde
+   estás mirando (LOOKAHEAD a cada lado, con MAX_PARALLEL descargas a la
+   vez). El resto se baja despacio y en reposo, después del evento load,
+   para que la primera carga sea liviana en vez de traer los 121 frames de
+   golpe. Al hacer scroll la ventana se mueve y esos frames pasan al
+   frente de la fila. */
 let inFlight = 0;
 const MAX_PARALLEL = 6;
+const LOOKAHEAD = 10;
+const IDLE_PARALLEL = 2;
+let idleMode = false;
+let idleScheduled = false;
 
 function queue() {
-  while (inFlight < MAX_PARALLEL) {
-    const next = nextPending();
-    if (next === -1) return;
+  for (;;) {
+    let next = nextPending(LOOKAHEAD);
+    let cap = MAX_PARALLEL;
+    if (next === -1 && idleMode) { next = nextPending(frames.length); cap = IDLE_PARALLEL; }
+    if (next === -1) { if (!idleMode) scheduleIdlePrefetch(); return; }
+    if (inFlight >= cap) return;
     inFlight++;
-    loadFrame(next, () => { inFlight--; queue(); });
+    loadFrame(next, () => { inFlight = Math.max(0, inFlight - 1); queue(); });
   }
 }
 
-function nextPending() {
-  for (let d = 0; d < frames.length; d++) {
+function nextPending(maxDist) {
+  for (let d = 0; d <= maxDist; d++) {
     const a = targetIndex + d, b = targetIndex - d;
     if (a < frames.length && !frames[a].img) return a;
     if (b >= 0 && !frames[b].img) return b;
   }
   return -1;
+}
+
+function scheduleIdlePrefetch() {
+  if (idleScheduled) return;
+  idleScheduled = true;
+  // Con datos limitados o red lenta no precargamos nada en reposo: los
+  // frames van llegando solo a medida que la ventana se mueve al bajar.
+  if (saveData || /^(slow-2g|2g)$/.test(conn.effectiveType || "")) return;
+  const start = () => {
+    const go = () => { idleMode = true; queue(); };
+    if ("requestIdleCallback" in window) requestIdleCallback(go, { timeout: 4000 });
+    else setTimeout(go, 2000);
+  };
+  if (document.readyState === "complete") start();
+  else window.addEventListener("load", start, { once: true });
 }
 
 function nearestReady(i) {
@@ -293,6 +327,12 @@ function depthUpdate() {
   const vh = window.innerHeight;
   const y = window.scrollY;
 
+  // Primero TODAS las lecturas de posición y después TODAS las escrituras
+  // de estilo. Si se intercalan (leer uno, escribir uno, leer el
+  // siguiente...) cada lectura obliga al navegador a recalcular el layout
+  // completo — eran 14–17 recálculos por cada tick de scroll.
+  const plan = [];
+
   for (const d of depthEls) {
     const c = d.cfg;
     let e, x;   // e: cuánto se ha acercado (0..1) · x: cuánto se ha ido (0..1)
@@ -336,17 +376,21 @@ function depthUpdate() {
 
     // Redondeamos: así el navegador no vuelve a dibujar por cambios que
     // el ojo no alcanza a ver. Es lo que mantiene el scroll fluido.
-    const t = (rise ? "translateY(" + rise.toFixed(1) + "px) " : "") + "scale(" + scale.toFixed(3) + ")";
-    const o = opacity.toFixed(2);
-    const f = blur > 0.35 ? "blur(" + (Math.round(blur * 2) / 2) + "px)" : "";
+    plan.push({
+      d,
+      t: (rise ? "translateY(" + rise.toFixed(1) + "px) " : "") + "scale(" + scale.toFixed(3) + ")",
+      o: opacity.toFixed(2),
+      f: blur > 0.35 ? "blur(" + (Math.round(blur * 2) / 2) + "px)" : "",
+      pe: d.scene ? (opacity < 0.1 ? "none" : "auto") : null
+    });
+  }
 
-    if (t !== d.pT) { d.el.style.transform = t; d.pT = t; }
-    if (o !== d.pO) { d.el.style.opacity = o; d.pO = o; }
-    if (f !== d.pF) { d.el.style.filter = f; d.pF = f; }
-    if (d.scene) {
-      const pe = opacity < 0.1 ? "none" : "auto";
-      if (pe !== d.pP) { d.el.style.pointerEvents = pe; d.pP = pe; }
-    }
+  for (const p of plan) {
+    const d = p.d;
+    if (p.t !== d.pT) { d.el.style.transform = p.t; d.pT = p.t; }
+    if (p.o !== d.pO) { d.el.style.opacity = p.o; d.pO = p.o; }
+    if (p.f !== d.pF) { d.el.style.filter = p.f; d.pF = p.f; }
+    if (p.pe !== null && p.pe !== d.pP) { d.el.style.pointerEvents = p.pe; d.pP = p.pe; }
   }
 }
 
