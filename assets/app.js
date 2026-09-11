@@ -494,30 +494,9 @@ function updateClocks() {
     `${c[0]} ${fmt("America/Bogota")} · ${c[1]} ${fmt("America/New_York")} · ${c[2]} ${fmt("Europe/Madrid")}`;
 }
 
-/* No todas las páginas tienen pie de página con contacto (playground.html
-   no lo tiene), así que cada pieza se llena solo si existe. */
+/* Solo el formulario de leads de la portada usa esto (playground.html no
+   lo tiene), así que cada pieza se llena solo si existe. */
 function fillContact() {
-  const mail = document.getElementById("contact-mail");
-  if (mail) {
-    mail.href = "mailto:" + SITE.contactEmail;
-    mail.textContent = SITE.contactEmail;
-  }
-
-  const ul = document.getElementById("contact-social");
-  if (ul) {
-    ul.innerHTML = "";
-    SITE.social.filter(s => s.url).forEach(s => {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = s.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.textContent = s.label;
-      li.appendChild(a);
-      ul.appendChild(li);
-    });
-  }
-
   const form = document.getElementById("lead-form");
   if (form) form.action = "https://formsubmit.co/" + SITE.leadEmail;
   const cc = document.getElementById("lead-cc");
@@ -618,17 +597,18 @@ const code = n => (n === null || n === undefined)
 /* ------------------------------------------------------------
    RECORDAR POR DÓNDE IBA
    ------------------------------------------------------------
-   Al salir hacia creativmask.html o playground.html desde una sección
-   del index, guardamos cuál sigue. Así, al volver con "↑ CREATV MYNDZ",
+   Al salir hacia playground.html desde el index, guardamos cuál sección
+   sigue. Así, al volver con "↑ CREATV MYNDZ",
    el index arranca ya en esa siguiente sección en vez de dejar que la
    persona vuelva a hacer scroll por lo que ya vio.
    ------------------------------------------------------------ */
 const RESUME_KEY = "cm-resume";
-const NEXT_SECTION = { manifiesto: "crtv", crtv: "nosotros" };
+const NEXT_SECTION = { crtv: "nosotros" };
 
 /* ------------------------------------------------------------
-   CREATV MASK: al hacer clic, el logo se agiganta y se encoge antes
-   de navegar — para cuando ya está chiquito, entra la pantalla roja.
+   CREATV MASK: al hacer clic, el logo se agiganta y se encoge un
+   instante antes de salir a creatvmask.com (otro dominio: por eso no
+   se guarda "por dónde iba" — el index no podría leerlo al volver).
    ------------------------------------------------------------ */
 const maskLink = document.querySelector(".mask-link");
 if (maskLink) {
@@ -637,9 +617,8 @@ if (maskLink) {
     // movimiento: se navega normal, sin la animación.
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || reduceMotion) return;
     e.preventDefault();
-    sessionStorage.setItem(RESUME_KEY, NEXT_SECTION.manifiesto);
     maskLink.classList.add("zooming");
-    setTimeout(() => { window.location.href = maskLink.href; }, 500);
+    setTimeout(() => { window.location.href = maskLink.href; }, 180);
   });
 
   // Si vuelves con "atrás" del navegador, a veces restaura la página tal
@@ -705,8 +684,8 @@ window.addEventListener("resize", () => {
 });
 
 /* Si llegan con un enlace directo (#wakeup, #nosotros, #crtv), o
-   vuelven de creativmask.html/playground.html (ver RESUME_KEY más
-   arriba), los llevamos hasta esa sección. El navegador solo no
+   vuelven de playground.html (ver RESUME_KEY más arriba), los llevamos
+   hasta esa sección. El navegador solo no
    siempre acierta porque el cielo y los logos cambian la altura
    mientras cargan. */
 (function openFromHash() {

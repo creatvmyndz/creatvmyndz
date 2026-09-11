@@ -2,3 +2,6 @@
 .DS_Store
 
 dist/
+
+# PDFs crudos de los CRTV: fuente de diseño, no del sitio (se quedan en disco).
+assets/CRTVS/

@@ -31,7 +31,12 @@ jobs:
           mkdir -p dist
           cp *.html dist/
           cp CNAME dist/
+          cp robots.txt sitemap.xml dist/
           cp -r assets dist/
+          # Material que vive en el repo pero no debe salir a producción:
+          # los PDF crudos de los CRTV y los 121 frames del giro 3D (sección
+          # apagada). Se quedan en el repo/disco, no en el sitio.
+          rm -rf dist/assets/CRTVS dist/assets/mask/mask3d
           touch dist/.nojekyll
 
       - name: Configurar Pages

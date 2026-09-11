@@ -570,9 +570,7 @@ html.iab-fallback .depth-item {
 .about .pill-btn { margin-top: 2rem; }
 
 /* ===== WAKE UP ===== */
-.wakeup-inner { width: 100%; }
-
-.wakeup-inner { max-width: 44rem; margin: 0 auto; text-align: center; }
+.wakeup-inner { width: 100%; max-width: 44rem; margin: 0 auto; text-align: center; }
 
 .wakeup-kicker {
   font-size: 0.7rem;
@@ -655,14 +653,6 @@ html.iab-fallback .depth-item {
   transition: transform 0.12s;
 }
 .wakeup-row button:hover { transform: translateY(-2px); }
-
-.wakeup-note {
-  margin-top: 1.1rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  text-shadow: var(--shadow);
-}
 
 /* Chiquito y discreto a propósito — es para ir viendo cómo va la
    construcción de los módulos, no compite con el CTA principal. */
@@ -832,39 +822,6 @@ html.iab-fallback .depth-item {
   width: 100%;
   height: auto;
   filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
-}
-
-.mask3d-canvas-btn {
-  display: block;
-  width: 100%;
-  background: none;
-  border: none;
-  padding: 0;
-}
-.mask3d-canvas-btn canvas {
-  display: block;
-  width: 100%;
-  aspect-ratio: 640 / 819;
-  filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55));
-  transition: filter 0.15s;
-}
-.mask3d-canvas-btn:hover canvas { filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.55)) brightness(1.08); }
-
-.mask3d-scrub {
-  width: 100%;
-  margin-top: 0.8rem;
-  accent-color: var(--accent);
-}
-
-.mask3d-hint {
-  margin-top: 0.5rem;
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-align: center;
-  color: var(--white);
-  text-shadow: var(--shadow);
-  opacity: 0.7;
 }
 
 /* El titular grande "Conviértete / en un súper héroe" — letra pintada
@@ -1078,83 +1035,8 @@ html.iab-fallback .depth-item {
   opacity: 0.75;
 }
 
-/* ===== BONUS: la máscara girando en 3D, al final de todo. La
-   protagonista de la portada ahora es la foto 2D; esto es el cierre
-   interactivo, no repite la ficha del producto (ya se donó arriba). ===== */
-.mask3d-standalone {
-  position: relative;
-  padding: 1rem 1.2rem 5rem;
-  text-align: center;
-  overflow: hidden;
-}
-.mask3d-standalone-inner {
-  position: relative;
-  max-width: 14rem;
-  margin: 1.8rem auto 0;
-}
-.mask3d-standalone-inner .mask3d-hint { margin-top: 0.7rem; }
-
-.mask-spiderweb {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: min(70vw, 320px);
-  height: auto;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ===== GALERÍA DE FOTOS: se abre al tocar la máscara. ===== */
+/* Con un modal abierto (pedido), el fondo no hace scroll. */
 body.modal-open { overflow: hidden; }
-.mask-gallery {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  overflow-y: auto;
-  background: rgba(10, 2, 2, 0.94);
-  animation: fade 0.2s ease;
-}
-.mask-gallery[hidden] { display: none; }
-.mask-gallery-inner {
-  max-width: 60rem;
-  margin: 0 auto;
-  padding: 5rem 1.2rem 4rem;
-}
-.mask-gallery-close {
-  position: fixed;
-  top: max(1rem, env(safe-area-inset-top));
-  right: 1.2rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: none;
-  color: var(--white);
-  font-size: 1.3rem;
-  line-height: 1;
-  padding: 0.5rem 0.7rem;
-  border-radius: 999px;
-}
-.mask-gallery-title {
-  color: var(--white);
-  text-shadow: var(--shadow);
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-.mask-gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: 0.9rem;
-}
-.mask-gallery-grid img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 640 / 819;
-  object-fit: cover;
-  border-radius: 16px;
-  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.4);
-}
 
 /* ===== PEDIDO: formulario de envío, se abre al tocar COMPRAR. ===== */
 .order-modal {
@@ -1478,7 +1360,7 @@ body.modal-open { overflow: hidden; }
 }
 .wakeup-node.done .wakeup-node-title { opacity: 0.75; }
 
-/* Detalle de un módulo — mismo look que .order-modal/.mask-gallery. */
+/* Detalle de un módulo — mismo look que .order-modal. */
 .module-modal {
   position: fixed;
   inset: 0;
