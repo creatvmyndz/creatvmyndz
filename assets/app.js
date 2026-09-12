@@ -39,6 +39,7 @@ const I18N = {
     wu_f3: "Acceso al Discord y a la comunidad CREATV MYNDZ.",
     wu_label: "DÉJANOS TU CORREO Y SÉ DE LOS PRIMEROS EN ENTRAR:",
     wu_btn: "DESPERTAR →",
+    wu_cta: "CONOCER EL PROGRAMA →",
     wu_preview: "Ver construcción del programa →",
     footer_lab: "Página de prueba →",
     footer_line: "CREATIVE DEALERS"
@@ -61,6 +62,7 @@ const I18N = {
     wu_f3: "Access to the Discord and the CREATV MYNDZ community.",
     wu_label: "LEAVE YOUR EMAIL AND BE AMONG THE FIRST TO GET IN:",
     wu_btn: "WAKE UP →",
+    wu_cta: "SEE THE PROGRAM →",
     wu_preview: "See the program in progress →",
     footer_lab: "Test page →",
     footer_line: "CREATIVE DEALERS"
@@ -503,8 +505,9 @@ function updateClocks() {
     `${c[0]} ${fmt("America/Bogota")} · ${c[1]} ${fmt("America/New_York")} · ${c[2]} ${fmt("Europe/Madrid")}`;
 }
 
-/* Solo el formulario de leads de la portada usa esto (playground.html no
-   lo tiene), así que cada pieza se llena solo si existe. */
+/* El formulario de leads ya vive en wakeup.html (assets/wakeup-landing.js);
+   esto se queda por si algún día vuelve a la portada — cada pieza se
+   llena solo si existe. */
 function fillContact() {
   const form = document.getElementById("lead-form");
   if (form) form.action = "https://formsubmit.co/" + SITE.leadEmail;
