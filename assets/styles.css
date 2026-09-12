@@ -977,6 +977,124 @@ html.iab-fallback .depth-item {
 .module-complete-btn:hover { background: rgba(34, 211, 238, 0.85); }
 .module-complete-btn:disabled { opacity: 0.6; cursor: default; }
 .module-done-note { margin-top: 1.8rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.85rem; }
+.module-demo-note {
+  margin-top: 1.8rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: rgba(34, 211, 238, 0.1);
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* Portón: link al módulo de prueba. */
+.wakeup-demo-link {
+  display: block;
+  margin: 1.6rem auto 0;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.wakeup-demo-link:hover { color: var(--white); }
+
+/* Barra de progreso del camino. */
+.wakeup-progress { margin: 1.6rem auto 0; max-width: 22rem; }
+.wakeup-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.wakeup-progress-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.5s cubic-bezier(.3, 0, .2, 1);
+}
+.wakeup-progress-text {
+  margin-top: 0.55rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+
+/* "Empieza / continúa aquí" en el módulo actual. */
+.wakeup-node-badge {
+  margin-top: 0.3rem;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+}
+
+/* Video / audio de la clase. */
+.module-media { margin-top: 1.4rem; }
+.module-media.is-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+.module-media.is-video iframe,
+.module-media.is-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.module-media audio { width: 100%; }
+.module-media .pill-btn { display: inline-block; }
+
+/* Texto de la clase: párrafos y listas. */
+.module-text p { font-size: 0.9rem; line-height: 1.6; }
+.module-text p + p, .module-text ul + p, .module-text p + ul { margin-top: 0.7rem; }
+.module-text ul { padding-left: 1.2rem; font-size: 0.9rem; line-height: 1.6; }
+.module-text li + li { margin-top: 0.25rem; }
+
+/* Celebración al completar. */
+.module-celebrate { text-align: center; padding: 0.6rem 0 0.2rem; animation: fade 0.3s ease; }
+.module-celebrate-check {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--accent);
+  color: var(--navy-deep);
+  box-shadow: 0 0 0 10px rgba(34, 211, 238, 0.16);
+  animation: pop 0.45s cubic-bezier(.2, 1.4, .4, 1);
+}
+@keyframes pop { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.module-celebrate-text { margin-top: 1rem; font-size: 0.9rem; line-height: 1.6; color: var(--muted); }
+.module-celebrate .module-complete-btn { width: auto; display: inline-block; margin-top: 1.6rem; }
+.module-celebrate-link {
+  display: inline-block;
+  margin-top: 1.6rem;
+  border: none;
+  background: var(--accent);
+  color: var(--navy-deep);
+  font-size: 0.8rem;
+}
+.module-celebrate-link:hover { background: rgba(34, 211, 238, 0.85); }
+@media (prefers-reduced-motion: reduce) {
+  .module-celebrate-check, .module-celebrate { animation: none; }
+  .wakeup-progress-fill { transition: none; }
+}
 
 /* ===== ACCESIBILIDAD ===== */
 @media (prefers-reduced-motion: reduce) {
