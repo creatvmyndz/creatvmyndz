@@ -77,8 +77,14 @@
 
   // Si viene del formulario del index (?correo=...), ya le dejamos el
   // correo puesto — así en el portón solo le falta la contraseña.
-  const fromUrl = new URLSearchParams(location.search).get("correo");
-  if (fromUrl) gateEmail.value = fromUrl;
+  const fromUrl = (new URLSearchParams(location.search).get("correo") || "").trim().toLowerCase();
+  if (fromUrl) {
+    gateEmail.value = fromUrl;
+    // Aunque el portón esté apagado, nos quedamos con el correo: así el
+    // progreso queda ligado a la persona (y se sube a la hoja apenas
+    // haya URL del Apps Script), no solo a este navegador.
+    if (!email) { email = fromUrl; store.set(EMAIL_KEY, email); }
+  }
 
   function openHub() {
     gate.hidden = true;
@@ -199,20 +205,28 @@
     const blocks = String(text || "").split(/\n\s*\n/);
     blocks.forEach(block => {
       const lines = block.split("\n").filter(l => l.trim());
-      if (!lines.length) return;
-      if (lines.every(l => /^\s*-\s+/.test(l))) {
-        const ul = document.createElement("ul");
-        lines.forEach(l => {
+      let para = [];
+      let ul = null;
+      const flushPara = () => {
+        if (!para.length) return;
+        const p = document.createElement("p");
+        p.textContent = para.join(" ");
+        el.appendChild(p);
+        para = [];
+      };
+      lines.forEach(l => {
+        if (/^\s*-\s+/.test(l)) {
+          flushPara();
+          if (!ul) { ul = document.createElement("ul"); el.appendChild(ul); }
           const li = document.createElement("li");
           li.textContent = l.replace(/^\s*-\s+/, "");
           ul.appendChild(li);
-        });
-        el.appendChild(ul);
-      } else {
-        const p = document.createElement("p");
-        p.textContent = lines.join(" ");
-        el.appendChild(p);
-      }
+        } else {
+          ul = null;
+          para.push(l.trim());
+        }
+      });
+      flushPara();
     });
   }
 

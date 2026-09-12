@@ -121,7 +121,10 @@
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" name="_cc" id="lead-cc" value="">
         <input type="hidden" name="_next" id="lead-next" value="">
-        <label for="email">TU CORREO</label>
+        <!-- Correo de bienvenida automático: FormSubmit se lo manda a la
+             persona apenas deja el correo. Cambia el texto acá; cuando el
+             portón vuelva a pedir contraseña, esta es la que va. -->
+        <input type="hidden" name="_autoresponse" value="¡Bienvenido a WAKE UP! Ya estás en la lista. Tu acceso al programa: https://creatvmyndz.com/wakeup-program.html — Contraseña: creatvmyndz. Un módulo a la vez: empieza por el 1, haz la tarea y marca 'Ya completé este módulo' para desbloquear el siguiente. Cualquier duda, responde a este correo. — CREATV MYNDZ">
         <div class="wakeup-row">
           <input id="email" name="email" type="email" required placeholder="tucorreo@email.com" autocomplete="email">
           <button type="submit">DESPERTAR →</button>
