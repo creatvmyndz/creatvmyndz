@@ -31,7 +31,7 @@ jobs:
           mkdir -p dist
           cp *.html dist/
           cp CNAME dist/
-          cp robots.txt sitemap.xml dist/
+          cp robots.txt sitemap.xml favicon.ico dist/
           cp -r assets dist/
           # Material que vive en el repo pero no debe salir a producción:
           # los PDF crudos de los CRTV y los 121 frames del giro 3D (sección
