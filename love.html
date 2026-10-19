@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>LOVE — Camilo Vegga</title>
+  <title>Camilo's MYND</title>
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#04060b">
   <link rel="icon" href="assets/img/love/love-icon.png">
   <link rel="apple-touch-icon" href="assets/img/love/love-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono&display=swap" rel="stylesheet">
   <style>
     /* Puerta de acceso a LOVE, la mente de Camilo Vegga · Por Amor al Arte.
        El tablero vive en Claude; aquí solo se pide el código y se abre. */
@@ -22,9 +22,9 @@
     .veil{position:fixed;inset:0;background:radial-gradient(70% 60% at 50% 42%,rgba(11,21,48,.15),rgba(4,6,11,.88) 78%),linear-gradient(180deg,rgba(4,6,11,.1),rgba(4,6,11,.92))}
     main{position:relative;z-index:1;min-height:100%;display:grid;place-items:center;padding:24px 16px}
     .in{width:min(440px,100%);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
-    .sig{width:min(260px,70vw);height:auto}
+    .sym{width:64px;height:auto;opacity:.95}
     h1{margin:0;font-weight:500;font-size:clamp(40px,9vw,64px);line-height:1;letter-spacing:-.04em}
-    h1 i{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;letter-spacing:-.01em;font-size:.72em;color:var(--mist);margin-bottom:4px}
+    h1 span{display:block;font-weight:400;letter-spacing:-.02em;font-size:.5em;color:var(--mist);margin-bottom:6px}
     .wm{width:min(300px,78vw);height:auto}
     form,.ok{width:100%;display:flex;flex-direction:column;gap:10px;margin-top:8px}
     label{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
@@ -42,8 +42,8 @@
   <div class="veil"></div>
   <main>
     <div class="in" id="card">
-      <img class="sig" src="assets/img/love/camilo-signature.webp" alt="Camilo Vegga" width="260" height="104">
-      <h1><i>Bienvenido</i>CAMILO</h1>
+      <img class="sym" src="assets/img/love/paa-symbol.webp" alt="" width="64" height="45">
+      <h1><span>Bienvenido</span>CAMILO</h1>
       <img class="wm" src="assets/img/love/paa-wordmark.webp" alt="Por Amor al Arte" width="300" height="50">
       <form id="gate" autocomplete="off">
         <label for="code">Código de acceso</label>
@@ -52,8 +52,8 @@
         <button type="submit">Entrar</button>
       </form>
       <div class="ok">
-        <p>Abriendo tu mente creativa…</p>
-        <a class="go" id="go" href="#" rel="noopener">Abrir LOVE →</a>
+        <p>Abriendo Camilo's MYND…</p>
+        <a class="go" id="go" href="#" rel="noopener">Abrir MYND →</a>
       </div>
     </div>
   </main>
