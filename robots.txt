@@ -3,5 +3,6 @@ Allow: /
 Disallow: /assets/CRTVS/
 Disallow: /mynd
 Disallow: /mind
+Disallow: /love
 
 Sitemap: https://creatvmyndz.com/sitemap.xml
