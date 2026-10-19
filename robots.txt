@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /assets/CRTVS/
+Disallow: /mynd
 Disallow: /mind
 
 Sitemap: https://creatvmyndz.com/sitemap.xml
