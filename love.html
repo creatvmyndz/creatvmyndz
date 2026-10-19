@@ -22,10 +22,11 @@
     .veil{position:fixed;inset:0;background:radial-gradient(70% 60% at 50% 42%,rgba(11,21,48,.15),rgba(4,6,11,.88) 78%),linear-gradient(180deg,rgba(4,6,11,.1),rgba(4,6,11,.92))}
     main{position:relative;z-index:1;min-height:100%;display:grid;place-items:center;padding:24px 16px}
     .in{width:min(440px,100%);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center}
-    .sym{width:64px;height:auto;opacity:.95}
-    h1{margin:0;font-weight:500;font-size:clamp(40px,9vw,64px);line-height:1;letter-spacing:-.04em}
-    h1 span{display:block;font-weight:400;letter-spacing:-.02em;font-size:.5em;color:var(--mist);margin-bottom:6px}
-    .wm{width:min(300px,78vw);height:auto}
+    .wel{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:nowrap}
+    .sym{width:clamp(44px,8vw,64px);height:auto;flex:none;opacity:.95}
+    h1{margin:0;font-weight:500;font-size:clamp(26px,5.6vw,52px);line-height:1;letter-spacing:-.04em;white-space:nowrap}
+    h1 span{font-weight:400;color:var(--mist)}
+    .wm{position:fixed;z-index:1;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:150px;height:auto;opacity:.7}
     form,.ok{width:100%;display:flex;flex-direction:column;gap:10px;margin-top:8px}
     label{font-family:"Geist Mono",monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
     input{width:100%;text-align:center;border:1px solid var(--line);background:rgba(10,9,8,.6);backdrop-filter:blur(10px);color:var(--ink);border-radius:14px;padding:14px 18px;font:inherit;font-family:"Geist Mono",monospace;font-size:16px;letter-spacing:.3em;text-transform:uppercase}
@@ -42,9 +43,7 @@
   <div class="veil"></div>
   <main>
     <div class="in" id="card">
-      <img class="sym" src="assets/img/love/paa-symbol.webp" alt="" width="64" height="45">
-      <h1><span>Bienvenido</span>CAMILO</h1>
-      <img class="wm" src="assets/img/love/paa-wordmark.webp" alt="Por Amor al Arte" width="300" height="50">
+      <div class="wel"><img class="sym" src="assets/img/love/paa-symbol.webp" alt="" width="64" height="45"><h1><span>Bienvenido</span> CAMILO</h1></div>
       <form id="gate" autocomplete="off">
         <label for="code">Código de acceso</label>
         <input id="code" type="password" autocapitalize="characters" spellcheck="false" placeholder="••••••••" required>
@@ -57,6 +56,7 @@
       </div>
     </div>
   </main>
+  <img class="wm" src="assets/img/love/paa-wordmark.webp" alt="Por Amor al Arte" width="150" height="25">
   <script>
     // Puerta ligera: compara el SHA-256 del código. El tablero en sí se protege
     // con los permisos de compartir de Claude.
