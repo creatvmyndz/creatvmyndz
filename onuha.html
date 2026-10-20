@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
-    /* Puerta a MYND ONUHA: los proyectos de ONUHA. El tablero vive en Claude; aquí solo se entra. */
+    /* Door to MYND ONUHA: ONUHA's projects. The board lives in Claude; this page asks for the code and opens it. */
     :root{--bg:#000;--ink:#fff;--muted:#8c8c8c;--line:rgba(255,255,255,.26);color-scheme:dark}
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -23,6 +23,13 @@
     .lab{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
     .go{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:14px 34px;color:var(--ink);text-decoration:none;font-weight:600;font-stretch:125%;letter-spacing:.08em;text-transform:uppercase;font-size:14px;transition:background .2s,color .2s}
     .go:hover,.go:focus-visible{background:var(--ink);color:var(--bg);outline:none}
+    form,.ok{width:min(380px,100%);display:flex;flex-direction:column;align-items:center;gap:12px}
+    input{width:100%;text-align:center;border:1px solid var(--line);background:#0a0a0a;color:var(--ink);border-radius:14px;padding:14px 18px;font-family:"IBM Plex Mono",monospace;font-size:16px;letter-spacing:.3em;text-transform:uppercase}
+    input:focus{outline:none;border-color:var(--ink)}
+    button.go{background:none;cursor:pointer;font-family:inherit}
+    .err{min-height:18px;margin:0;color:#ff9b8a;font-size:13px}
+    .ok{display:none}.open form{display:none}.open .ok{display:flex}
+    .lang{position:fixed;top:16px;right:16px;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);padding:6px 10px;cursor:pointer}
     @media (prefers-reduced-motion:no-preference){.in{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}@keyframes rise{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}}
   </style>
 </head>
@@ -31,8 +38,35 @@
     <div class="in">
       <img class="logo" src="assets/img/onuha/onuha-logo.png" alt="ONUHA">
       <span class="lab">MYND ONUHA</span>
-      <a class="go" href="https://claude.ai/artifact/XReKfEBfiiUscjvgtw83pi" rel="noopener">Entrar</a>
+      <form id="gate" autocomplete="off">
+        <label class="lab" for="code" data-t="code">Access code</label>
+        <input id="code" type="password" autocapitalize="characters" spellcheck="false" placeholder="••••••" required>
+        <p class="err" id="err" aria-live="polite"></p>
+        <button class="go" type="submit" data-t="enter">Enter</button>
+      </form>
+      <div class="ok"><a class="go" id="go" href="#" rel="noopener" data-t="open">Open MYND →</a></div>
     </div>
   </main>
+  <button class="lang" id="lang" type="button">ES</button>
+  <script>
+    // Light gate: compares the SHA-256 of the code. The board itself is protected by Claude's sharing permissions.
+    const HASH = "abb5fc12f11c41f38852cda1e661d98b379937cc0421ff23254dc46188261153";
+    const BOARD = "https://claude.ai/artifact/XReKfEBfiiUscjvgtw83pi";
+    const T = {en:{code:"Access code",enter:"Enter",open:"Open MYND →",wrong:"Wrong code."},es:{code:"Código de acceso",enter:"Entrar",open:"Abrir MYND →",wrong:"Código incorrecto."}};
+    const card = document.querySelector(".in"), err = document.getElementById("err"), lb = document.getElementById("lang");
+    document.getElementById("go").href = BOARD;
+    let lang = "en"; try{ if(localStorage.getItem("onuha-lang")==="es") lang="es"; }catch(e){}
+    function paint(){ document.documentElement.lang=lang; document.querySelectorAll("[data-t]").forEach(el=>el.textContent=T[lang][el.dataset.t]); lb.textContent=lang==="en"?"ES":"EN"; if(err.textContent) err.textContent=T[lang].wrong; }
+    lb.addEventListener("click",()=>{ lang=lang==="en"?"es":"en"; try{localStorage.setItem("onuha-lang",lang)}catch(e){} paint(); });
+    paint();
+    async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+    try{ if(localStorage.getItem("onuha-ok")===HASH) card.classList.add("open"); }catch(e){}
+    document.getElementById("gate").addEventListener("submit", async e=>{
+      e.preventDefault();
+      const v=document.getElementById("code").value.trim().toUpperCase();
+      if(await sha(v)===HASH){ try{localStorage.setItem("onuha-ok",HASH)}catch(_){} card.classList.add("open"); setTimeout(()=>{location.href=BOARD;},600); }
+      else { err.textContent=T[lang].wrong; }
+    });
+  </script>
 </body>
 </html>
